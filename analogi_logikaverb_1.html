@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem CAT - 100 Soal Analogi, Pengelompokan Kata & Logika Verbal - Persona Research & Consulting</title>
+    <style>
+        :root { --navy: #0b2340; --gold: #d4a017; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; -webkit-user-select: none; user-select: none; }
+        header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .container { max-width: 950px; margin: 30px auto; padding: 0 20px; }
+        
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .user-card input { width: 80%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; margin-top: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
+        .subtes-card { background: white; padding: 20px; border-radius: 10px; border-left: 6px solid var(--navy); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .opt { padding: 14px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .opt:hover { background: #f1f5f9; border-color: var(--navy); }
+        .opt.selected { background: #e0f2fe; border-color: var(--navy); font-weight: bold; }
+        
+        .nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 15px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .nav-item { height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .nav-item.filled { background: var(--navy); color: white; }
+        .nav-item.active { border: 2px solid var(--gold); }
+        
+        .btn { background: var(--navy); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; }
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-danger { background: #dc2626; color: white; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 5px; background: #e2e8f0; color: #475569; }
+        .done { background: #dcfce7; color: #166534; }
+        #timer { font-size: 20px; font-weight: bold; color: var(--gold); font-family: monospace; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: left; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #cbd5e1; }
+        th { background: var(--navy); color: white; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white; }
+        .summary-box { background: #f1f5f9; border-left: 5px solid var(--gold); padding: 20px; border-radius: 8px; margin-top: 20px; }
+
+        .pem-accordion { border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
+        .pem-header { background: #f1f5f9; padding: 15px; font-weight: bold; color: var(--navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .pem-body { padding: 15px; display: none; background: white; border-top: 1px solid #cbd5e1; }
+        .pem-item { border-bottom: 1px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
+        .pem-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .tag-correct { color: #16a34a; font-weight: bold; }
+        .tag-wrong { color: #dc2626; font-weight: bold; }
+        .pem-box { background: #f8fafc; border-left: 4px solid var(--navy); padding: 10px; margin-top: 8px; font-size: 14px; }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+    <h1 style="margin:0; font-size:24px;">PERSONA RESEARCH & CONSULTING</h1>
+    <p style="margin:5px 0 0; color: var(--gold); font-weight: bold;">MODUL 100 SOAL ANALOGI, PENGELOMPOKAN KATA & LOGIKA VERBAL</p>
+</header>
+
+<div class="container">
+
+    <!-- VIEW 1: HOME / MENU UTAMA -->
+    <div id="viewHome">
+        <div class="card" style="text-align: center;">
+            <h3 style="margin:0; color:var(--navy);">IDENTITAS PESERTA UJIAN</h3>
+            <p style="font-size:14px; color:#64748b;">Masukkan nama Anda sebelum memulai simulasi tes.</p>
+            <input type="text" id="inputNama" placeholder="Nama Lengkap Peserta..." oninput="saveName()">
+        </div>
+
+        <div class="card">
+            <h3 style="margin:0; color:var(--navy);">MODUL TES PENALARAN VERBAL LENGKAP (100 SOAL)</h3>
+            <p style="font-size:14px; color:#64748b; margin-bottom: 15px;">Mencakup Analogi Kata (1–35), Pengelompokan Kata (36–65), dan Logika Verbal / Silogisme (66–100). Durasi total: 60 Menit.</p>
+            <div id="stStatus" class="status-badge" style="margin-bottom: 20px;">Belum Dikerjakan</div>
+            <br>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn" onclick="startSubtes()" style="font-size:16px; padding:12px 25px;">🚀 MULAI SIMULASI (100 SOAL)</button>
+                <button class="btn btn-gold" onclick="showRekap()" style="font-size:16px; padding:12px 25px;">📊 LIHAT REKAP NILAI</button>
+                <button class="btn btn-danger" onclick="resetData()" style="font-size:16px; padding:12px 25px;">🔄 RESET DATA UJIAN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 2: PENGERJAAN SOAL CAT -->
+    <div id="viewQuiz" style="display: none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <div id="subtesTitle" style="font-weight:bold; color:var(--navy);">SUBTES ANALOGI, PENGELOMPOKAN KATA & LOGIKA VERBAL</div>
+            <div id="timer">60:00</div>
+        </div>
+
+        <div style="display:flex; gap:20px;">
+            <div style="flex:3;">
+                <div class="card">
+                    <div id="q-no" style="font-weight:bold; color:var(--navy); margin-bottom:10px;">Soal 1 dari 100</div>
+                    <div id="q-text" style="font-size:17px; line-height:1.6; margin-bottom:20px; font-weight:600; color:var(--navy);"></div>
+                    <div id="options"></div>
+                    <div style="margin-top:25px; display:flex; justify-content:space-between;">
+                        <button class="btn" onclick="prevQ()" style="background:#64748b">Sebelumnya</button>
+                        <button class="btn" id="btn-next" onclick="nextQ()">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="flex:1.2;">
+                <div class="card" style="padding:15px;">
+                    <div style="text-align:center; font-size:12px; font-weight:bold; margin-bottom:10px;">NAVIGASI SOAL</div>
+                    <div id="navGrid" class="nav-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: HASIL REKAP NILAI & PEMBAHASAN -->
+    <div id="viewRekap" style="display: none;">
+        <div class="card">
+            <h2 style="text-align: center; color: var(--navy); margin-bottom: 5px;">LAPORAN HASIL PENALARAN & LOGIKA VERBAL</h2>
+            <p style="text-align: center; color: var(--gold); font-weight: bold; margin-top:0;">PERSONA RESEARCH & CONSULTING</p>
+            <div id="namaPesertaRekap" style="text-align: center; font-weight: bold; font-size: 18px; margin: 15px 0; background: #eef6ff; padding: 10px; border-radius: 8px;">NAMA: -</div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                <div style="background:#f8fafc; padding:15px; border-radius:10px; text-align:center; border:1px solid #e2e8f0;">
+                    <small style="color:#64748b; font-weight:bold;">TOTAL BENAR</small>
+                    <div id="totalBenar" style="font-size:32px; font-weight:900; color:var(--navy);">0 / 100</div>
+                </div>
+                <div style="background:#f8fafc; padding:15px; border-radius:10px; text-align:center; border:1px solid #e2e8f0;">
+                    <small style="color:#64748b; font-weight:bold;">NILAI AKHIR (SKOR 0-100)</small>
+                    <div id="skorAkurasi" style="font-size:32px; font-weight:900; color:var(--navy);">0</div>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3 style="margin-top:0; color:var(--navy);">KATEGORI KEMAMPUAN PENALARAN VERBAL</h3>
+                <p>Status Kelulusan/Kategori: <b id="txtKategori" style="font-size:18px;">-</b></p>
+                <p id="txtKeterangan">-</p>
+            </div>
+
+            <h3 style="color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin-top: 35px;">TINJAUAN & PEMBAHASAN 100 SOAL</h3>
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Klik di bawah ini untuk melihat detail jawaban dan pembahasan lengkap setiap soal.</p>
+            
+            <div class="pem-accordion">
+                <div class="pem-header" onclick="toggleAccordion()">
+                    <span>DAFTAR PEMBAHASAN 100 SOAL ANALOGI, PENGELOMPOKAN & LOGIKA VERBAL</span>
+                    <span>▼</span>
+                </div>
+                <div class="pem-body" id="pemBody"></div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="btn" onclick="downloadPembahasanSemua()">📥 Download File Pembahasan (.txt)</button>
+                <button class="btn btn-gold" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+                <button class="btn" style="background:#64748b;" onclick="showHome()">🏠 Kembali Ke Beranda</button>
+                <button class="btn btn-danger" onclick="resetData()">🔄 Reset Data Ujian</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const bankSoal100 = [
+        // PART 1: ANALOGI KATA (1 - 35)
+        { q: "HIPOTESIS : EKSPERIMEN = CONTOH : ...", opts: ["Teori", "Uji Coba", "Analisis", "Bukti Pembuktian", "Simulasi"], ans: 3, pem: "Hipotesis membutuhkan eksperimen untuk pembuktian, sebagaimana contoh membutuhkan bukti pembuktian untuk meyakinkan." },
+        { q: "AUP : AUDITOR = PERUNDANG-UNDANGAN : ...", opts: ["DPR", "Hakim", "Polisi", "Pengacara", "Pemerintah"], ans: 0, pem: "AUP disusun/dijalankan oleh auditor, sebagaimana perundang-undangan dibentuk oleh DPR." },
+        { q: "DIAGNOSIS : PENYAKIT = EVALUASI : ...", opts: ["Riset", "Kinerja", "Proyek", "Solusi", "Isu"], ans: 1, pem: "Diagnosis dilakukan untuk mendeteksi penyakit, sedangkan evaluasi dilakukan untuk mengukur kinerja." },
+        { q: "NAKODA : KAPAL = SUTRADARA : ...", opts: ["Aktor", "Panggung", "Film / Pertunjukan", "Skenario", "Kamera"], ans: 2, pem: "Nakoda memimpin jalannya kapal, sedangkan sutradara memimpin jalannya pembuatan film/pertunjukan." },
+        { q: "GELOMBANG : AUDITORIUM = CAHAYA : ...", opts: ["Lensa", "Fokus", "Bayangan", "Kaca", "Lampu"], ans: 0, pem: "Gelombang suara diarahkan di auditorium, sedangkan cahaya difokuskan/diarahkan melalui lensa." },
+        { q: "MATA : PENGLIHATAN = INDIKATOR : ...", opts: ["Keberhasilan", "Penilaian", "Petunjuk Kinerja", "Target", "Pengukuran"], ans: 2, pem: "Mata adalah alat penglihatan, sedangkan indikator adalah alat petunjuk kinerja." },
+        { q: "STATISTIKA : DATA = LOGIKA : ...", opts: ["Fakta", "Penalaran / Argumen", "Kaidah", "Angka", "Pikiran"], ans: 1, pem: "Statistika mempelajari dan mengolah data, sedangkan logika mempelajari dan mengolah penalaran/argumen." },
+        { q: "APARATUR : NEGARA = KARYAWAN : ...", opts: ["Gaji", "Perusahaan", "Direktur", "Kantor", "Jabatan"], ans: 1, pem: "Aparatur bekerja untuk negara, sebagaimana karyawan bekerja untuk perusahaan." },
+        { q: "GUDANG : BARANG = SERVER : ...", opts: ["Komputer", "Jaringan", "Data / Informasi", "Sistem", "Internet"], ans: 2, pem: "Gudang digunakan untuk menyimpan barang, sedangkan server digunakan untuk menyimpan data/informasi." },
+        { q: "KONSEKUENSI : TINDAKAN = IMPLIKASI : ...", opts: ["Kebijakan", "Sebab", "Aturan", "Hukuman", "Niat"], ans: 0, pem: "Konsekuensi lahir dari tindakan, sebagaimana implikasi lahir dari kebijakan." },
+        { q: "PENA : MENULIS = ALGORITMA : ...", opts: ["Menghitung", "Memproses Data", "Menganalisis", "Mengoding", "Menyimpan"], ans: 1, pem: "Pena adalah alat untuk menulis, sedangkan algoritma adalah urutan/alat untuk memproses data." },
+        { q: "KONTRAK : PERJANJIAN = REGULASI : ...", opts: ["Anjuran", "Peraturan Resmi", "Hukum Adat", "Sanksi", "Kesepakatan"], ans: 1, pem: "Kontrak adalah bentuk tertulis dari perjanjian, sebagaimana regulasi adalah bentuk resmi dari peraturan." },
+        { q: "SKEPTIS : RAGU = OPTIMIS : ...", opts: ["Pasti", "Yakin / Percaya Diri", "Gembira", "Realistis", "Harapan"], ans: 1, pem: "Skeptis berarti merasa ragu, sedangkan optimis berarti merasa yakin/percaya diri." },
+        { q: "KOMPAS : ARAH = INDIKATOR KINERJA : ...", opts: ["Pencapaian Target", "Bonus Pegawai", "Struktur Organisasi", "Sanksi", "Evaluasi"], ans: 0, pem: "Kompas memberikan acuan arah, sedangkan indikator kinerja memberikan acuan pencapaian target." },
+        { q: "TEORI : PRAKTEK = BUKTI : ...", opts: ["Fakta", "Gagasan / Asumsi", "Simpulan", "Riset", "Buku"], ans: 1, pem: "Teori membutuhkan konfirmasi lewat praktek, sebagaimana gagasan/asumsi membutuhkan konfirmasi lewat bukti." },
+        { q: "KREATOR : KARYA = INOVATOR : ...", opts: ["Teknologi", "Inovasi / Kebaharuan", "Paten", "Produk", "Gagasan"], ans: 1, pem: "Kreator menghasilkan karya, sedangkan inovator menghasilkan inovasi/kebaharuan." },
+        { q: "GIZI : KESEHATAN = LITERASI : ...", opts: ["Kecerdasan / Pengetahuan", "Membaca", "Buku", "Pendidikan", "Gelar"], ans: 0, pem: "Asupan gizi mendukung kesehatan, sedangkan pemahaman literasi mendukung kecerdasan/pengetahuan." },
+        { q: "DILASI : PERBESARAN = REDUKSI : ...", opts: ["Pengurangan / Penghematan", "Pencegahan", "Peningkatan", "Pembagian", "Perbaikan"], ans: 0, pem: "Dilasi bermakna perbesaran, sedangkan reduksi bermakna pengurangan/penghematan." },
+        { q: "KUALITAS : MUTU = KUANTITAS : ...", opts: ["Jumlah / Ukuran", "Bobot", "Tingkatan", "Nilai", "Skala"], ans: 0, pem: "Kualitas adalah istilah lain dari mutu, sebagaimana kuantitas adalah istilah lain dari jumlah/ukuran." },
+        { q: "MODERATOR : DISKUSI = WASIT : ...", opts: ["Aturan", "Pertandingan", "Olahraga", "Pemain", "Lapangan"], ans: 1, pem: "Moderator mengatur jalannya diskusi, sebagaimana wasit mengatur jalannya pertandingan." },
+        { q: "ISOLASI : STERIL = MITIGASI : ...", opts: ["Aman / Minim Risiko", "Bencana", "Penyebab", "Bahaya", "Perbaikan"], ans: 0, pem: "Isolasi dilakukan agar kondisi menjadi steril, sedangkan mitigasi dilakukan agar kondisi menjadi aman/minim risiko." },
+        { q: "RUMAH : FONDASI = ORGANISASI : ...", opts: ["Gedung", "Visi dan Misi", "Pegawai", "Anggaran", "Pimpinan"], ans: 1, pem: "Rumah berdiri tegak di atas fondasi, sebagaimana organisasi berdiri di atas visi dan misi." },
+        { q: "SENSUS : POPULASI = SAMPLING : ...", opts: ["Riset", "Sampel / Sebagian Populasi", "Survei", "Uji Coba", "Data"], ans: 1, pem: "Sensus mendata seluruh populasi, sedangkan sampling mengambil sebagian populasi sebagai acuan." },
+        { q: "PROLOG : PENDAHULUAN = EPILOG : ...", opts: ["Isi", "Ringkasan", "Penutup", "Latar Belakang", "Saran"], ans: 2, pem: "Prolog adalah kata pendahuluan, sedangkan epilog adalah kata penutup." },
+        { q: "VAKSIN : KEBAL = PELATIHAN : ...", opts: ["Sertifikat", "Kompeten / Terampil", "Gaji", "Ujian", "Lulus"], ans: 1, pem: "Vaksin bertujuan membuat tubuh kebal, sedangkan pelatihan bertujuan membuat pegawai kompeten/terampil." },
+        { q: "PETA : NAVIGASI = JADWAL : ...", opts: ["Waktu", "Manajemen / Pengaturan", "Agenda", "Jam", "Rencana"], ans: 1, pem: "Peta membantu proses navigasi, sedangkan jadwal membantu proses manajemen/pengaturan waktu." },
+        { q: "BAHAN BAKAR : MESIN = MOTIVASI : ...", opts: ["Pikiran", "Kinerja / Semangat Kerja", "Target", "Bonus", "Organisasi"], ans: 1, pem: "Bahan bakar menggerakkan mesin, sedangkan motivasi menggerakkan kinerja/semangat kerja." },
+        { q: "PENCEGAHAN : OBAT = ANTISIPASI : ...", opts: ["Solusi", "Penanganan Masalah", "Perencanaan", "Evaluasi", "Kejadian"], ans: 1, pem: "Tindakan sebelum sakit adalah pencegahan, setelah sakit adalah obat; sebelum ada masalah adalah antisipasi, setelah ada masalah adalah penanganan." },
+        { q: "SANGSI : PELANGGARAN = APRESIASI : ...", opts: ["Prestasi / Pencapaian", "Pekerjaan", "Gaji", "Pimpinan", "Loyalitas"], ans: 0, pem: "Sanksi diberikan atas pelanggaran, sedangkan apresiasi diberikan atas prestasi/pencapaian." },
+        { q: "ARITMATIKA : ANGKA = SEMANTIK : ...", opts: ["Bahasa", "Makna / Arti Kata", "Kalimat", "Huruf", "Tata Bahasa"], ans: 1, pem: "Aritmatika mempelajari hubungan angka, sedangkan semantik mempelajari makna/arti kata." },
+        { q: "INTEGRITAS : MORAL = KREDIBILITAS : ...", opts: ["Kepercayaan", "Jabatan", "Kecerdasan", "Pendidikan", "Keuangan"], ans: 0, pem: "Integritas berkaitan dengan mutu moral, sedangkan kredibilitas berkaitan dengan nilai kepercayaan." },
+        { q: "OVAL : LINGKARAN = ELIPS : ...", opts: ["Segitiga", "Bola", "Bulat / Bintang", "Persegi Panjang", "Kubus"], ans: 1, pem: "Oval adalah bentuk 2D melengkung mirip elips, elips berhubungan dengan proyeksi bola/lingkaran." },
+        { q: "GUNTING : POTONG = FILTER : ...", opts: ["Saring / Murni", "Cuci", "Pilih", "Buang", "Cegah"], ans: 0, pem: "Gunting berfungsi untuk memotong, sedangkan filter berfungsi untuk menyaring." },
+        { q: "KONSEPTUAL : TEORI = EMPIRIS : ...", opts: ["Pengamatan / Lapangan", "Buku", "Gagasan", "Asumsi", "Pikiran"], ans: 0, pem: "Konseptual berbasis teori, sedangkan empiris berbasis pengamatan/lapangan." },
+        { q: "LENTUR : KAKU = DIVERGEN : ...", opts: ["Meluas", "Konvergen", "Sama", "Berbeda", "Pecah"], ans: 1, pem: "Lentur lawan katanya kaku, sebagaimana divergen (menyebar) lawan katanya konvergen (memusat)." },
+
+        // PART 2: PENGELOMPOKAN KATA (36 - 65)
+        { q: "Manakah kata yang TIDAK MASUK dalam kelompoknya?", opts: ["Akuntabel", "Kredibel", "Integritas", "Transparan", "Manipulatif"], ans: 4, pem: "Manipulatif bermakna negatif (suka berbuat curang), sedangkan opsi lain adalah sifat positif profesional." },
+        { q: "Manakah kata yang TIDAK MASUK dalam kelompoknya?", opts: ["Analisis", "Evaluasi", "Investigasi", "Asumsi", "Verifikasi"], ans: 3, pem: "Asumsi adalah dugaan tanpa bukti dasar, sedangkan opsi lain merupakan metode pembuktian/pemeriksaan data nyata." },
+        { q: "Pilihlah satu kata yang BERBEDA dari opsi lainnya!", opts: ["Monopoli", "Oligopoli", "Pasar Bebas", "Kartel", "Duopoli"], ans: 2, pem: "Pasar bebas adalah sistem pasar terbuka, sedangkan opsi lainnya merujuk pada pemusatan/penguasaan pasar terdistorsi." },
+        { q: "Manakah kata yang TIDAK KELOMPOK dengan opsi lainnya?", opts: ["Vaksin", "Antibodi", "Imunisasi", "Patogen", "Serum"], ans: 3, pem: "Patogen adalah kuman/penyebab penyakit, sedangkan opsi lainnya merupakan sistem/alat pelindung kekebalan tubuh." },
+        { q: "Pilihlah satu kata yang TIDAK SELEMBAGA dengan yang lain!", opts: ["Akurat", "Presisi", "Tepat", "Bias", "Valid"], ans: 3, pem: "Bias bermakna simpangan/ketidakakuratan, sedangkan opsi lain bermakna ketepatan dan kebenaran data." },
+        { q: "Manakah kata yang TIDAK SEKAUM dengan opsi berikut?", opts: ["Defisit", "Minus", "Rugi", "Surplus", "Tunggakan"], ans: 3, pem: "Surplus berarti kelebihan/keuntungan berlebih, sedangkan opsi lainnya menyatakan kondisi kekurangan/kehilangan finansial." },
+        { q: "Pilihlah satu kata yang TIDAK KELOMPOK dari opsi berikut!", opts: ["Sentralisasi", "Pemusatan", "Konsentrasi", "Desentralisasi", "Penyatuan"], ans: 3, pem: "Desentralisasi berarti penyebaran/penyerahan wewenang, sedangkan opsi lainnya merujuk pada pemusatan." },
+        { q: "Manakah kata yang TIDAK MASUK dalam kelompok berikut?", opts: ["Eksplisit", "Tersurat", "Jelas", "Implisit", "Terang-terangan"], ans: 3, pem: "Implisit bermakna tersirat/tersembunyi, sedangkan opsi lain bermakna tegas, jelas, dan tersurat." },
+        { q: "Pilihlah kata yang memiliki sifat BERBEDA dari yang lain!", opts: ["Progresif", "Inovatif", "Modern", "Kolot", "Dinamis"], ans: 3, pem: "Kolot (konservatif) bermakna tertutup pada perubahan, sedangkan opsi lainnya bermakna berpikiran maju." },
+        { q: "Manakah kata yang TIDAK SEKAUM dengan kelompoknya?", opts: ["Deduction", "Induction", "Abstraction", "Reduction", "Fabrication"], ans: 4, pem: "Fabrication berarti pemalsuan/rekayasa bohong, sedangkan opsi lain merupakan metode logika dan pemikiran ilmiah." },
+        { q: "Pilihlah kata yang TIDAK SEJENIS dari pilihan berikut!", opts: ["Insentif", "Bonus", "Tunjangan", "Sanksi", "Honorarium"], ans: 3, pem: "Sanksi adalah bentuk hukuman/potongan, sedangkan opsi lainnya merupakan penerimaan/imbalan uang positif." },
+        { q: "Manakah kata yang TIDAK TERMASUK dalam kelompoknya?", opts: ["Regulasi", "Instruksi", "Aturan", "Pedoman", "Anomali"], ans: 4, pem: "Anomali adalah penyimpangan/kelainan, sedangkan opsi lainnya merupakan bentuk petunjuk/aturan resmi." },
+        { q: "Pilihlah kata yang TIDAK SEKAUM dengan opsi lain!", opts: ["Otonom", "Mandiri", "Independen", "Dependen", "Bebas"], ans: 3, pem: "Dependen bermakna tergantung/terikat pada pihak lain, sedangkan opsi lainnya bermakna mandiri." },
+        { q: "Manakah kata yang TIDAK KELOMPOK dengan yang lainnya?", opts: ["Fluktuatif", "Labil", "Naik-Turun", "Statis", "Goyah"], ans: 3, pem: "Statis berarti diam/tetap, sedangkan opsi lainnya menggambarkan kondisi berubah-ubah atau labil." },
+        { q: "Pilihlah satu kata yang BERBEDA sifat dari yang lain!", opts: ["Skeptis", "Curiga", "Ragu", "Apatis", "Yakin"], ans: 4, pem: "Yakin adalah kepercayaan penuh, sedangkan opsi lainnya menggambarkan keraguan atau ketidakpedulian/kecurigaan." },
+        { q: "Manakah kata yang TIDAK SEJENIS dalam kelompok berikut?", opts: ["Mitigasi", "Pencegahan", "Antisipasi", "Eskalasi", "Proteksi"], ans: 3, pem: "Eskalasi adalah peningkatan/perluasan masalah, sedangkan opsi lainnya merupakan tindakan pencegahan/penurunan risiko." },
+        { q: "Pilihlah satu kata yang TIDAK SEKAUM dengan lainnya!", opts: ["Sinergi", "Kolaborasi", "Koalisi", "Aliansi", "Persaingan"], ans: 4, pem: "Persaingan adalah tindakan berlawanan/berkompetisi, sedangkan opsi lainnya menggambarkan bentuk kerja sama/gabungan." },
+        { q: "Manakah kata yang TIDAK MASUK dalam kelompok ini?", opts: ["Kuantitatif", "Kualitatif", "Deskriptif", "Eksperimental", "Fiktif"], ans: 4, pem: "Fiktif bermakna rekaan/karangan, sedangkan opsi lainnya merupakan metode/pendekatan ilmiah resmi." },
+        { q: "Pilihlah kata yang BERBEDA dari opsi lainnya!", opts: ["Kolektif", "Bersama", "Gabungan", "Individual", "Komunal"], ans: 3, pem: "Individual bersifat perseorangan, sedangkan opsi lainnya bersifat kelompok/bersama." },
+        { q: "Manakah kata yang TIDAK KELOMPOK dalam daftar ini?", opts: ["Stagnasi", "Terhenti", "Macet", "Ekspansi", "Kemandekan"], ans: 3, pem: "Ekspansi berarti perluasan/kemajuan pesat, sedangkan opsi lainnya bermakna kondisi terhenti/macet." },
+        { q: "Pilihlah satu kata yang BERBEDA dari kelompok berikut!", opts: ["Efisien", "Hemat", "Tepat Guna", "Boros", "Cermat"], ans: 3, pem: "Boros adalah ketidakmampuan berdaya guna, sedangkan opsi lainnya berorientasi pada keterdayagunaan." },
+        { q: "Manakah kata yang TIDAK SEKAUM dengan opsi lain?", opts: ["Konsensus", "Kesepakatan", "Mufakat", "Kompromi", "Polemik"], ans: 4, pem: "Polemik berarti perdebatan/perselisihan, sedangkan opsi lainnya bermakna persepakatan." },
+        { q: "Pilihlah kata yang TIDAK MASUK kelompoknya!", opts: ["Advokasi", "Pembelaan", "Pendampingan", "Penuntutan", "Dukungan"], ans: 3, pem: "Penuntutan adalah posisi mendakwa/menyerang, sedangkan opsi lainnya bersifat membela/mendukung." },
+        { q: "Manakah kata yang TIDAK SEJENIS dengan opsi berikut?", opts: ["Transparan", "Terbuka", "Jelas", "Akuntabel", "Rahasia"], ans: 4, pem: "Rahasia bermakna tertutup, sedangkan opsi lain mencerminkan keterbukaan dan kejelasan tata kelola." },
+        { q: "Pilihlah kata yang BERBEDA dari yang lainnya!", opts: ["Nadir", "Titik Bawah", "Puncak", "Dasar", "Titik Terendah"], ans: 2, pem: "Puncak (Zenith) adalah titik tertinggi, sedangkan opsi lainnya bermakna titik terendah/dasar." },
+        { q: "Manakah kata yang TIDAK SEKAUM dengan kelompok ini?", opts: ["Rigid", "Kaku", "Fleksibel", "Inflexible", "Statis"], ans: 2, pem: "Fleksibel bermakna lentur/mudah menyesuaikan, sedangkan opsi lainnya bermakna kaku/tetap." },
+        { q: "Pilihlah satu kata yang TIDAK KELOMPOK dengan opsi berikut!", opts: ["Sintetis", "Artifisial", "Buatan", "Murni", "Imitasi"], ans: 3, pem: "Murni bersifat asli/alami, sedangkan opsi lainnya bermakna buatan/tiruan." },
+        { q: "Manakah kata yang TIDAK SEKAUM dengan kelompoknya?", opts: ["Komprehensif", "Menyeluruh", "Lengkap", "Parsial", "Utuh"], ans: 3, pem: "Parsial bermakna sebagian/sepotong, sedangkan opsi lainnya bermakna menyeluruh dan utuh." },
+        { q: "Pilihlah kata yang BERBEDA sifat dari yang lainnya!", opts: ["Empatis", "Peduli", "Simpatik", "Apatis", "Penyayang"], ans: 3, pem: "Apatis bermakna acuh tak acuh/tidak peduli, sedangkan opsi lainnya mencerminkan kepedulian." },
+        { q: "Manakah kata yang TIDAK SEJENIS dalam kelompok berikut?", opts: ["Konstruktif", "Membangun", "Positif", "Destruktif", "Solutif"], ans: 3, pem: "Destruktif bermakna merusak, sedangkan opsi lainnya bersifat membangun dan positif." },
+
+        // PART 3: LOGIKA VERBAL & SILOGISME (66 - 100)
+        { q: "Semua staf analisis data wajib menguasai bahasa Python. Sebagian staf analisis data adalah lulusan Matematika. Kesimpulan yang tepat adalah...", opts: ["Semua lulusan Matematika menguasai bahasa Python.", "Sebagian lulusan Matematika wajib menguasai bahasa Python.", "Semua yang menguasai Python adalah lulusan Matematika.", "Sebagian staf analisis data tidak menguasai Python.", "Tidak ada lulusan Matematika yang menguasai Python."], ans: 1, pem: "Irisan kelompok: Sebagian staf analisis data yang merupakan lulusan Matematika pasti wajib menguasai Python." },
+        { q: "Jika audit keuangan ditemukan penyimpangan, maka laporan keuangan dinyatakan 'Disclaimer'. Hari ini laporan keuangan TIDAK dinyatakan 'Disclaimer'. Kesimpulan...", opts: ["Audit keuangan menemukan penyimpangan.", "Audit keuangan tidak menemukan penyimpangan.", "Laporan keuangan dipalsukan pegawai.", "Pemeriksaan audit dibatalkan.", "Terjadi kesalahan cetak laporan."], ans: 1, pem: "Modus Tollens: p → q, ~q terjadi (tidak disclaimer) maka ~p terjadi (audit tidak menemukan penyimpangan)." },
+        { q: "Semua peserta pelatihan kepemimpinan mendapatkan sertifikat manajemen. Sebagian peserta pelatihan kepemimpinan adalah manajer senior. Kesimpulan...", opts: ["Semua manajer senior mendapatkan sertifikat manajemen.", "Sebagian manajer senior mendapatkan sertifikat manajemen.", "Semua pemilik sertifikat adalah manajer senior.", "Manajer senior tidak mengikuti pelatihan.", "Sebagian peserta tidak dapat sertifikat."], ans: 1, pem: "Sebagian peserta yang merupakan manajer senior dipastikan mendapatkan sertifikat manajemen." },
+        { q: "Jika harga bahan baku naik, maka biaya produksi meningkat. Jika biaya produksi meningkat, maka harga jual produk disesuaikan. Ternyata harga jual produk TIDAK disesuaikan. Kesimpulan...", opts: ["Harga bahan baku naik.", "Harga bahan baku tidak naik.", "Biaya produksi tetap membengkak.", "Perusahaan mengalami kebangkrutan.", "Bahan baku langka di pasaran."], ans: 1, pem: "Silogisme Rantai Modus Tollens: ~r terjadi (harga jual tidak disesuaikan) → ~p terjadi (harga bahan baku tidak naik)." },
+        { q: "Semua kendaraan operasional instansi memiliki stiker resmi. Sebagian kendaraan operasional adalah mobil listrik. Kesimpulan...", opts: ["Semua mobil listrik memiliki stiker resmi.", "Sebagian mobil listrik memiliki stiker resmi.", "Semua pemilik stiker resmi adalah mobil listrik.", "Mobil listrik tidak boleh jadi kendaraan dinas.", "Tidak ada mobil listrik berstiker."], ans: 1, pem: "Sebagian kendaraan operasional berupa mobil listrik dipastikan memiliki stiker resmi." },
+        { q: "Tidak ada berkas rahasia yang boleh difotokopi sembarangan. Semua draf proyek ini adalah berkas rahasia. Kesimpulan...", opts: ["Semua draf proyek ini boleh difotokopi sembarangan.", "Sebagian draf proyek boleh difotokopi sembarangan.", "Tidak ada draf proyek ini yang boleh difotokopi sembarangan.", "Fotokopi draf proyek dilakukan di luar kantor.", "Draf proyek bukan dokumen rahasia."], ans: 2, pem: "Silogisme Negatif (No A is B. All C is A. Then No C is B): Tidak ada draf proyek yang boleh difotokopi." },
+        { q: "Jika jaringan server diretas, maka sistem proteksi darurat aktif. Hari ini sistem proteksi darurat aktif. Kesimpulan yang VIRTUAL/VALID adalah...", opts: ["Jaringan server pasti telah diretas.", "Jaringan server belum tentu diretas (bisa karena pengujian rutin).", "Server terbakar total.", "Sistem proteksi darurat rusak.", "Tidak ada peretasan sama sekali."], ans: 1, pem: "Fallacy Affirming the Consequent: Mengafirmasi akibat (q) belum tentu membuktikan sebab (p) terjadi." },
+        { q: "Hanya pegawai yang memiliki sertifikat K3 yang diizinkan masuk area konstruksi. Budi tidak diizinkan masuk area konstruksi. Kesimpulan...", opts: ["Budi tidak memiliki sertifikat K3.", "Budi pimpinan proyek konstruksi.", "Budi lupa membawa kartu identitas.", "Budi pegawai magang.", "Budi sedang cuti sakit."], ans: 0, pem: "Syarat Mutlak: Hanya A yang B. Jika Budi tidak B (tidak diizinkan masuk), maka dipastikan Budi tidak A (tidak punya sertifikat K3)." },
+        { q: "Semua analis risiko berpendidikan minimal Sarjana. Sebagian analis risiko memiliki sertifikasi internasional. Kesimpulan...", opts: ["Sebagian pemilik sertifikasi internasional berpendidikan minimal Sarjana.", "Semua Sarjana memiliki sertifikasi internasional.", "Semua analis risiko tidak bertumpu sertifikasi.", "Analis risiko bukan lulusan Sarjana.", "Sertifikasi internasional wajib untuk Sarjana."], ans: 0, pem: "Irisan: Sebagian analis yang punya sertifikasi internasional dipastikan berpendidikan minimal Sarjana." },
+        { q: "Jika target tahunan tercapai, maka seluruh anggota tim menerima bonus. Sebagian anggota tim tidak menerima bonus. Kesimpulan...", opts: ["Target tahunan tercapai.", "Target tahunan tidak tercapai.", "Seluruh anggota tim mengundurkan diri.", "Bonus dipotong pihak manajemen.", "Sebagian anggota tim lembur."], ans: 1, pem: "Modus Tollens sebagian: Karena sebagian anggota tidak dapat bonus (~q), maka target tahunan tidak tercapai (~p)." },
+        { q: "Semua konsultan Persona Research memiliki kompetensi analisis tinggi. Semua individu dengan kompetensi analisis tinggi mampu menyusun rekomendasi akurat. Kesimpulan...", opts: ["Semua konsultan Persona Research mampu menyusun rekomendasi akurat.", "Sebagian konsultan tidak mampu menyusun rekomendasi.", "Semua pembuat rekomendasi adalah konsultan Persona.", "Kompetensi analisis tidak diperlukan konsultan.", "Konsultan Persona tidak wajib menyusun rekomendasi."], ans: 0, pem: "Silogisme Barbara (All A is B, All B is C → All A is C): Semua konsultan Persona mampu menyusun rekomendasi akurat." },
+        { q: "Semua modul ujian diproteksi enkripsi khusus. Sebagian modul ujian disimpan di server cloud. Kesimpulan...", opts: ["Sebagian modul di server cloud diproteksi enkripsi khusus.", "Semua modul di server cloud tidak diproteksi.", "Semua modul berenkripsi ada di cloud.", "Modul ujian tidak perlu enkripsi.", "Server cloud tidak aman."], ans: 0, pem: "Sebagian modul ujian yang disimpan di server cloud dipastikan diproteksi enkripsi khusus." },
+        { q: "Jika sistem keamanan berlapis diterapkan, maka kebocoran data dapat dicegah. Jika kebocoran data dicegah, maka kepercayaan klien meningkat. Kepercayaan klien TIDAK meningkat. Kesimpulan...", opts: ["Sistem keamanan berlapis diterapkan.", "Sistem keamanan berlapis tidak diterapkan.", "Kebocoran data terjadi secara masif.", "Klien membatalkan kontrak.", "Sistem keamanan rusak."], ans: 1, pem: "Silogisme Rantai Modus Tollens (~r terjadi) → ~p terjadi (Sistem keamanan berlapis tidak diterapkan)." },
+        { q: "Tidak ada pelanggar kode etik yang mendapat promosi jabatan. Semua manajer di divisi A mendapat promosi jabatan. Kesimpulan...", opts: ["Semua manajer divisi A adalah pelanggar kode etik.", "Tidak ada manajer di divisi A yang melanggar kode etik.", "Sebagian manajer divisi A melanggar kode etik.", "Promosi jabatan dilakukan secara sepihak.", "Manajer divisi A dibebaskan dari sanksi."], ans: 1, pem: "Karena semua manajer dapat promosi, maka dipastikan tidak ada satu pun manajer divisi A yang melanggar kode etik." },
+        { q: "Semua kandidat direksi mengikuti wawancara panel. Ari tidak mengikuti wawancara panel. Kesimpulan...", opts: ["Ari kandidat direksi yang terlambat.", "Ari bukan kandidat direksi.", "Ari lulus ujian tertulis direksi.", "Ari mengundurkan diri dari perusahaan.", "Ari diangkat langsung tanpa tes."], ans: 1, pem: "Modus Tollens: p → q, ~q (Ari tidak wawancara) → ~p (Ari bukan kandidat direksi)." },
+        { q: "Jika pemutahiran data dilakukan berkala, maka margin kesalahan riset dapat ditekan. Margin kesalahan riset hari ini berhasil ditekan. Kesimpulan...", opts: ["Pemutahiran data pasti telah dilakukan berkala.", "Pemutahiran data belum tentu dilakukan berkala (bisa karena faktor perbaikan metode).", "Data riset palsu.", "Margin kesalahan riset meningkat.", "Pemutahiran data dilarang."], ans: 1, pem: "Mengafirmasi akibat (q) tidak secara logis membuktikan bahwa sebab tunggal (p) telah terjadi." },
+        { q: "Semua peserta asesmen manajerial membawa kartu ujian. Sebagian peserta asesmen manajerial datang dari luar kota. Kesimpulan...", opts: ["Sebagian peserta yang datang dari luar kota membawa kartu ujian.", "Semua peserta dari luar kota tidak membawa kartu ujian.", "Semua pembawa kartu ujian dari luar kota.", "Peserta dari luar kota dilarang hadir.", "Kartu ujian hanya untuk peserta lokal."], ans: 0, pem: "Irisan: Sebagian peserta dari luar kota dipastikan membawa kartu ujian." },
+        { q: "Hanya jika dokumen telah ditandatangani Direktur Utama, maka anggaran proyek dapat dicairkan. Anggaran proyek hari ini dapat dicairkan. Kesimpulan...", opts: ["Dokumen belum ditandatangani Direktur Utama.", "Dokumen telah ditandatangani Direktur Utama.", "Direktur Utama menolak menandatangani.", "Anggaran dipinjam dari unit lain.", "Dokumen hilang."], ans: 1, pem: "Syarat perlu: Jika anggaran dicairkan, maka dokumen dipastikan telah ditandatangani Direktur Utama." },
+        { q: "Semua laporan audit yang valid dilampiri data pendukung. Sebagian laporan audit unit X tidak dilampiri data pendukung. Kesimpulan...", opts: ["Semua laporan audit unit X valid.", "Sebagian laporan audit unit X tidak valid.", "Laporan audit unit X dibatalkan total.", "Data pendukung disembunyikan.", "Semua laporan unit X tidak valid."], ans: 1, pem: "Modus Tollens sebagian: Karena sebagian laporan tidak dilampiri data pendukung, maka sebagian laporan unit X tersebut tidak valid." },
+        { q: "Jika pelatihan K3 dilaksanakan, maka angka kecelakaan kerja menurun. Jika angka kecelakaan kerja menurun, maka produktivitas pabrik meningkat. Anggaran pelatihan K3 tahun ini dipotong. Kesimpulan...", opts: ["Produktivitas pabrik dipastikan menurun.", "Angka kecelakaan kerja pasti meningkat.", "Tidak dapat disimpulkan secara pasti dampak langsungnya dari premis yang ada.", "Pelatihan K3 dihentikan permanen.", "Pabrik ditutup sementara."], ans: 2, pem: "Premis tidak memberikan hubungan eksplisit mengenai dampak pemotongan anggaran terhadap tingkat pelaksanaan pelatihan." },
+        { q: "Semua asesor kompetensi menguasai standar BNSP. Sebagian asesor kompetensi berlatar belakang Psikologi. Kesimpulan...", opts: ["Sebagian yang berlatar belakang Psikologi menguasai standar BNSP.", "Semua lulusan Psikologi menguasai standar BNSP.", "Asesor kompetensi tidak wajib paham BNSP.", "Tidak ada lulusan Psikologi jadi asesor.", "Semua penguasai BNSP adalah lulusan Psikologi."], ans: 0, pem: "Irisan: Sebagian asesor berlatar belakang Psikologi dipastikan menguasai standar BNSP." },
+        { q: "Tidak ada kebijakan publik yang merugikan masyarakat luas. Sebagian rancangan peraturan X merugikan masyarakat luas. Kesimpulan...", opts: ["Sebagian rancangan peraturan X bukan kebijakan publik yang benar.", "Semua rancangan peraturan X adalah kebijakan publik.", "Rancangan peraturan X disahkan pemerintah.", "Masyarakat menolak seluruh aturan.", "Tidak ada kesimpulan logis."], ans: 0, pem: "Karena merugikan masyarakat luas, maka sebagian rancangan peraturan X bertentangan dengan definisi kebijakan publik yang benar." },
+        { q: "Jika inovasi layanan diterapkan, maka kepuasan pelanggan meningkat. Kepuasan pelanggan meningkat. Kesimpulan yang sah...", opts: ["Inovasi layanan pasti telah diterapkan.", "Inovasi layanan belum tentu diterapkan (bisa karena faktor pemotongan harga).", "Pelanggan merasa kecewa.", "Layanan lama ditutup.", "Inovasi layanan gagal."], ans: 1, pem: "Affirming the Consequent: Peningkatan kepuasan pelanggan bisa disebabkan faktor lain di luar inovasi layanan." },
+        { q: "Semua perangkat komputer kantor dilengkapi antivirus teruji. Sebagian perangkat komputer kantor berupa laptop portabel. Kesimpulan...", opts: ["Sebagian laptop portabel dilengkapi antivirus teruji.", "Semua laptop portabel tidak berantivirus.", "Semua perangkat berantivirus adalah laptop.", "Antivirus menyebabkan komputer lambat.", "Laptop portabel tidak boleh terhubung internet."], ans: 0, pem: "Sebagian perangkat kantor yang berupa laptop portabel dipastikan dilengkapi antivirus teruji." },
+        { q: "Jika pimpinan memberikan instruksi tegas, maka koordinasi tim berjalan lancar. Koordinasi tim hari ini TIDAK berjalan lancar. Kesimpulan...", opts: ["Pimpinan memberikan instruksi tegas.", "Pimpinan tidak memberikan instruksi tegas.", "Tim dibubarkan.", "Proyek selesai terlambat.", "Instruksi disampaikan tertulis."], ans: 1, pem: "Modus Tollens: p → q, ~q (koordinasi tidak lancar) → ~p (pimpinan tidak memberikan instruksi tegas)." },
+        { q: "Semua peneliti senior memiliki publikasi internasional. Budi adalah peneliti senior. Kesimpulan...", opts: ["Budi tidak memiliki publikasi internasional.", "Budi memiliki publikasi internasional.", "Budi dosen di universitas swasta.", "Budi belum pernah menulis jurnal.", "Budi pensiun dari lembaga riset."], ans: 1, pem: "Modus Ponens: Semua A adalah B. Budi adalah A. Kesimpulan: Budi adalah B (memiliki publikasi internasional)." },
+        { q: "Tidak ada sampel penelitian yang terkontaminasi yang digunakan dalam analisis akhir. Sebagian sampel di laboratorium Y terkontaminasi. Kesimpulan...", opts: ["Semua sampel di laboratorium Y digunakan dalam analisis akhir.", "Sebagian sampel di laboratorium Y tidak digunakan dalam analisis akhir.", "Sampel di laboratorium Y dibuang seluruhnya.", "Analisis akhir mengalami kegagalan.", "Laboratorium Y ditutup."], ans: 1, pem: "Sebagian sampel di laboratorium Y yang terkontaminasi dipastikan tidak digunakan dalam analisis akhir." },
+        { q: "Jika tingkat inflasi tinggi, maka suku bunga bank disesuaikan. Jika suku bunga bank disesuaikan, maka iklim investasi terpengaruh. Hari ini iklim investasi TIDAK terpengaruh. Kesimpulan...", opts: ["Tingkat inflasi tinggi.", "Tingkat inflasi tidak tinggi.", "Suku bunga bank melonjak tajam.", "Terjadi krisis ekonomi nasional.", "Pemerintah menerbitkan obligasi baru."], ans: 1, pem: "Silogisme Rantai Modus Tollens (~r terjadi) → ~p terjadi (Tingkat inflasi tidak tinggi)." },
+        { q: "Semua supervisor operasional wajib mengikuti audit K3. Sebagian supervisor operasional bertugas di unit pabrik B. Kesimpulan...", opts: ["Sebagian supervisor di unit pabrik B wajib mengikuti audit K3.", "Semua supervisor pabrik B tidak ikut audit K3.", "Audit K3 hanya untuk pegawai biasa.", "Supervisor pabrik B dibebaskan dari aturan.", "Tidak ada audit K3 di pabrik B."], ans: 0, pem: "Sebagian supervisor yang bertugas di pabrik B dipastikan wajib mengikuti audit K3." },
+        { q: "Hanya pegawai dengan nilai kinerja 'Sangat Baik' yang berhak dicalonkan menerima penghargaan tahunan. Deni dicalonkan menerima penghargaan tahunan. Kesimpulan...", opts: ["Deni memiliki nilai kinerja 'Sangat Baik'.", "Deni belum tentu memiliki nilai 'Sangat Baik'.", "Deni kerabat pimpinan perusahaan.", "Deni pegawai baru magang.", "Deni menolak penghargaan tersebut."], ans: 0, pem: "Syarat Perlu/Mutlak (Hanya A yang B). Jika Deni B (dicalonkan), maka dipastikan Deni A (memiliki nilai kinerja 'Sangat Baik')." },
+        { q: "Semua draf SOP yang disetujui telah melewati uji publik. Sebagian draf SOP pelayanan publik telah melewati uji publik. Kesimpulan...", opts: ["Sebagian draf SOP pelayanan publik telah disetujui atau siap disetujui.", "Semua draf SOP pelayanan publik belum melewati uji publik.", "Draf SOP pelayanan publik ditarik kembali.", "Uji publik tidak diperlukan dalam SOP.", "Semua SOP wajib diganti."], ans: 0, pem: "Sebagian draf SOP pelayanan publik yang lulus uji publik telah memenuhi syarat persetujuan." },
+        { q: "Jika alokasi anggaran riset memadai, maka inovasi produk baru meningkat. Ternyata alokasi anggaran riset tahun ini TIDAK memadai. Kesimpulan...", opts: ["Inovasi produk baru dipastikan tidak meningkat.", "Inovasi produk baru belum tentu tidak meningkat (bisa dengan efisiensi).", "Riset dibatalkan total.", "Perusahaan gulung tikar.", "Produk baru ditarik dari pasar."], ans: 1, pem: "Denying the Antecedent: Menolak sebab (~p) tidak secara otomatis memastikan akibat (~q) pasti tidak terjadi." },
+        { q: "Semua anggota tim peneliti memiliki akses ke perpustakaan digital. Rina tidak memiliki akses ke perpustakaan digital. Kesimpulan...", opts: ["Rina anggota tim peneliti yang lupa password.", "Rina bukan anggota tim peneliti.", "Rina pimpinan lembaga riset.", "Rina staf administrasi perpustakaan.", "Rina baru diterima kerja."], ans: 1, pem: "Modus Tollens: p → q, ~q (Rina tidak punya akses) → ~p (Rina bukan anggota tim peneliti)." },
+        { q: "Semua manajer proyek menguasai metodologi Agile. Sebagian penguasai metodologi Agile adalah lulusan Teknik Informatika. Kesimpulan...", opts: ["Sebagian lulusan Teknik Informatika yang menjadi manajer proyek menguasai metodologi Agile.", "Semua lulusan Teknik Informatika adalah manajer proyek.", "Metodologi Agile hanya untuk manajer proyek.", "Manajer proyek dilarang menggunakan metodologi lain.", "Tidak ada lulusan TI yang paham Agile."], ans: 0, pem: "Irisan tiga kelompok: Sebagian lulusan TI yang menjadi manajer proyek dipastikan menguasai metodologi Agile." },
+        { q: "Jika pendaftaran paten berhasil, maka hak cipta karya terlindungi hukum. Jika hak cipta terlindungi hukum, maka nilai komersial produk meningkat. Nilai komersial produk X meningkat. Kesimpulan yang valid secara eksplisit...", opts: ["Pendaftaran paten produk X pasti telah berhasil.", "Pendaftaran paten produk X belum tentu telah berhasil (bisa dari strategi pemasaran).", "Produk X dipalsukan kompetitor.", "Hak cipta produk X ditarik.", "Paten tidak diperlukan lagi."], ans: 1, pem: "Kekeliruan Mengafirmasi Akibat: Kenaikan nilai komersial belum tentu dipicu secara mutlak oleh pendaftaran paten." }
+    ];
+
+    let currentQIdx = 0;
+    let userAnswers = {};
+    let timerInterval = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedName = localStorage.getItem('prc_nama_peserta');
+        if(savedName) document.getElementById('inputNama').value = savedName;
+        updateStatusBadge();
+    });
+
+    function saveName() {
+        const val = document.getElementById('inputNama').value.trim();
+        localStorage.setItem('prc_nama_peserta', val);
+    }
+
+    function updateStatusBadge() {
+        const score = localStorage.getItem('prc_ana_log_skor');
+        const badge = document.getElementById('stStatus');
+        if(score !== null) {
+            badge.textContent = `Selesai (Skor Akhir: ${score})`;
+            badge.classList.add('done');
+        } else {
+            badge.textContent = `Belum Dikerjakan`;
+            badge.classList.remove('done');
+        }
+    }
+
+    function showHome() {
+        if(timerInterval) clearInterval(timerInterval);
+        document.getElementById('viewHome').style.display = 'block';
+        document.getElementById('viewQuiz').style.display = 'none';
+        document.getElementById('viewRekap').style.display = 'none';
+        updateStatusBadge();
+    }
+
+    function startSubtes() {
+        const nama = document.getElementById('inputNama').value.trim();
+        if(!nama) {
+            alert("Harap masukkan Nama Lengkap Peserta terlebih dahulu!");
+            return;
+        }
+
+        currentQIdx = 0;
+        const savedAns = localStorage.getItem('prc_ana_log_ans');
+        userAnswers = savedAns ? JSON.parse(savedAns) : {};
+
+        document.getElementById('viewHome').style.display = 'none';
+        document.getElementById('viewQuiz').style.display = 'block';
+        document.getElementById('viewRekap').style.display = 'none';
+
+        renderNavGrid();
+        loadQuestion(0);
+        startTimer(60 * 60);
+    }
+
+    function loadQuestion(idx) {
+        currentQIdx = idx;
+        const qData = bankSoal100[idx];
+        
+        document.getElementById('q-no').textContent = `Soal ${idx + 1} dari 100`;
+        document.getElementById('q-text').innerText = qData.q;
+
+        let optsHtml = '';
+        qData.opts.forEach((opt, i) => {
+            const isSelected = userAnswers[idx] === i ? 'selected' : '';
+            optsHtml += `<div class="opt ${isSelected}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+        });
+        document.getElementById('options').innerHTML = optsHtml;
+
+        document.getElementById('btn-next').textContent = idx === 99 ? "Selesai Tes" : "Selanjutnya";
+        renderNavGrid();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentQIdx] = optIdx;
+        localStorage.setItem('prc_ana_log_ans', JSON.stringify(userAnswers));
+        loadQuestion(currentQIdx);
+        setTimeout(() => { nextQ(); }, 200);
+    }
+
+    function renderNavGrid() {
+        let gridHtml = '';
+        for(let i = 0; i < 100; i++) {
+            let cls = 'nav-item';
+            if(userAnswers[i] !== undefined) cls += ' filled';
+            if(i === currentQIdx) cls += ' active';
+            gridHtml += `<div class="${cls}" onclick="loadQuestion(${i})">${i + 1}</div>`;
+        }
+        document.getElementById('navGrid').innerHTML = gridHtml;
+    }
+
+    function nextQ() {
+        if(currentQIdx === 99) {
+            if(confirm("Apakah Anda yakin ingin mengakhiri dan menyelesaikan ujian 100 soal ini?")) {
+                finishSubtes();
+            }
+            return;
+        }
+        loadQuestion(currentQIdx + 1);
+    }
+
+    function prevQ() {
+        if(currentQIdx > 0) loadQuestion(currentQIdx - 1);
+    }
+
+    function startTimer(seconds) {
+        if(timerInterval) clearInterval(timerInterval);
+        let t = seconds;
+        timerInterval = setInterval(() => {
+            let m = Math.floor(t / 60);
+            let s = t % 60;
+            document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if(--t < 0) {
+                clearInterval(timerInterval);
+                alert("Waktu ujian 60 menit telah habis!");
+                finishSubtes();
+            }
+        }, 1000);
+    }
+
+    function finishSubtes() {
+        if(timerInterval) clearInterval(timerInterval);
+
+        let benar = 0;
+        bankSoal100.forEach((q, i) => {
+            if(userAnswers[i] === q.ans) benar++;
+        });
+
+        localStorage.setItem('prc_ana_log_skor', benar);
+        localStorage.setItem('prc_ana_log_ans', JSON.stringify(userAnswers));
+
+        alert(`Ujian Selesai!\nSkor Akhir Anda: ${benar} / 100`);
+        showRekap();
+    }
+
+    function showRekap() {
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const score = parseInt(localStorage.getItem('prc_ana_log_skor') || 0);
+        
+        document.getElementById('namaPesertaRekap').textContent = "NAMA PESERTA: " + nama.toUpperCase();
+        document.getElementById('totalBenar').textContent = `${score} / 100`;
+        document.getElementById('skorAkurasi').textContent = `${score}`;
+
+        let kat = '', ket = '';
+        if(score >= 80) {
+            kat = 'TINGGI / SANGAT BAIK (SANGAT DIREKOMENDASIKAN)';
+            ket = 'Peserta memiliki kemampuan logika verbal, hubungan analogi kata, dan analisis struktur berpikir yang sangat kuat.';
+        } else if(score >= 60) {
+            kat = 'SEDANG / CUKUP (DIREKOMENDASIKAN DENGAN CATATAN)';
+            ket = 'Peserta memiliki kemampuan penalaran verbal sedang, namun perlu dilatih lagi pada ketelitian logika silogisme komplek.';
+        } else {
+            kat = 'RENDAH / PERLU PELATIHAN KHUSUS';
+            ket = 'Peserta membutuhkan bimbingan intensif pada penguasaan penalaran logika deduktif dan analisis hubungan konsep kata.';
+        }
+
+        document.getElementById('txtKategori').textContent = kat;
+        document.getElementById('txtKeterangan').textContent = ket;
+
+        renderPembahasanOnScreen();
+
+        document.getElementById('viewHome').style.display = 'none';
+        document.getElementById('viewQuiz').style.display = 'none';
+        document.getElementById('viewRekap').style.display = 'block';
+    }
+
+    function renderPembahasanOnScreen() {
+        const savedAns = JSON.parse(localStorage.getItem('prc_ana_log_ans') || '{}');
+        let pemHtml = '';
+
+        bankSoal100.forEach((q, qIdx) => {
+            const uAnsIdx = savedAns[qIdx];
+            const isCorrect = uAnsIdx === q.ans;
+            const uAnsStr = uAnsIdx !== undefined ? `${String.fromCharCode(65 + uAnsIdx)}. ${q.opts[uAnsIdx]}` : "Tidak Dijawab";
+            const cAnsStr = `${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans]}`;
+
+            pemHtml += `
+                <div class="pem-item">
+                    <div style="font-weight:bold; margin-bottom:5px;">Soal ${qIdx + 1}: ${q.q}</div>
+                    <div style="font-size:14px; margin: 3px 0;">
+                        Jawaban Anda: <span class="${isCorrect ? 'tag-correct' : 'tag-wrong'}">${uAnsStr}</span>
+                    </div>
+                    <div style="font-size:14px; margin: 3px 0; color:#16a34a; font-weight:bold;">
+                        Kunci Jawaban: ${cAnsStr}
+                    </div>
+                    <div class="pem-box">
+                        <b>Pembahasan:</b> ${q.pem}
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('pemBody').innerHTML = pemHtml;
+    }
+
+    function toggleAccordion() {
+        const body = document.getElementById('pemBody');
+        body.style.display = body.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function downloadPembahasanSemua() {
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const score = localStorage.getItem('prc_ana_log_skor') || 0;
+        const savedAns = JSON.parse(localStorage.getItem('prc_ana_log_ans') || '{}');
+
+        let content = `==================================================\n`;
+        content += `PEMBAHASAN 100 SOAL ANALOGI, PENGELOMPOKAN & LOGIKA VERBAL\n`;
+        content += `PERSONA RESEARCH & CONSULTING\n`;
+        content += `Nama Peserta : ${nama}\n`;
+        content += `Skor Akhir   : ${score} / 100\n`;
+        content += `==================================================\n\n`;
+
+        bankSoal100.forEach((q, qIdx) => {
+            const uAnsIdx = savedAns[qIdx];
+            const uAnsStr = uAnsIdx !== undefined ? String.fromCharCode(65 + uAnsIdx) : "Tidak Dijawab";
+            const cAnsStr = String.fromCharCode(65 + q.ans);
+
+            content += `Soal ${qIdx + 1}: ${q.q}\n`;
+            q.opts.forEach((o, optIdx) => {
+                content += `  ${String.fromCharCode(65 + optIdx)}. ${o}\n`;
+            });
+            content += `Jawaban Anda : ${uAnsStr}\n`;
+            content += `Jawaban Benar: ${cAnsStr}\n`;
+            content += `Pembahasan   : ${q.pem}\n`;
+            content += `--------------------------------------------------\n\n`;
+        });
+
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Pembahasan_Analogi_LogikaVerbal_PRC_${nama.replace(/\s+/g, '_')}.txt`;
+        link.click();
+    }
+
+    function resetData() {
+        if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN dan mengulang dari awal?")) {
+            localStorage.removeItem('prc_ana_log_skor');
+            localStorage.removeItem('prc_ana_log_ans');
+            userAnswers = {};
+            alert("Data pengerjaan berhasil di-reset!");
+            showHome();
+        }
+    }
+</script>
+</body>
+</html>

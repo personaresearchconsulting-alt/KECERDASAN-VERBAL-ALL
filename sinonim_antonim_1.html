@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem CAT - 100 Soal Sinonim & Antonim Paket 1 - Persona Research & Consulting</title>
+    <style>
+        :root { --navy: #0b2340; --gold: #d4a017; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; -webkit-user-select: none; user-select: none; }
+        header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .container { max-width: 950px; margin: 30px auto; padding: 0 20px; }
+        
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .user-card input { width: 80%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; margin-top: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
+        .subtes-card { background: white; padding: 20px; border-radius: 10px; border-left: 6px solid var(--navy); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .opt { padding: 14px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .opt:hover { background: #f1f5f9; border-color: var(--navy); }
+        .opt.selected { background: #e0f2fe; border-color: var(--navy); font-weight: bold; }
+        
+        .nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 15px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .nav-item { height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .nav-item.filled { background: var(--navy); color: white; }
+        .nav-item.active { border: 2px solid var(--gold); }
+        
+        .btn { background: var(--navy); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; }
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-danger { background: #dc2626; color: white; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 5px; background: #e2e8f0; color: #475569; }
+        .done { background: #dcfce7; color: #166534; }
+        #timer { font-size: 20px; font-weight: bold; color: var(--gold); font-family: monospace; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: left; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #cbd5e1; }
+        th { background: var(--navy); color: white; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white; }
+        .badge-tinggi { background: #16a34a; }
+        .badge-sedang { background: #d97706; }
+        .badge-rendah { background: #dc2626; }
+        .summary-box { background: #f1f5f9; border-left: 5px solid var(--gold); padding: 20px; border-radius: 8px; margin-top: 20px; }
+
+        .pem-accordion { border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
+        .pem-header { background: #f1f5f9; padding: 15px; font-weight: bold; color: var(--navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .pem-body { padding: 15px; display: none; background: white; border-top: 1px solid #cbd5e1; }
+        .pem-item { border-bottom: 1px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
+        .pem-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .tag-correct { color: #16a34a; font-weight: bold; }
+        .tag-wrong { color: #dc2626; font-weight: bold; }
+        .pem-box { background: #f8fafc; border-left: 4px solid var(--navy); padding: 10px; margin-top: 8px; font-size: 14px; }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+    <h1 style="margin:0; font-size:24px;">PERSONA RESEARCH & CONSULTING</h1>
+    <p style="margin:5px 0 0; color: var(--gold); font-weight: bold;">PAKET 1: SIMULASI CAT VERBAL 100 SOAL SINONIM (=) & ANTONIM (><)</p>
+</header>
+
+<div class="container">
+
+    <!-- VIEW 1: HOME / MENU UTAMA -->
+    <div id="viewHome">
+        <div class="card" style="text-align: center;">
+            <h3 style="margin:0; color:var(--navy);">IDENTITAS PESERTA UJIAN</h3>
+            <p style="font-size:14px; color:#64748b;">Masukkan nama Anda sebelum memulai simulasi tes.</p>
+            <input type="text" id="inputNama" placeholder="Nama Lengkap Peserta..." oninput="saveName()">
+        </div>
+
+        <div class="card">
+            <h3 style="margin:0; color:var(--navy);">MODUL TES SINONIM & ANTONIM PAKET 1 (100 SOAL)</h3>
+            <p style="font-size:14px; color:#64748b; margin-bottom: 15px;">Keterangan Simbol: <b>=</b> (Sinonim / Persamaan Kata) | <b>><</b> (Antonim / Lawan Kata). Durasi total: 60 Menit.</p>
+            <div id="stStatus" class="status-badge" style="margin-bottom: 20px;">Belum Dikerjakan</div>
+            <br>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn" onclick="startSubtes()" style="font-size:16px; padding:12px 25px;">🚀 MULAI SIMULASI PAKET 1</button>
+                <button class="btn btn-gold" onclick="showRekap()" style="font-size:16px; padding:12px 25px;">📊 LIHAT REKAP NILAI</button>
+                <button class="btn btn-danger" onclick="resetData()" style="font-size:16px; padding:12px 25px;">🔄 RESET DATA UJIAN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 2: PENGERJAAN SOAL CAT -->
+    <div id="viewQuiz" style="display: none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <div id="subtesTitle" style="font-weight:bold; color:var(--navy);">TES SINONIM & ANTONIM PAKET 1</div>
+            <div id="timer">60:00</div>
+        </div>
+
+        <div style="display:flex; gap:20px;">
+            <div style="flex:3;">
+                <div class="card">
+                    <div id="q-no" style="font-weight:bold; color:var(--navy); margin-bottom:10px;">Soal 1 dari 100</div>
+                    <div id="q-text" style="font-size:18px; line-height:1.6; margin-bottom:20px; font-weight:700; color:var(--navy);"></div>
+                    <div id="options"></div>
+                    <div style="margin-top:25px; display:flex; justify-content:space-between;">
+                        <button class="btn" onclick="prevQ()" style="background:#64748b">Sebelumnya</button>
+                        <button class="btn" id="btn-next" onclick="nextQ()">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="flex:1.2;">
+                <div class="card" style="padding:15px;">
+                    <div style="text-align:center; font-size:12px; font-weight:bold; margin-bottom:10px;">NAVIGASI SOAL</div>
+                    <div id="navGrid" class="nav-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: HASIL REKAP NILAI & PEMBAHASAN -->
+    <div id="viewRekap" style="display: none;">
+        <div class="card">
+            <h2 style="text-align: center; color: var(--navy); margin-bottom: 5px;">LAPORAN HASIL KEMAMPUAN SINONIM & ANTONIM PAKET 1</h2>
+            <p style="text-align: center; color: var(--gold); font-weight: bold; margin-top:0;">PERSONA RESEARCH & CONSULTING</p>
+            <div id="namaPesertaRekap" style="text-align: center; font-weight: bold; font-size: 18px; margin: 15px 0; background: #eef6ff; padding: 10px; border-radius: 8px;">NAMA: -</div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                <div style="background:#f8fafc; padding:15px; border-radius:10px; text-align:center; border:1px solid #e2e8f0;">
+                    <small style="color:#64748b; font-weight:bold;">TOTAL BENAR</small>
+                    <div id="totalBenar" style="font-size:32px; font-weight:900; color:var(--navy);">0 / 100</div>
+                </div>
+                <div style="background:#f8fafc; padding:15px; border-radius:10px; text-align:center; border:1px solid #e2e8f0;">
+                    <small style="color:#64748b; font-weight:bold;">NILAI AKHIR (SKOR 0-100)</small>
+                    <div id="skorAkurasi" style="font-size:32px; font-weight:900; color:var(--navy);">0</div>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3 style="margin-top:0; color:var(--navy);">KATEGORI KEMAMPUAN VERBAL</h3>
+                <p>Status Kelulusan/Kategori: <b id="txtKategori" style="font-size:18px;">-</b></p>
+                <p id="txtKeterangan">-</p>
+            </div>
+
+            <h3 style="color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin-top: 35px;">TINJAUAN & PEMBAHASAN 100 SOAL PAKET 1</h3>
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Klik di bawah ini untuk melihat detail jawaban dan pembahasan lengkap setiap soal.</p>
+            
+            <div class="pem-accordion">
+                <div class="pem-header" onclick="toggleAccordion()">
+                    <span>DAFTAR PEMBAHASAN 100 SOAL SINONIM (=) & ANTONIM (><)</span>
+                    <span>▼</span>
+                </div>
+                <div class="pem-body" id="pemBody"></div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="btn" onclick="downloadPembahasanSemua()">📥 Download File Pembahasan (.txt)</button>
+                <button class="btn btn-gold" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+                <button class="btn" style="background:#64748b;" onclick="showHome()">🏠 Kembali Ke Beranda</button>
+                <button class="btn btn-danger" onclick="resetData()">🔄 Reset Data Ujian</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const bankSoal100 = [
+        // 50 SOAL SINONIM (=)
+        { q: "AKUNTABEL =", opts: ["Dapat dipertanggungjawabkan", "Dapat dipercaya murni", "Dapat dihitung cepat", "Dapat diubah-ubah", "Dapat diakses publik"], ans: 0, pem: "Akuntabel berarti dapat dipertanggungjawabkan sesuai prosedur." },
+        { q: "KREDIBILITAS =", opts: ["Keberuntungan", "Keutamaan", "Keterbukaan", "Keterpercayaan", "Keunggulan"], ans: 3, pem: "Kredibilitas adalah kualitas yang menimbulkan kepercayaan." },
+        { q: "INTEGRITAS =", opts: ["Loyalitas tinggi", "Kejujuran dan keutuhan moral", "Kecerdasan emosional", "Ketegasan bersikap", "Kemampuan beradaptasi"], ans: 1, pem: "Integritas menunjukkan keutuhan moral dan kejujuran." },
+        { q: "TANGIBEL =", opts: ["Terstruktur", "Tersirat", "Terukur", "Nyata / Berwujud", "Terencana"], ans: 3, pem: "Tangibel berarti berwujud atau nyata." },
+        { q: "INHEREN =", opts: ["Melekat kuat", "Berubah-ubah", "Terpisah jauh", "Terpengaruh luar", "Berdasarkan hukum"], ans: 0, pem: "Inheren berarti melekat atau tidak terpisahkan." },
+        { q: "KOERSIF =", opts: ["Secara sukarela", "Secara paksaan", "Secara musyawarah", "Secara persuasif", "Secara rahasia"], ans: 1, pem: "Koersif adalah bersifat memaksa." },
+        { q: "PREDIKTIF =", opts: ["Memperhitungkan masa lalu", "Bersifat perkiraan / ramalan", "Berdasarkan fakta lapangan", "Berorientasi hasil instan", "Bersifat pasti"], ans: 1, pem: "Prediktif bersifat memperkirakan masa depan." },
+        { q: "STAGNASI =", opts: ["Penurunan drastis", "Kemajuan pesat", "Kondisi jalan di tempat / terhenti", "Gejolak pasar", "Penyimpangan aturan"], ans: 2, pem: "Stagnasi adalah keadaan terhenti atau tidak ada kemajuan." },
+        { q: "EFEKTIVITAS =", opts: ["Kecepatan waktu", "Ketepatan mencapai sasaran", "Penghematan biaya", "Ketelitian proses", "Kemudahan prosedur"], ans: 1, pem: "Efektivitas adalah ketepatan mencapai sasaran." },
+        { q: "EFISIENSI =", opts: ["Ketepatan sasaran", "Penghematan sumber daya", "Kecepatan eksekusi", "Ketegasan aturan", "Peningkatan kuantitas"], ans: 1, pem: "Efisiensi berhubungan dengan penghematan daya/biaya." },
+        { q: "MASIF =", opts: ["Kecil berulang", "Kuat dan berdampak luas", "Kaku dan sulit diubah", "Lentur dan fleksibel", "Cepat dan ringkas"], ans: 1, pem: "Masif menggambarkan wujud utuh, padat, dan berdampak luas." },
+        { q: "KAPABILITAS =", opts: ["Keahlian khusus", "Kemampuan / kecakapan", "Wewenang resmi", "Pendidikan tinggi", "Pengalaman kerja"], ans: 1, pem: "Kapabilitas adalah kemampuan atau kecakapan." },
+        { q: "PARADIGMA =", opts: ["Kerangka berpikir baku", "Metode analisis", "Aturan tertulis", "Tujuan bersama", "Hasil evaluasi"], ans: 0, pem: "Paradigma adalah kerangka berpikir fundamental." },
+        { q: "REGULASI =", opts: ["Anjuran informal", "Peraturan resmi", "Kesepakatan bersama", "Saran kebijakan", "Prosedur operasional"], ans: 1, pem: "Regulasi adalah aturan resmi yang mengikat." },
+        { q: "KONSISTEN =", opts: ["Disiplin ketat", "Selaras / taat asas", "Berubah menyesuaikan", "Tegas berdiri", "Pasti berhasil"], ans: 1, pem: "Konsisten berarti selaras dan taat asas." },
+        { q: "TENTATIF =", opts: ["Pasti dan mengikat", "Bersifat sementara", "Mencakup semua pihak", "Berorientasi jangka panjang", "Secara rahasia"], ans: 1, pem: "Tentatif berarti belum pasti atau sementara." },
+        { q: "OTONOM =", opts: ["Terikat aturan pusat", "Berdiri sendiri / mandiri", "Bekerja secara tim", "Sesuai petunjuk", "Sangat bergantung"], ans: 1, pem: "Otonom adalah sifat mandiri." },
+        { q: "RELEVAN =", opts: ["Sangat penting", "Sesuai / berhubungan erat", "Mudah dipahami", "Terbukti benar", "Berurutan"], ans: 1, pem: "Relevan berarti sesuai dan berhubungan erat." },
+        { q: "KOMPREHENSIF =", opts: ["Secara rinci dan menyeluruh", "Sangat cepat dan akurat", "Khusus bagian tertentu", "Mudah diimplementasikan", "Berstandar internasional"], ans: 0, pem: "Komprehensif adalah menyeluruh dan lengkap." },
+        { q: "PRAGMATIS =", opts: ["Mengutamakan teori", "Mengutamakan kepraktisan / hasil", "Berdasarkan intuisi", "Mengikuti aturan kaku", "Berorientasi masa depan"], ans: 1, pem: "Pragmatis mengutamakan segi kepraktisan." },
+        { q: "REPUTASI =", opts: ["Gelar kehormatan", "Nama baik / citra", "Pencapaian target", "Kekayaan organisasi", "Kedudukan tinggi"], ans: 1, pem: "Reputasi adalah nama baik atau citra." },
+        { q: "RASIONAL =", opts: ["Berdasarkan perasaan", "Masuk akal / logis", "Sesuai kebiasaan", "Mudah diterima umum", "Pasti dan mutlak"], ans: 1, pem: "Rasional berarti masuk akal/logis." },
+        { q: "SINERGI =", opts: ["Persaingan sehat", "Kerja sama saling menguatkan", "Pembagian tugas merata", "Penggabungan modal", "Penyamaan persepsi"], ans: 1, pem: "Sinergi adalah kerja sama yang saling menguatkan." },
+        { q: "VITAL =", opts: ["Sangat penting", "Pendukung utama", "Pengganti darurat", "Bersifat permanen", "Tersembunyi"], ans: 0, pem: "Vital berarti sangat penting/diperlukan." },
+        { q: "VALIDASI =", opts: ["Pengumpulan dokumen", "Pengesahan / pengujian kebenaran", "Penghapusan data", "Pencatatan ulang", "Penundaan proses"], ans: 1, pem: "Validasi adalah pengesahan atau pengujian kebenaran." },
+        { q: "ESKALASI =", opts: ["Penurunan bertahap", "Peningkatan / perluasan", "Penghentian sementara", "Penyelesaian masalah", "Pemerataan tugas"], ans: 1, pem: "Eskalasi adalah kenaikan atau perluasan." },
+        { q: "FLUKTUATIF =", opts: ["Tetap dan stabil", "Berubah-ubah / naik-turun", "Meningkat pesat", "Menurun perlahan", "Kaku dan terikat"], ans: 1, pem: "Fluktuatif berarti berubah-ubah secara tidak tetap." },
+        { q: "AMBIGU =", opts: ["Tegas dan jelas", "Bermakna ganda / kabur", "Tidak berguna", "Sangat mendalam", "Bersifat salah"], ans: 1, pem: "Ambigu adalah bermakna ganda atau kabur." },
+        { q: "FRAGMENTASI =", opts: ["Penggabungan utuh", "Pemisahan menjadi bagian-bagian", "Penyusunan urutan", "Peningkatan kualitas", "Penyederhanaan struktur"], ans: 1, pem: "Fragmentasi adalah pemisahan menjadi bagian-bagian." },
+        { q: "DIVERSIFIKASI =", opts: ["Penyatuan jenis", "Penganekaragaman", "Penciptaan hal baru", "Penghapusan cabang", "Penghematan anggaran"], ans: 1, pem: "Diversifikasi adalah penganekaragaman." },
+        { q: "KONSENSUS =", opts: ["Perbedaan pendapat", "Kesepakatan bersama", "Keputusan pimpinan", "Suara terbanyak", "Penolakan aturan"], ans: 1, pem: "Konsensus adalah kesepakatan bersama." },
+        { q: "ELEGAN =", opts: ["Sangat mahal", "Anggun dan berkelas", "Rumit dan mewah", "Unik dan langka", "Sederhana tanpa gaya"], ans: 1, pem: "Elegan berarti anggun dan berkelas." },
+        { q: "INTERVENSI =", opts: ["Pemberian bantuan", "Campur tangan", "Penilaian independen", "Pengawasan langsung", "Penolakan kerja sama"], ans: 1, pem: "Intervensi adalah tindakan campur tangan." },
+        { q: "KLARIFIKASI =", opts: ["Penjelasan agar jernih", "Penundaan keputusan", "Pengajuan keberatan", "Pemeriksaan berkas", "Penetapan sanksi"], ans: 0, pem: "Klarifikasi adalah penjelasan untuk menjernihkan." },
+        { q: "MOBILITAS =", opts: ["Kesiapan kerja", "Kerapian struktur", "Kesiapsiagaan", "Gaya hidup modern", "Kerapian berpindah / gerak"], ans: 4, pem: "Mobilitas adalah kebebasan/kemampuan bergerak." },
+        { q: "INDIKATOR =", opts: ["Tujuan akhir", "Petunjuk / penanda", "Penyebab utama", "Hasil analisis", "Standar operasional"], ans: 1, pem: "Indikator adalah petunjuk atau penanda." },
+        { q: "INFRASTRUKTUR =", opts: ["Bangunan utama", "Sarana dan prasarana dasar", "Sistem keuangan", "Peralatan canggih", "Lembaga pendukung"], ans: 1, pem: "Infrastruktur adalah sarana dasar pembentuk sistem." },
+        { q: "KOALISI =", opts: ["Persaingan dagang", "Gabungan aliansi", "Pemisahan kelompok", "Perjanjian jual beli", "Diskusi terbuka"], ans: 1, pem: "Koalisi adalah gabungan aliansi." },
+        { q: "KOLEKTIF =", opts: ["Secara individual", "Secara bersama-sama", "Sesuai prioritas", "Secara berurutan", "Berdasarkan arahan"], ans: 1, pem: "Kolektif dilakukan secara bersama-sama." },
+        { q: "BIAYA OPERASIONAL =", opts: ["Biaya investasi awal", "Biaya pengeluaran rutin", "Biaya tak terduga", "Biaya kerugian usaha", "Biaya pemeliharaan aset"], ans: 1, pem: "Biaya operasional adalah pengeluaran kegiatan rutin." },
+        { q: "PROSPEKTIF =", opts: ["Suram di masa depan", "Memiliki harapan baik", "Berdasarkan sejarah", "Berisiko sangat tinggi", "Pasti menguntungkan"], ans: 1, pem: "Prospektif memberikan harapan baik di masa depan." },
+        { q: "REDUNDANSI =", opts: ["Kekurangan data", "Pengulangan berlebihan", "Keakuratan tinggi", "Kecepatan akses", "Kesalahan sistem"], ans: 1, pem: "Redundansi adalah pengulangan berlebihan." },
+        { q: "REVISI =", opts: ["Pembatalan aturan", "Peninjauan dan perbaikan", "Pengesahan dokumen", "Penerbitan ulang", "Penolakan draf"], ans: 1, pem: "Revisi adalah peninjauan dan perbaikan." },
+        { q: "SANKSI =", opts: ["Hadiah prestasi", "Tindakan hukuman", "Peringatan lisan", "Ujian ulang", "Penurunan pangkat"], ans: 1, pem: "Sanksi adalah tindakan hukuman atas pelanggaran." },
+        { q: "STRATEGIS =", opts: ["Berbiaya murah", "Berdasarkan rencana cermat", "Mudah dilaksanakan", "Bersifat mendesak", "Menguntungkan satu pihak"], ans: 1, pem: "Strategis berarti terencana cermat untuk capai sasaran." },
+        { q: "SUBORDINAT =", opts: ["Atasan langsung", "Bawahan / posisi di bawah", "Rekan sejajar", "Mitra luar", "Pengawas independen"], ans: 1, pem: "Subordinat adalah bawahan/kedudukan di bawah." },
+        { q: "VERIFIKASI =", opts: ["Pemeriksaan kebenaran data", "Penulisan draf awal", "Pernyataan sikap", "Penyimpanan berkas", "Penghapusan akun"], ans: 0, pem: "Verifikasi adalah pemeriksaan kebenaran data." },
+        { q: "VOKASIONAL =", opts: ["Bersifat teoritis", "Bersifat kejuruan / terampil", "Berorientasi akademis", "Berstandar manajerial", "Bersifat umum"], ans: 1, pem: "Vokasional berkaitan dengan kejuruan/keterampilan." },
+        { q: "WACANA =", opts: ["Buku harian", "Komunikasi verbal / bacaan", "Aturan resmi", "Rencana rahasia", "Ujian tertulis"], ans: 1, pem: "Wacana adalah pertukaran pemikiran/bacaan utuh." },
+        { q: "YURISDIKSI =", opts: ["Wilayah hukum / kekuasaan", "Hukum adat daerah", "Putusan akhir hakim", "Lembaga peradilan", "Hak asasi manusia"], ans: 0, pem: "Yurisdiksi adalah kekuasaan/wilayah hukum resmi." },
+
+        // 50 SOAL ANTONIM (><)
+        { q: "ABSTRAK ><", opts: ["Semu", "Konkret / Nyata", "Imajinatif", "Konseptual", "Kabur"], ans: 1, pem: "Abstrak (tidak berwujud) antonimnya adalah Konkret (nyata)." },
+        { q: "AKURAT ><", opts: ["Cermat", "Teliti", "Presisi", "Meleset / Inakurat", "Tepat"], ans: 3, pem: "Akurat (tepat/teliti) antonimnya adalah Meleset/Inakurat." },
+        { q: "ALTRUISME ><", opts: ["Suka menolong", "Egoisme / Mementingkan diri", "Kepedulian sosial", "Kedermawanan", "Kerja sama"], ans: 1, pem: "Altruisme (mementingkan orang lain) lawan katanya Egoisme." },
+        { q: "ANOMALI ><", opts: ["Deviasi", "Kelainan", "Penyimpangan", "Normal / Sesuai standar", "Khusus"], ans: 3, pem: "Anomali (penyimpangan) antonimnya adalah Normal." },
+        { q: "DEDUKTIF ><", opts: ["Induktif", "Logis", "Terstruktur", "Rasional", "Sistematis"], ans: 0, pem: "Deduktif (umum ke khusus) lawan katanya Induktif (khusus ke umum)." },
+        { q: "DEFISIT ><", opts: ["Kekurangan", "Minus", "Surplus / Kelebihan", "Rugi", "Hutang"], ans: 2, pem: "Defisit (kekurangan) antonimnya adalah Surplus (kelebihan)." },
+        { q: "DEGRADASI ><", opts: ["Kemunduran", "Penurunan", "Elevasi / Peningkatan", "Perosotan", "Pencopotan"], ans: 2, pem: "Degradasi (penurunan) antonimnya adalah Elevasi/Peningkatan." },
+        { q: "DESTRUKTIF ><", opts: ["Merusak", "Konstruktif / Membangun", "Kritis", "Ganas", "Berbahaya"], ans: 1, pem: "Destruktif (merusak) antonimnya adalah Konstruktif (membangun)." },
+        { q: "EKSPLISIT ><", opts: ["Tersurat", "Jelas", "Tegas", "Implisit / Tersirat", "Nyata"], ans: 3, pem: "Eksplisit (terang-terangan) antonimnya Implisit (tersirat)." },
+        { q: "EKSTERNAL ><", opts: ["Luar", "Asing", "Internal / Dalam", "Umum", "Publik"], ans: 2, pem: "Eksternal (bagian luar) antonimnya adalah Internal." },
+        { q: "EPILOG ><", opts: ["Koda", "Penutup", "Prolog / Pengantar", "Kesimpulan", "Akhiran"], ans: 2, pem: "Epilog (bagian penutup) antonimnya adalah Prolog (pengantar)." },
+        { q: "FLEKSIBEL ><", opts: ["Lentur", "Adaptif", "Kaku / Rigit", "Mudah diatur", "Luwes"], ans: 2, pem: "Fleksibel (lentur) antonimnya adalah Kaku/Rigit." },
+        { q: "HETEROGEN ><", opts: ["Beragam", "Majemuk", "Bervariasi", "Homogen / Sejenis", "Kompleks"], ans: 3, pem: "Heterogen (beraneka ragam) antonimnya adalah Homogen." },
+        { q: "HIGIENIS ><", opts: ["Bersih", "Steril", "Kotor / Kontaminasi", "Sehat", "Terawat"], ans: 2, pem: "Higienis (bersih/bebas kuman) antonimnya Kotor/Kontaminasi." },
+        { q: "INDEPENDEN ><", opts: ["Bebas", "Mandiri", "Netral", "Dependen / Terikat", "Otonom"], ans: 3, pem: "Independen (mandiri) antonimnya Dependen (tergantung)." },
+        { q: "INFLASI ><", opts: ["Kenaikan harga", "Kemerosotan uang", "Deflasi / Penurunan harga", "Depresiasi", "Gejolak"], ans: 2, pem: "Inflasi (kenaikan harga) antonimnya adalah Deflasi." },
+        { q: "INOVATIF ><", opts: ["Kreatif", "Pembaruan", "Konservatif / Kolot", "Canggih", "Modern"], ans: 2, pem: "Inovatif (suka hal baru) antonimnya Konservatif/Kolot." },
+        { q: "KONSISTEN ><", opts: ["Inkonsisten / Berubah-ubah", "Taat asas", "Ajak", "Selaras", "Tetap"], ans: 0, pem: "Konsisten antonimnya Inkonsisten (tidak tetap)." },
+        { q: "KONTRAKSI ><", opts: ["Penyusutan", "Pengkerutan", "Ekspansi / Pemuaian", "Pengurangan", "Penurunan"], ans: 2, pem: "Kontraksi (mengkerut) antonimnya Ekspansi/Pemuaian." },
+        { q: "LABIL ><", opts: ["Goyah", "Berubah-ubah", "Stabil / Kukuh", "Rentan", "Sensitif"], ans: 2, pem: "Labil (mudah berubah) antonimnya adalah Stabil." },
+        { q: "MAYORITAS ><", opts: ["Sebagian besar", "Dominan", "Minoritas / Sebagian kecil", "Utama", "Banyak"], ans: 2, pem: "Mayoritas (jumlah terbesar) antonimnya Minoritas." },
+        { q: "MOBILISASI ><", opts: ["Pergerakan", "Penggerakan", "Demobilisasi / Penghentian", "Pindahan", "Penyebaran"], ans: 2, pem: "Mobilisasi (penggerakan) antonimnya Demobilisasi." },
+        { q: "MONOPOLI ><", opts: ["Penguasaan tunggal", "Pasar bebas / Kompetisi", "Hak istimewa", "Pemusatan", "Penyatuan"], ans: 1, pem: "Monopoli (penguasaan tunggal) antonimnya Pasar bebas." },
+        { q: "NOMADEN ><", opts: ["Berkelana", "Berpindah-pindah", "Singgah", "Menetap / Sedenter", "Misterius"], ans: 3, pem: "Nomaden (berpindah) antonimnya Menetap/Sedenter." },
+        { q: "OPTIMIS ><", opts: ["Yakin", "Pesimis / Ragu suram", "Antusias", "Positif", "Percaya diri"], ans: 1, pem: "Optimis (berpikiran baik) antonimnya Pesimis." },
+        { q: "ORGANIK ><", opts: ["Alami", "Hayati", "Anorganik / Buatan", "Murni", "Bebas kimia"], ans: 2, pem: "Organik (alami) antonimnya Anorganik (non-hayati/buatan)." },
+        { q: "PASIF ><", opts: ["Diam", "Berkuang", "Aktif / Giat", "Statis", "Pasrah"], ans: 2, pem: "Pasif (tidak bertindak) antonimnya adalah Aktif." },
+        { q: "PERMANEN ><", opts: ["Tetap", "Lestari", "Abadi", "Kekal", "Sementara / Temporer"], ans: 4, pem: "Permanen (tetap) antonimnya Sementara/Temporer." },
+        { q: "PERSUASIF ><", opts: ["Bujukan", "Ajak halus", "Koersif / Memaksa", "Simpatik", "Atraktif"], ans: 2, pem: "Persuasif (membujuk halus) antonimnya Koersif (memaksa)." },
+        { q: "PROGRESIS ><", opts: ["Maju", "Berikhtiar", "Regresif / Kemunduran", "Peningkatan", "Inovatif"], ans: 2, pem: "Progresif (kearah maju) antonimnya Regresif (kemunduran)." },
+        { q: "PROLOG ><", opts: ["Pengantar", "Pembuka", "Epilog / Penutup", "Awalan", "Gagasan"], ans: 2, pem: "Prolog (pembuka) antonimnya Epilog (penutup)." },
+        { q: "PROSEDURAL ><", opts: ["Sesuai aturan", "Terstruktur", "Informal / Tanpa tata cara", "Baku", "Resmi"], ans: 2, pem: "Prosedural (sesuai tata cara baku) antonimnya Informal." },
+        { q: "RADIKAL ><", opts: ["Mendasar", "Ekstrem", "Moderat / Lunak", "Keras", "Mendalam"], ans: 2, pem: "Radikal (keras/ekstrem) antonimnya Moderat (pikir sedang/lunak)." },
+        { q: "RASIONAL ><", opts: ["Logis", "Masuk akal", "Irasional / Tak berakal", "Realistis", "Cermat"], ans: 2, pem: "Rasional antonimnya Irasional (tidak masuk akal)." },
+        { q: "REVOLUSI ><", opts: ["Perubahan cepat", "Gejolak", "Evolusi / Perubahan lambat", "Pemberontakan", "Pembaruan"], ans: 2, pem: "Revolusi (cepat) antonimnya Evolusi (perubahan lambat)." },
+        { q: "RIGID ><", opts: ["Kaku", "Keras", "Fleksibel / Lentur", "Tegas", "Tetap"], ans: 2, pem: "Rigid (kaku) antonimnya Fleksibel (lentur)." },
+        { q: "SINKRON ><", opts: ["Selaras", "Serasi", "Sumbang / Asinkron", "Sesuai", "Sejajar"], ans: 2, pem: "Sinkron (selaras) antonimnya Sumbang/Asinkron." },
+        { q: "SKEPTIS ><", opts: ["Ragu", "Curiga", "Yakin / Optimis", "Pesimis", "Tak percaya"], ans: 2, pem: "Skeptis (ragu) antonimnya Yakin/Percaya." },
+        { q: "SPONTAN ><", opts: ["Seketika", "Refleks", "Terencana / Terstruktur", "Tanpa pikir", "Langsung"], ans: 2, pem: "Spontan (serta-merta) antonimnya Terencana." },
+        { q: "STABIL ><", opts: ["Kukuh", "Tetap", "Labil / Goyah", "Aman", "Tenang"], ans: 2, pem: "Stabil (mantap) antonimnya Labil/Goyah." },
+        { q: "STATIS ><", opts: ["Diam", "Jalan di tempat", "Dinamis / Bergerak cepat", "Tetap", "Pasif"], ans: 2, pem: "Statis (diam) antonimnya Dinamis (aktif bergerak)." },
+        { q: "SUBJEKTIF ><", opts: ["Berorientasi pribadi", "Bias", "Objektif / Netral fakta", "Perasaan", "Pendapat"], ans: 2, pem: "Subjektif (sudut pandang pribadi) antonimnya Objektif." },
+        { q: "TANDUS ><", opts: ["Gersang", "Kering", "Subur / Gembur", "Lahan mati", "Kering kerontang"], ans: 2, pem: "Tandus (gersang) antonimnya Subur/Gembur." },
+        { q: "TRANSPARAN ><", opts: ["Terbuka", "Jelas", "Kreatif", "Tertutup / Rahasia", "Nyata"], ans: 3, pem: "Transparan (terbuka) antonimnya Tertutup/Rahasia." },
+        { q: "UTOPIS ><", opts: ["Khayalan", "Sangat muluk", "Realistis / Nyata", "Imajinatif", "Mimpi"], ans: 2, pem: "Utopis (khayalan muluk) antonimnya Realistis/Nyata." },
+        { q: "VALID ><", opts: ["Sah", "Absah", "Invalid / Batal tidak sah", "Teruji", "Sesuai"], ans: 2, pem: "Valid (sah/berlaku) antonimnya Invalid/Batal." },
+        { q: "VIRTUAL ><", opts: ["Maya", "Simulasi", "Nyata / Fisik langsung", "Online", "Digital"], ans: 2, pem: "Virtual (maya) antonimnya Nyata/Fisik langsung." },
+        { q: "VOKAL ><", opts: ["Bersuara tegas", "Berani bicara", "Pendiam / Pasif", "Loud", "Kritis"], ans: 2, pem: "Vokal (berani angkat suara) antonimnya Pendiam/Pasif." },
+        { q: "ZENIT ><", opts: ["Puncak tertinggi", "Titik klimaks", "Nadir / Titik terendah", "Cakrawala", "Atas"], ans: 2, pem: "Zenit (titik puncak) antonimnya Nadir (titik terendah)." },
+        { q: "VERIFIKATIF ><", opts: ["Menguji kebenaran", "Kritis", "Spekulatif / Duga-duga", "Sesuai fakta", "Terbukti"], ans: 2, pem: "Verifikatif (berdasarkan pengujian fakta) antonimnya Spekulatif." }
+    ];
+
+    let currentQIdx = 0;
+    let userAnswers = {};
+    let timerInterval = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedName = localStorage.getItem('prc_nama_peserta');
+        if(savedName) document.getElementById('inputNama').value = savedName;
+        updateStatusBadge();
+    });
+
+    function saveName() {
+        const val = document.getElementById('inputNama').value.trim();
+        localStorage.setItem('prc_nama_peserta', val);
+    }
+
+    function updateStatusBadge() {
+        const score = localStorage.getItem('prc_100_skor');
+        const badge = document.getElementById('stStatus');
+        if(score !== null) {
+            badge.textContent = `Selesai (Skor Akhir: ${score})`;
+            badge.classList.add('done');
+        } else {
+            badge.textContent = `Belum Dikerjakan`;
+            badge.classList.remove('done');
+        }
+    }
+
+    function showHome() {
+        if(timerInterval) clearInterval(timerInterval);
+        document.getElementById('viewHome').style.display = 'block';
+        document.getElementById('viewQuiz').style.display = 'none';
+        document.getElementById('viewRekap').style.display = 'none';
+        updateStatusBadge();
+    }
+
+    function startSubtes() {
+        const nama = document.getElementById('inputNama').value.trim();
+        if(!nama) {
+            alert("Harap masukkan Nama Lengkap Peserta terlebih dahulu!");
+            return;
+        }
+
+        currentQIdx = 0;
+        const savedAns = localStorage.getItem('prc_100_ans');
+        userAnswers = savedAns ? JSON.parse(savedAns) : {};
+
+        document.getElementById('viewHome').style.display = 'none';
+        document.getElementById('viewQuiz').style.display = 'block';
+        document.getElementById('viewRekap').style.display = 'none';
+
+        renderNavGrid();
+        loadQuestion(0);
+        startTimer(60 * 60);
+    }
+
+    function loadQuestion(idx) {
+        currentQIdx = idx;
+        const qData = bankSoal100[idx];
+        
+        document.getElementById('q-no').textContent = `Soal ${idx + 1} dari 100`;
+        document.getElementById('q-text').innerText = qData.q;
+
+        let optsHtml = '';
+        qData.opts.forEach((opt, i) => {
+            const isSelected = userAnswers[idx] === i ? 'selected' : '';
+            optsHtml += `<div class="opt ${isSelected}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+        });
+        document.getElementById('options').innerHTML = optsHtml;
+
+        document.getElementById('btn-next').textContent = idx === 99 ? "Selesai Tes" : "Selanjutnya";
+        renderNavGrid();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentQIdx] = optIdx;
+        localStorage.setItem('prc_100_ans', JSON.stringify(userAnswers));
+        loadQuestion(currentQIdx);
+        setTimeout(() => { nextQ(); }, 200);
+    }
+
+    function renderNavGrid() {
+        let gridHtml = '';
+        for(let i = 0; i < 100; i++) {
+            let cls = 'nav-item';
+            if(userAnswers[i] !== undefined) cls += ' filled';
+            if(i === currentQIdx) cls += ' active';
+            gridHtml += `<div class="${cls}" onclick="loadQuestion(${i})">${i + 1}</div>`;
+        }
+        document.getElementById('navGrid').innerHTML = gridHtml;
+    }
+
+    function nextQ() {
+        if(currentQIdx === 99) {
+            if(confirm("Apakah Anda yakin ingin mengakhiri dan menyelesaikan ujian 100 soal ini?")) {
+                finishSubtes();
+            }
+            return;
+        }
+        loadQuestion(currentQIdx + 1);
+    }
+
+    function prevQ() {
+        if(currentQIdx > 0) loadQuestion(currentQIdx - 1);
+    }
+
+    function startTimer(seconds) {
+        if(timerInterval) clearInterval(timerInterval);
+        let t = seconds;
+        timerInterval = setInterval(() => {
+            let m = Math.floor(t / 60);
+            let s = t % 60;
+            document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if(--t < 0) {
+                clearInterval(timerInterval);
+                alert("Waktu ujian 60 menit telah habis!");
+                finishSubtes();
+            }
+        }, 1000);
+    }
+
+    function finishSubtes() {
+        if(timerInterval) clearInterval(timerInterval);
+
+        let benar = 0;
+        bankSoal100.forEach((q, i) => {
+            if(userAnswers[i] === q.ans) benar++;
+        });
+
+        localStorage.setItem('prc_100_skor', benar);
+        localStorage.setItem('prc_100_ans', JSON.stringify(userAnswers));
+
+        alert(`Ujian Selesai!\nSkor Akhir Anda: ${benar} / 100`);
+        showRekap();
+    }
+
+    function showRekap() {
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const score = parseInt(localStorage.getItem('prc_100_skor') || 0);
+        
+        document.getElementById('namaPesertaRekap').textContent = "NAMA PESERTA: " + nama.toUpperCase();
+        document.getElementById('totalBenar').textContent = `${score} / 100`;
+        document.getElementById('skorAkurasi').textContent = `${score}`;
+
+        let kat = '', ket = '';
+        if(score >= 80) {
+            kat = 'TINGGI / SANGAT BAIK (SANGAT DIREKOMENDASIKAN)';
+            ket = 'Peserta memiliki penguasaan kosakata, pemahaman arti kata, serta logika penalaran bahasa yang sangat tinggi.';
+        } else if(score >= 60) {
+            kat = 'SEDANG / CUKUP (DIREKOMENDASIKAN DENGAN CATATAN)';
+            ket = 'Peserta memiliki kemampuan verbal sedang, namun perlu memperluas wawasan kosa kata tingkat manajerial.';
+        } else {
+            kat = 'RENDAH / PERLU PELATIHAN KHUSUS';
+            ket = 'Peserta membutuhkan pengayaan dan latihan intensif pada penguasaan makna kata serta antonim kata akademis.';
+        }
+
+        document.getElementById('txtKategori').textContent = kat;
+        document.getElementById('txtKeterangan').textContent = ket;
+
+        renderPembahasanOnScreen();
+
+        document.getElementById('viewHome').style.display = 'none';
+        document.getElementById('viewQuiz').style.display = 'none';
+        document.getElementById('viewRekap').style.display = 'block';
+    }
+
+    function renderPembahasanOnScreen() {
+        const savedAns = JSON.parse(localStorage.getItem('prc_100_ans') || '{}');
+        let pemHtml = '';
+
+        bankSoal100.forEach((q, qIdx) => {
+            const uAnsIdx = savedAns[qIdx];
+            const isCorrect = uAnsIdx === q.ans;
+            const uAnsStr = uAnsIdx !== undefined ? `${String.fromCharCode(65 + uAnsIdx)}. ${q.opts[uAnsIdx]}` : "Tidak Dijawab";
+            const cAnsStr = `${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans]}`;
+
+            pemHtml += `
+                <div class="pem-item">
+                    <div style="font-weight:bold; margin-bottom:5px;">Soal ${qIdx + 1}: ${q.q}</div>
+                    <div style="font-size:14px; margin: 3px 0;">
+                        Jawaban Anda: <span class="${isCorrect ? 'tag-correct' : 'tag-wrong'}">${uAnsStr}</span>
+                    </div>
+                    <div style="font-size:14px; margin: 3px 0; color:#16a34a; font-weight:bold;">
+                        Kunci Jawaban: ${cAnsStr}
+                    </div>
+                    <div class="pem-box">
+                        <b>Pembahasan:</b> ${q.pem}
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('pemBody').innerHTML = pemHtml;
+    }
+
+    function toggleAccordion() {
+        const body = document.getElementById('pemBody');
+        body.style.display = body.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function downloadPembahasanSemua() {
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const score = localStorage.getItem('prc_100_skor') || 0;
+        const savedAns = JSON.parse(localStorage.getItem('prc_100_ans') || '{}');
+
+        let content = `==================================================\n`;
+        content += `PEMBAHASAN MODUL PAKET 1 (100 SOAL SINONIM & ANTONIM)\n`;
+        content += `PERSONA RESEARCH & CONSULTING\n`;
+        content += `Nama Peserta : ${nama}\n`;
+        content += `Skor Akhir   : ${score} / 100\n`;
+        content += `==================================================\n\n`;
+
+        bankSoal100.forEach((q, qIdx) => {
+            const uAnsIdx = savedAns[qIdx];
+            const uAnsStr = uAnsIdx !== undefined ? String.fromCharCode(65 + uAnsIdx) : "Tidak Dijawab";
+            const cAnsStr = String.fromCharCode(65 + q.ans);
+
+            content += `Soal ${qIdx + 1}: ${q.q}\n`;
+            q.opts.forEach((o, optIdx) => {
+                content += `  ${String.fromCharCode(65 + optIdx)}. ${o}\n`;
+            });
+            content += `Jawaban Anda : ${uAnsStr}\n`;
+            content += `Jawaban Benar: ${cAnsStr}\n`;
+            content += `Pembahasan   : ${q.pem}\n`;
+            content += `--------------------------------------------------\n\n`;
+        });
+
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Pembahasan_Sinonim_Antonim_Paket1_PRC_${nama.replace(/\s+/g, '_')}.txt`;
+        link.click();
+    }
+
+    function resetData() {
+        if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN dan mengulang dari awal?")) {
+            localStorage.removeItem('prc_100_skor');
+            localStorage.removeItem('prc_100_ans');
+            userAnswers = {};
+            alert("Data pengerjaan berhasil di-reset!");
+            showHome();
+        }
+    }
+</script>
+</body>
+</html>

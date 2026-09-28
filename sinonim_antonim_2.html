@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem CAT - 100 Soal Sinonim & Antonim Paket 2 - Persona Research & Consulting</title>
+    <style>
+        :root { --navy: #0b2340; --gold: #d4a017; --bg: #f8fafc; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); margin: 0; padding: 0; color: #1e293b; -webkit-user-select: none; user-select: none; }
+        header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--gold); }
+        .container { max-width: 950px; margin: 30px auto; padding: 0 20px; }
+        
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        .user-card input { width: 80%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; margin-top: 10px; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
+        .subtes-card { background: white; padding: 20px; border-radius: 10px; border-left: 6px solid var(--navy); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
+        
+        .opt { padding: 14px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .opt:hover { background: #f1f5f9; border-color: var(--navy); }
+        .opt.selected { background: #e0f2fe; border-color: var(--navy); font-weight: bold; }
+        
+        .nav-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 6px; margin-top: 15px; max-height: 300px; overflow-y: auto; padding-right: 5px; }
+        .nav-item { height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 11px; font-weight: bold; }
+        .nav-item.filled { background: var(--navy); color: white; }
+        .nav-item.active { border: 2px solid var(--gold); }
+        
+        .btn { background: var(--navy); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; }
+        .btn-gold { background: var(--gold); color: var(--navy); }
+        .btn-danger { background: #dc2626; color: white; }
+        .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 5px; background: #e2e8f0; color: #475569; }
+        .done { background: #dcfce7; color: #166534; }
+        #timer { font-size: 20px; font-weight: bold; color: var(--gold); font-family: monospace; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: left; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid #cbd5e1; }
+        th { background: var(--navy); color: white; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; color: white; }
+        .summary-box { background: #f1f5f9; border-left: 5px solid var(--gold); padding: 20px; border-radius: 8px; margin-top: 20px; }
+
+        .pem-accordion { border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
+        .pem-header { background: #f1f5f9; padding: 15px; font-weight: bold; color: var(--navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .pem-body { padding: 15px; display: none; background: white; border-top: 1px solid #cbd5e1; }
+        .pem-item { border-bottom: 1px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
+        .pem-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .tag-correct { color: #16a34a; font-weight: bold; }
+        .tag-wrong { color: #dc2626; font-weight: bold; }
+        .pem-box { background: #f8fafc; border-left: 4px solid var(--navy); padding: 10px; margin-top: 8px; font-size: 14px; }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+<header>
+    <h1 style="margin:0; font-size:24px;">PERSONA RESEARCH & CONSULTING</h1>
+    <p style="margin:5px 0 0; color: var(--gold); font-weight: bold;">PAKET 2: SIMULASI CAT VERBAL 100 SOAL SINONIM (=) & ANTONIM (><)</p>
+</header>
+
+<div class="container">
+
+    <!-- VIEW 1: HOME / MENU UTAMA -->
+    <div id="viewHome">
+        <div class="card" style="text-align: center;">
+            <h3 style="margin:0; color:var(--navy);">IDENTITAS PESERTA UJIAN</h3>
+            <p style="font-size:14px; color:#64748b;">Masukkan nama Anda sebelum memulai simulasi tes.</p>
+            <input type="text" id="inputNama" placeholder="Nama Lengkap Peserta..." oninput="saveName()">
+        </div>
+
+        <div class="card">
+            <h3 style="margin:0; color:var(--navy);">MODUL TES SINONIM & ANTONIM PAKET 2 (100 SOAL)</h3>
+            <p style="font-size:14px; color:#64748b; margin-bottom: 15px;">Keterangan Simbol: <b>=</b> (Sinonim / Persamaan Kata) | <b>><</b> (Antonim / Lawan Kata). Durasi total: 60 Menit.</p>
+            <div id="stStatus" class="status-badge" style="margin-bottom: 20px;">Belum Dikerjakan</div>
+            <br>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn" onclick="startSubtes()" style="font-size:16px; padding:12px 25px;">🚀 MULAI SIMULASI PAKET 2</button>
+                <button class="btn btn-gold" onclick="showRekap()" style="font-size:16px; padding:12px 25px;">📊 LIHAT REKAP NILAI</button>
+                <button class="btn btn-danger" onclick="resetData()" style="font-size:16px; padding:12px 25px;">🔄 RESET DATA UJIAN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 2: PENGERJAAN SOAL CAT -->
+    <div id="viewQuiz" style="display: none;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+            <div id="subtesTitle" style="font-weight:bold; color:var(--navy);">TES SINONIM & ANTONIM PAKET 2</div>
+            <div id="timer">60:00</div>
+        </div>
+
+        <div style="display:flex; gap:20px;">
+            <div style="flex:3;">
+                <div class="card">
+                    <div id="q-no" style="font-weight:bold; color:var(--navy); margin-bottom:10px;">Soal 1 dari 100</div>
+                    <div id="q-text" style="font-size:18px; line-height:1.6; margin-bottom:20px; font-weight:700; color:var(--navy);"></div>
+                    <div id="options"></div>
+                    <div style="margin-top:25px; display:flex; justify-content:space-between;">
+                        <button class="btn" onclick="prevQ()" style="background:#64748b">Sebelumnya</button>
+                        <button class="btn" id="btn-next" onclick="nextQ()">Selanjutnya</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="flex:1.2;">
+                <div class="card" style="padding:15px;">
+                    <div style="text-align:center; font-size:12px; font-weight:bold; margin-bottom:10px;">NAVIGASI SOAL</div>
+                    <div id="navGrid" class="nav-grid"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW 3: HASIL REKAP NILAI & PEMBAHASAN -->
+    <div id="viewRekap" style="display: none;">
+        <div class="card">
+            <h2 style="text-align: center; color: var(--navy); margin-bottom: 5px;">LAPORAN HASIL KEMAMPUAN SINONIM & ANTONIM PAKET 2</h2>
+            <p style="text-align: center; color: var(--gold); font-weight: bold; margin-top:0;">PERSONA RESEARCH & CONSULTING</p>
+            <div id="namaPesertaRekap" style="text-align: center; font-weight: bold; font-size: 18px; margin: 15px 0; background: #eef6ff; padding: 10px; border-radius: 8px;">NAMA: -</div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 20px;">
+                <div style="background:#f8fafc; padding:15px; border-radius:10px; text-align:center; border:1px solid #e2e8f0;">
+                    <small style="color:#64748b; font-weight:bold;">TOTAL BENAR</small>
+                    <div id="totalBenar" style="font-size:32px; font-weight:900; color:var(--navy);">0 / 100</div>
+                </div>
+                <div style="background:#f8fafc; padding:15px; border-radius:10px; text-align:center; border:1px solid #e2e8f0;">
+                    <small style="color:#64748b; font-weight:bold;">NILAI AKHIR (SKOR 0-100)</small>
+                    <div id="skorAkurasi" style="font-size:32px; font-weight:900; color:var(--navy);">0</div>
+                </div>
+            </div>
+
+            <div class="summary-box">
+                <h3 style="margin-top:0; color:var(--navy);">KATEGORI KEMAMPUAN VERBAL</h3>
+                <p>Status Kelulusan/Kategori: <b id="txtKategori" style="font-size:18px;">-</b></p>
+                <p id="txtKeterangan">-</p>
+            </div>
+
+            <h3 style="color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin-top: 35px;">TINJAUAN & PEMBAHASAN 100 SOAL PAKET 2</h3>
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Klik di bawah ini untuk melihat detail jawaban dan pembahasan lengkap setiap soal.</p>
+            
+            <div class="pem-accordion">
+                <div class="pem-header" onclick="toggleAccordion()">
+                    <span>DAFTAR PEMBAHASAN 100 SOAL SINONIM (=) & ANTONIM (><)</span>
+                    <span>▼</span>
+                </div>
+                <div class="pem-body" id="pemBody"></div>
+            </div>
+
+            <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="btn" onclick="downloadPembahasanSemua()">📥 Download File Pembahasan (.txt)</button>
+                <button class="btn btn-gold" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+                <button class="btn" style="background:#64748b;" onclick="showHome()">🏠 Kembali Ke Beranda</button>
+                <button class="btn btn-danger" onclick="resetData()">🔄 Reset Data Ujian</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const bankSoal100 = [
+        // 50 SOAL SINONIM (=)
+        { q: "ADVOKASI =", opts: ["Pendampingan / Pembelaan", "Penetapan sanksi", "Pemeriksaan saksi", "Pengawasan hukum", "Penundaan sidang"], ans: 0, pem: "Advokasi adalah tindakan pendampingan atau pembelaan terhadap suatu gagasan/pihak." },
+        { q: "ANEKSASI =", opts: ["Pelepasan wilayah", "Penyerahan kekuasaan", "Penggabungan / Pencaplokan wilayah", "Perjanjian damai", "Pemisahan organisasi"], ans: 2, pem: "Aneksasi adalah penggabungan atau pencaplokan wilayah secara sepihak." },
+        { q: "ARTIFISIAL =", opts: ["Alami", "Buatan / Sintetis", "Murni", "Langka", "Asli"], ans: 1, pem: "Artifisial berarti tidak alami atau buatan/sintetis." },
+        { q: "AUTENTIK =", opts: ["Palsu", "Tiruan", "Asli / Sahih", "Kuno", "Perkiraan"], ans: 2, pem: "Autentik berarti dapat dipercaya, asli, atau sahih." },
+        { q: "DESENTRALISASI =", opts: ["Pemusatan wewenang", "Penyerahan wewenang", "Pembatalan aturan", "Pengawasan ketat", "Penggabungan lembaga"], ans: 1, pem: "Desentralisasi adalah penyerahan wewenang dari pusat ke daerah." },
+        { q: "DIKOTOMI =", opts: ["Pembagian menjadi dua", "Penyatuan gagasan", "Pengelompokan seragam", "Penyederhanaan masalah", "Pengurangan jumlah"], ans: 0, pem: "Dikotomi adalah pembagian dalam dua kelompok yang saling bertentangan." },
+        { q: "DIPLOMASI =", opts: ["Peperangan terbuka", "Seni berunding / Perundingan", "Penindakan hukum", "Penggalangan dana", "Penolakan kerja sama"], ans: 1, pem: "Diplomasi adalah seni dan praktik berunding/menyelenggarakan hubungan antarnegara." },
+        { q: "DISKREPANSI =", opts: ["Kesesuaian mutlak", "Ketidakcocokan / Perbedaan", "Keseimbangan data", "Kesamaan jumlah", "Ketepatan laporan"], ans: 1, pem: "Diskrepansi adalah ketidakcocokan, perbedaan, atau ketidaksesuaian." },
+        { q: "EGALITER =", opts: ["Bertingkat kaku", "Bersifat sederajat / Sederajat", "Sangat dominan", "Mengutamakan atasan", "Mementingkan kelompok"], ans: 1, pem: "Egaliter berarti bersifat sama derajat atau mengutamakan kesetaraan." },
+        { q: "ELITASIA =", opts: ["Golongan bawah", "Kelompok terpandang / Mumpuni", "Masyarakat umum", "Anggota biasa", "Pekerja kasar"], ans: 1, pem: "Elit/Elitasia merujuk pada kelompok terpilih, terpandang, atau mumpuni." },
+        { q: "EMBARGO =", opts: ["Izin perdagangan", "Larangan lalu lintas barang / Perniagaan", "Bantuan modal", "Pengurangan tarif", "Peningkatan ekspor"], ans: 1, pem: "Embargo adalah penyitaan sementara atau larangan niaga/ekspor-impor." },
+        { q: "EMPIRIS =", opts: ["Berdasarkan teori", "Berdasarkan pengalaman / Pengamatan nyata", "Berdasarkan ramalan", "Berdasarkan asumsi", "Berdasarkan opini"], ans: 1, pem: "Empiris berarti berdasarkan pengalaman, pengamatan, atau penelitian nyata." },
+        { q: "HEGEMONI =", opts: ["Kesetaraan hak", "Pengaruh kepemimpinan / Dominasi", "Ketergantungan penuh", "Pemberontakan", "Kerja sama seimbang"], ans: 1, pem: "Hegemoni adalah pengaruh kepemimpinan atau dominasi suatu kelompok atas kelompok lain." },
+        { q: "HIPOTESIS =", opts: ["Dugaan sementara", "Kesimpulan akhir", "Fakta teruji", "Hukum pasti", "Keputusan resmi"], ans: 0, pem: "Hipotesis adalah anggapan dasar atau dugaan sementara yang harus dibuktikan." },
+        { q: "IMPLIKASI =", opts: ["Penyebab awal", "Keterlibatan / Dampak susulan", "Pencegahan dini", "Pembersihan nama", "Penghentian proses"], ans: 1, pem: "Implikasi adalah keterlibatan atau keterkaitan dampak susulan dari suatu tindakan." },
+        { q: "INEFISIENSI =", opts: ["Pemborosan / Tidak berdaya guna", "Penghematan ketat", "Ketepatan waktu", "Peningkatan mutu", "Keberhasilan kerja"], ans: 0, pem: "Inefisiensi berarti tidak efisien atau pemborosan sumber daya." },
+        { q: "INSENTIF =", opts: ["Denda pelanggaran", "Bonus / Perangsang kerja", "Potongan gaji", "Teguran lisan", "Kewajiban rutin"], ans: 1, pem: "Insentif adalah perangsang keuangan atau bonus untuk meningkatkan semangat kerja." },
+        { q: "JURISPRUDENSI =", opts: ["Putusan hakim terdahulu", "Hukum pidana baru", "Peraturan menteri", "UUD resmi", "Perjanjian internasional"], ans: 0, pem: "Yurisprudensi/Jurisprudensi adalah ajaran hukum dari putusan hakim terdahulu." },
+        { q: "KAPITALISASI =", opts: ["Pengurangan modal", "Pemanfaatan menjadi modal / Nilai", "Pencatatan utang", "Pembagian dividen", "Penutupan usaha"], ans: 1, pem: "Kapitalisasi adalah pemanfaatan atau penambahan nilai menjadi modal." },
+        { q: "KLARIFIKASI =", opts: ["Penjernihan / Penjelasan", "Penundaan kasus", "Pencabutan laporan", "Pemeriksaan saksi", "Penetapan tersangka"], ans: 0, pem: "Klarifikasi adalah tindakan penjelasan atau penjernihan masalah." },
+        { q: "KOMPARATIF =", opts: ["Bersifat membandingkan", "Bersifat mutlak", "Bersifat menyerang", "Bersifat melengkapi", "Bersifat mengisolasi"], ans: 0, pem: "Komparatif berarti bersifat membandingkan antara dua hal atau lebih." },
+        { q: "KONDUSIF =", opts: ["Kacau dan tegang", "Aman dan mendukung", "Sulit dikendalikan", "Sangat berbahaya", "Berubah-ubah"], ans: 1, pem: "Kondusif berarti memberi peluang atau memberi kondisi aman/mendukung." },
+        { q: "KONFORMITAS =", opts: ["Penolakan aturan", "Penyesuaian diri / Keselarasan", "Pemberontakan", "Pemisahan kelompok", "Perbedaan prinsip"], ans: 1, pem: "Konformitas adalah penyesuaian sikap atau perilaku sesuai dengan norma lingkungan." },
+        { q: "LEGITIMASI =", opts: ["Pengesahan / Keabsahan", "Pembatalan hukum", "Penolakan umum", "Pelanggaran aturan", "Gugatan keadilan"], ans: 0, pem: "Legitimasi adalah kualitas yang menunjukkan keabsahan atau pengesahan sesuai hukum." },
+        { q: "MANIFESTASI =", opts: ["Perwujudan / Penampakan", "Rencana rahasia", "Penyembunyian fakta", "Pembatalan proyek", "Penyusunan anggaran"], ans: 0, pem: "Manifestasi adalah perwujudan sebagai bukti nyata dari suatu perasaan atau gagasan." },
+        { q: "MITIGASI =", opts: ["Peningkatan risiko", "Upaya pengurangan risiko / Dampak", "Penyebab bencana", "Pembiayaan darurat", "Pemeriksaan kerusakan"], ans: 1, pem: "Mitigasi adalah tindakan untuk mengurangi dampak atau risiko bencana/masalah." },
+        { q: "NEPOTISME =", opts: ["Perekrutan jujur", "Utamakan kerabat / Sanak keluarga", "Seleksi terbuka", "Penilaian kinerja", "Pengabdian tulus"], ans: 1, pem: "Nepotisme adalah kecenderungan mengutamakan sanak keluarga dalam jabatan." },
+        { q: "NORMATIF =", opts: ["Berdasarkan aturan / Norma baku", "Berdasarkan asumsi", "Bersifat praktis murni", "Berdasarkan emosi", "Bersifat sementara"], ans: 0, pem: "Normatif berarti berpegang teguh pada aturan, kaidah, atau norma baku." },
+        { q: "ORIENTASI =", opts: ["Penentuan arah / Penyesuaian", "Penutupan jalur", "Penghentian kegiatan", "Kehilangan kendali", "Penyelesaian tugas"], ans: 0, pem: "Orientasi adalah peninjauan atau penentuan arah yang tepat dan benar." },
+        { q: "ORISINIL =", opts: ["Tiruan", "Asli / Murni", "Jiplakan", "Hasil modifikasi", "Rancangan gabungan"], ans: 1, pem: "Orisinil berarti asli, belum ditiru atau dimodifikasi dari yang lain." },
+        { q: "OTORITER =", opts: ["Demokratis", "Bersifat sewenang-wenang / Berkuasa mutlak", "Mendengar pendapat", "Keluarga terbuka", "Terbuka evaluasi"], ans: 1, pem: "Otoriter adalah berkuasa mutlak dan sewenang-wenang." },
+        { q: "PRESTISIUS =", opts: ["Biasa saja", "Berwibawa / Memiliki gengsi tinggi", "Murah meriah", "Sangat sederhana", "Tidak dikenal"], ans: 1, pem: "Prestisius berarti memiliki nilai gengsi, wibawa, atau martabat tinggi." },
+        { q: "PRIVILESE =", opts: ["Kewajiban berat", "Hak istimewa", "Sanksi organisasi", "Tugas tambahan", "Peringatan tertulis"], ans: 1, pem: "Privilese adalah hak istimewa yang diberikan kepada kelompok tertentu." },
+        { q: "PROSEDUR =", opts: ["Tahapan tata cara baku", "Hasil akhir", "Ide spontan", "Pengecualian aturan", "Pendapat pribadi"], ans: 0, pem: "Prosedur adalah tahapan atau tata cara baku untuk menyelesaikan aktivitas." },
+        { q: "REKONSILIASI =", opts: ["Perselisihan baru", "Pemulihan hubungan / Perdamaian", "Pemusnahan bukti", "Pemisahan kelompok", "Penetapan sanksi"], ans: 1, pem: "Rekonsiliasi adalah perbuatan memulihkan hubungan pada keadaan semula (damai)." },
+        { q: "RESTRIKSI =", opts: ["Kebebasan penuh", "Pembatasan / Pengetatan", "Pemberian kelonggaran", "Penyebaran masif", "Penggabungan modal"], ans: 1, pem: "Restriksi adalah tindakan pembatasan atau pengetatan." },
+        { q: "RESTRUKTURISASI =", opts: ["Penataan ulang struktur", "Pembubaran total", "Penambahan beban", "Penghentian proyek", "Pengabaian sistem"], ans: 0, pem: "Restrukturisasi adalah penataan atau perbaikan kembali struktur organisasi." },
+        { q: "RETORIKA =", opts: ["Seni berbicara / Berpidato", "Tulisan ilmiah", "Analisis data", "Hitungan matematika", "Pemeriksaan berkas"], ans: 0, pem: "Retorika adalah keterampilan berbicara atau berpidato secara efektif." },
+        { q: "SARKASME =", opts: ["Pujian tulus", "Sindiran tajam / Pedas", "Ucapan selamat", "Bujukan halus", "Pernyataan resmi"], ans: 1, pem: "Sarkasme adalah penggunaan kata-kata pedas untuk menyindir atau mengejek." },
+        { q: "SEKULARISASI =", opts: ["Penyatuan agama dan negara", "Pemisahan nilai agama dari keduniaan", "Peningkatan ibadah", "Pendirian tempat ibadah", "Pengembangan moral"], ans: 1, pem: "Sekularisasi adalah proses pemisahan urusan keduniaan dari agama." },
+        { q: "SPEKULASI =", opts: ["Perhitungan pasti", "Dugaan berisiko / Rekaan", "Fakta lapangan", "Hasil uji coba", "Laporan resmi"], ans: 1, pem: "Spekulasi adalah dugaan atau perkiraan berisiko tanpa bukti kuat." },
+        { q: "STIGMATISASI =", opts: ["Pemberian wewenang", "Pemberian cap buruk / Label negatif", "Pemberian penghargaan", "Pemberian promosi", "Pemberian bantuan"], ans: 1, pem: "Stigmatisasi adalah pemberian tanda, cap buruk, atau label negatif kepada pihak tertentu." },
+        { q: "STRATIFIKASI =", opts: ["Pemerataan sosial", "Pelapisan / Tingkatan sosial", "Penyatuan kelas", "Penghapusan kasta", "Pembagian modal"], ans: 1, pem: "Stratifikasi adalah pembedaan atau pelapisan masyarakat ke dalam kelas-kelas." },
+        { q: "SUPERVISI =", opts: ["Pengawasan / Pembinaan langsung", "Pelaksanaan tugas", "Penyusunan anggaran", "Pengajuan keberatan", "Penilaian independen"], ans: 0, pem: "Supervisi adalah pengawasan, pengamatan, atau pembinaan secara langsung." },
+        { q: "TALENTA =", opts: ["Bakat / Kemampuan bawaan", "Usaha keras", "Gelar akademik", "Harta warisan", "Kedudukan posisi"], ans: 0, pem: "Talenta adalah bakat atau pembawaan sejak lahir." },
+        { q: "TRANSISI =", opts: ["Kondisi tetap", "Peralihan dari satu keadaan ke keadaan lain", "Kemunduran drastis", "Pencapaian puncak", "Penghentian proses"], ans: 1, pem: "Transisi adalah masa peralihan dari satu keadaan/sistem ke yang baru." },
+        { q: "VANDALISME =", opts: ["Pembangunan sarana", "Perusakan karya seni / Barang umum", "Pemeliharaan aset", "Penataan taman", "Pembersihan lingkungan"], ans: 1, pem: "Vandalisme adalah perbuatan merusak dan menghancurkan barang milik umum." },
+        { q: "WEWENANG =", opts: ["Kewajiban mutlak", "Hak / Kekuasaan bertindak", "Tuntutan kerja", "Anjuran pimpinan", "Larangan hukum"], ans: 1, pem: "Wewenang adalah hak dan kekuasaan untuk mengambil keputusan atau bertindak." },
+        { q: "YURISPRUDENSI =", opts: ["Keputusan hakim terdahulu", "Naskah undang-undang", "Surat edaran resmi", "Perjanjian internasional", "Kitab hukum pidana"], ans: 0, pem: "Yurisprudensi adalah preseden atau keputusan hakim terdahulu yang mengikat." },
+        { q: "ZONA =", opts: ["Jalur lurus", "Wilayah / Daerah dengan batasan khusus", "Titik pusat", "Garis perbatasan", "Ketinggian tempat"], ans: 1, pem: "Zona adalah daerah atau wilayah yang memiliki batasan atau fungsi khusus." },
+
+        // 50 SOAL ANTONIM (><)
+        { q: "ADVOKASI ><", opts: ["Pendampingan", "Penghalangan / Dakwaan", "Bantuan hukum", "Pembelaan", "Dukungan"], ans: 1, pem: "Advokasi (pembelaan) antonimnya adalah Penghalangan atau Dakwaan." },
+        { q: "ANEKSASI ><", opts: ["Pencaplokan", "Pelepasan / Restitusi wilayah", "Penggabungan", "Penaklukkan", "Penguasaan"], ans: 1, pem: "Aneksasi (penggabungan/pencaplokan sepihak) antonimnya Pelepasan wilayah." },
+        { q: "ARTIFISIAL ><", opts: ["Sintetis", "Buatan", "Alami / Murni", "Palsu", "Rekayasa"], ans: 2, pem: "Artifisial (buatan) antonimnya Alami/Murni." },
+        { q: "AUTENTIK ><", opts: ["Sahih", "Asli", "Palsu / Tiruan", "Teruji", "Murni"], ans: 2, pem: "Autentik (asli/sahih) antonimnya Palsu/Tiruan." },
+        { q: "DESENTRALISASI ><", opts: ["Sentralisasi / Pemusatan", "Penyerahan wewenang", "Otonomi", "Pemekaran", "Pemisahan"], ans: 0, pem: "Desentralisasi (penyerahan wewenang) antonimnya Sentralisasi (pemusatan)." },
+        { q: "DIKOTOMI ><", opts: ["Pembagian dua", "Penyatuan / Integrasi", "Pemisahan", "Pertentangan", "Pengelompokan"], ans: 1, pem: "Dikotomi (pemisahan dua) antonimnya Penyatuan/Integrasi." },
+        { q: "DIPLOMASI ><", opts: ["Perundingan", "Konfrontasi / Peperangan", "Negosiasi", "Kompromi", "Musyawarah"], ans: 1, pem: "Diplomasi (damai berunding) antonimnya Konfrontasi/Peperangan." },
+        { q: "DISKREPANSI ><", opts: ["Ketidakcocokan", "Perbedaan", "Kesesuaian / Harmonisasi", "Penyimpangan", "Selisih"], ans: 2, pem: "Diskrepansi (perbedaan/selisih) antonimnya Kesesuaian." },
+        { q: "EGALITER ><", opts: ["Sederajat", "Hierarkis / Bertingkat", "Setara", "Adil", "Seimbang"], ans: 1, pem: "Egaliter (sederajat) antonimnya Hierarkis (bertingkat/kaku)." },
+        { q: "ELIT ><", opts: ["Terpandang", "Utama", "Masyarakat awam / Populis", "Terpilih", "Mumpuni"], ans: 2, pem: "Elit (kelompok atas/terpilih) antonimnya Awam/Populis." },
+        { q: "EMBARGO ><", opts: ["Larangan niaga", "Kelonggaran niaga / Bebas impor", "Penyitaan", "Penutupan", "Hambatan"], ans: 1, pem: "Embargo (larangan niaga) antonimnya Bebas niaga/Kelonggaran." },
+        { q: "EMPIRIS ><", opts: ["Pengamatan nyata", "Praktis", "Teoretis / Konseptual", "Faktual", "Teruji"], ans: 2, pem: "Empiris (berdasar fakta nyata) antonimnya Teoretis." },
+        { q: "HEGEMONI ><", opts: ["Dominasi", "Pengaruh kuat", "Subordinasi / Ketertindasan", "Kekuasaan", "Keunggulan"], ans: 2, pem: "Hegemoni (dominasi penguasa) antonimnya Subordinasi (posisi di bawah/tertekan)." },
+        { q: "HIPOTESIS ><", opts: ["Dugaan", "Aksioma / Tesis terbukti", "Asumsi", "Rekaan", "Perkiraan"], ans: 1, pem: "Hipotesis (dugaan sementara) antonimnya Aksioma/Fakta terbukti." },
+        { q: "IMPLIKASI ><", opts: ["Dampak susulan", "Sebab dasar / Eksplisit", "Keterlibatan", "Akibat", "Konsekuensi"], ans: 1, pem: "Implikasi (dampak/keterlibatan tersirat) antonimnya Sebab dasar." },
+        { q: "INEFISIENSI ><", opts: ["Boros", "Efisiensi / Daya guna tinggi", "Rugi", "Lambat", "Salah guna"], ans: 1, pem: "Inefisiensi (boros) antonimnya Efisiensi." },
+        { q: "INSENTIF ><", opts: ["Bonus", "Penalti / Disinsentif", "Hadiah", "Perangsang", "Tunjangan"], ans: 1, pem: "Insentif (bonus perangsang) antonimnya Penalti/Disinsentif." },
+        { q: "KAPITALISASI ><", opts: ["Pemanfaatan modal", "Devaluasi / Penyusutan modal", "Pengembangan asset", "Penilaian", "Investasi"], ans: 1, pem: "Kapitalisasi (penambahan nilai modal) antonimnya Penyusutan/Devaluasi modal." },
+        { q: "KLARIFIKASI ><", opts: ["Penjelasan", "Pengecohan / Obfuskasi", "Penjernihan", "Penerangan", "Konfirmasi"], ans: 1, pem: "Klarifikasi (penjernihan) antonimnya Pengecohan/Obfuskasi (pengaburan)." },
+        { q: "KOMPARATIF ><", opts: ["Membandingkan", "Absolut / Mutlak", "Nisbi", "Sebanding", "Kontekstual"], ans: 1, pem: "Komparatif (relatif membandingkan) antonimnya Absolut/Mutlak." },
+        { q: "KONDUSIF ><", opts: ["Aman", "Mendukung", "Destruktif / Obstruktif", "Serasi", "Tenteram"], ans: 2, pem: "Kondusif (mendukung) antonimnya Obstruktif/Destruktif (menghambat/merusak)." },
+        { q: "KONFORMITAS ><", opts: ["Penyesuaian", "Deviasi / Non-konformitas", "Keselarasan", "Penurut", "Sesuai norma"], ans: 1, pem: "Konformitas (penyesuaian norma) antonimnya Deviasi/Penolakan." },
+        { q: "LEGITIMASI ><", opts: ["Keabsahan", "Pengesahan", "Illegitimasi / Pembatalan", "Resmi", "Validitas"], ans: 2, pem: "Legitimasi (keabsahan) antonimnya Illegitimasi (ketidakabsahan)." },
+        { q: "MANIFESTASI ><", opts: ["Perwujudan", "Penampakan", "Oklusi / Penyembunyian", "Bukti nyata", "Bentuk"], ans: 2, pem: "Manifestasi (perwujudan nyata) antonimnya Penyembunyian/Oklusi." },
+        { q: "MITIGASI ><", opts: ["Pengurangan risiko", "Pencegahan", "Eskalasi / Memperparah", "Penanganan", "Penyelamatan"], ans: 2, pem: "Mitigasi (pengurangan dampak) antonimnya Eskalasi/Memperparah." },
+        { q: "NEPOTISME ><", opts: ["Utamakan kerabat", "Meritokrasi / Pilih prestasi", "Pilih kasih", "Subjektif", "Keluarga"], ans: 1, pem: "Nepotisme (pilih kerabat) antonimnya Meritokrasi (berdasarkan prestasi)." },
+        { q: "NORMATIF ><", opts: ["Sesuai norma", "Baku", "Pragmatis / Bebas aturan", "Resmi", "Terstruktur"], ans: 2, pem: "Normatif (kaku pada norma) antonimnya Pragmatis/Anomali." },
+        { q: "ORIENTASI ><", opts: ["Penentuan arah", "Disorientasi / Kebingungan arah", "Penyesuaian", "Arah tujuan", "Pengenalan"], ans: 1, pem: "Orientasi (penentuan arah) antonimnya Disorientasi." },
+        { q: "ORISINIL ><", opts: ["Asli", "Murni", "Plagiat / Tiruan", "Baku", "Rancangan awal"], ans: 2, pem: "Orisinil (asli) antonimnya Plagiat/Tiruan." },
+        { q: "OTORITER ><", opts: ["Diktator", "Sewenang-wenang", "Demokratis / Terbuka", "Mutlak", "Keras"], ans: 2, pem: "Otoriter (sewenang-wenang) antonimnya Demokratis." },
+        { q: "PRESTISIUS ><", opts: ["Bergengsi", "Wibawa", "Inferior / Bawah", "Terpandang", "Mewah"], ans: 2, pem: "Prestisius (gengsi tinggi) antonimnya Inferior/Hina." },
+        { q: "PRIVILESE ><", opts: ["Hak istimewa", "Keuntungan", "Disabilitas / Pembatasan hak", "Fasilitas", "Keutamaan"], ans: 2, pem: "Privilese (hak istimewa) antonimnya Pembatasan hak/Disabilitas." },
+        { q: "PROSEDURAL ><", opts: ["Tata cara baku", "Rutin", "Acak / Arbitrer", "Resmi", "Rinci"], ans: 2, pem: "Prosedural (sesuai tahap baku) antonimnya Acak/Arbitrer." },
+        { q: "REKONSILIASI ><", opts: ["Perdamaian", "Pemulihan", "Disintegrasi / Permusuhan", "Penyelesaian", "Kesepakatan"], ans: 2, pem: "Rekonsiliasi (perdamaian) antonimnya Disintegrasi/Permusuhan." },
+        { q: "RESTRIKSI ><", opts: ["Pembatasan", "Pengetatan", "Pelepasan / Ekspansi", "Larangan", "Pengurangan"], ans: 2, pem: "Restriksi (pembatasan) antonimnya Pelepasan/Ekspansi." },
+        { q: "RESTRUKTURISASI ><", opts: ["Penataan ulang", "Perbaikan", "Stagnasi / Pembiaran", "Penyusunan", "Pembaruan"], ans: 2, pem: "Restrukturisasi (penataan kembali) antonimnya Stagnasi/Pembiaran." },
+        { q: "RETORIKA ><", opts: ["Seni pidato", "Bicara manis", "Aksi nyata / Fakta tindakan", "Ungkapan", "Komunikasi"], ans: 2, pem: "Retorika (hanya ucapan/pidato) antonimnya Aksi nyata." },
+        { q: "SARKASME ><", opts: ["Sindiran tajam", "Ejekan pedas", "Pujian / Eufemisme", "Cemoohan", "Kritikan"], ans: 2, pem: "Sarkasme (sindiran pedas) antonimnya Pujian/Eufemisme (penghalusan)." },
+        { q: "SEKULARISASI ><", opts: ["Pemisahan agama", "Keduniaan", "Sakralisasi / Penyatuan agama", "Modernisasi", "Pembaruan"], ans: 2, pem: "Sekularisasi (duniawi) antonimnya Sakralisasi (pengagungan agama)." },
+        { q: "SPEKULASI ><", opts: ["Dugaan berisiko", "Reka-reka", "Kepastian / Perhitungan matang", "Gambling", "Perkiraan"], ans: 2, pem: "Spekulasi (dugaan berisiko) antonimnya Kepastian/Perhitungan matang." },
+        { q: "STIGMATISASI ><", opts: ["Cap buruk", "Label negatif", "Apresiasi / Rehabilitasi", "Pengucilan", "Pencelaan"], ans: 2, pem: "Stigmatisasi (pemberian cap buruk) antonimnya Rehabilitasi/Apresiasi." },
+        { q: "STRATIFIKASI ><", opts: ["Pelapisan kelas", "Tingkatan", "Egalitarianisme / Penyetaraan", "Hierarki", "Pembedaan"], ans: 2, pem: "Stratifikasi (pelapisan kelas) antonimnya Egalitarianisme (penyetaraan)." },
+        { q: "SUPERVISI ><", opts: ["Pengawasan", "Pembinaan", "Pembiaran / Inatensi", "Pemeriksaan", "Pengamatan"], ans: 2, pem: "Supervisi (pengawasan aktif) antonimnya Pembiaran/Inatensi." },
+        { q: "TALENTA ><", opts: ["Bakat bawaan", "Kecakapan alami", "Apatisme / Keterbelakangan", "Keahlian", "Potensi"], ans: 2, pem: "Talenta (bakat khusus) antonimnya Apatisme/Ketidakmampuan." },
+        { q: "TRANSISI ><", opts: ["Peralihan", "Perubahan", "Kestabilan / Permanen", "Pergerakan", "Pergeseran"], ans: 2, pem: "Transisi (masa peralihan) antonimnya Kestabilan/Permanen." },
+        { q: "VANDALISME ><", opts: ["Perusakan", "Penghancuran", "Preservasi / Konservasi", "Pengotoran", "Coret-coret"], ans: 2, pem: "Vandalisme (perusakan) antonimnya Preservasi/Konservasi (pelestarian)." },
+        { q: "WEWENANG ><", opts: ["Hak bertindak", "Kekuasaan", "Inkapasitas / Keterbatasan hak", "Otoritas", "Lisensi"], ans: 2, pem: "Wewenang (hak bertindak) antonimnya Inkapasitas/Ketidakberdayaan hak." },
+        { q: "YURISPRUDENSI ><", opts: ["Putusan hakim", "Preseden", "Arbitrer / Keputusan sepihak", "Hukum positif", "Aturan resmi"], ans: 2, pem: "Yurisprudensi (keputusan hukum teruji) antonimnya Keputusan Arbitrer (sepihak)." },
+        { q: "ZONA ><", opts: ["Daerah terbatas", "Wilayah khusus", "Area terbuka bebas", "Kawasan", "Sektor"], ans: 2, pem: "Zona (wilayah terbatasi fungsi) antonimnya Area terbuka bebas." },
+        { q: "ZENITH ><", opts: ["Puncak tertinggi", "Klimaks", "Nadir / Titik terendah", "Cakrawala", "Atas"], ans: 2, pem: "Zenith (titik puncak) antonimnya Nadir (titik terendah)." }
+    ];
+
+    let currentQIdx = 0;
+    let userAnswers = {};
+    let timerInterval = null;
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedName = localStorage.getItem('prc_nama_peserta');
+        if(savedName) document.getElementById('inputNama').value = savedName;
+        updateStatusBadge();
+    });
+
+    function saveName() {
+        const val = document.getElementById('inputNama').value.trim();
+        localStorage.setItem('prc_nama_peserta', val);
+    }
+
+    function updateStatusBadge() {
+        const score = localStorage.getItem('prc_100_skor_p2');
+        const badge = document.getElementById('stStatus');
+        if(score !== null) {
+            badge.textContent = `Selesai (Skor Akhir: ${score})`;
+            badge.classList.add('done');
+        } else {
+            badge.textContent = `Belum Dikerjakan`;
+            badge.classList.remove('done');
+        }
+    }
+
+    function showHome() {
+        if(timerInterval) clearInterval(timerInterval);
+        document.getElementById('viewHome').style.display = 'block';
+        document.getElementById('viewQuiz').style.display = 'none';
+        document.getElementById('viewRekap').style.display = 'none';
+        updateStatusBadge();
+    }
+
+    function startSubtes() {
+        const nama = document.getElementById('inputNama').value.trim();
+        if(!nama) {
+            alert("Harap masukkan Nama Lengkap Peserta terlebih dahulu!");
+            return;
+        }
+
+        currentQIdx = 0;
+        const savedAns = localStorage.getItem('prc_100_ans_p2');
+        userAnswers = savedAns ? JSON.parse(savedAns) : {};
+
+        document.getElementById('viewHome').style.display = 'none';
+        document.getElementById('viewQuiz').style.display = 'block';
+        document.getElementById('viewRekap').style.display = 'none';
+
+        renderNavGrid();
+        loadQuestion(0);
+        startTimer(60 * 60);
+    }
+
+    function loadQuestion(idx) {
+        currentQIdx = idx;
+        const qData = bankSoal100[idx];
+        
+        document.getElementById('q-no').textContent = `Soal ${idx + 1} dari 100`;
+        document.getElementById('q-text').innerText = qData.q;
+
+        let optsHtml = '';
+        qData.opts.forEach((opt, i) => {
+            const isSelected = userAnswers[idx] === i ? 'selected' : '';
+            optsHtml += `<div class="opt ${isSelected}" onclick="selectOption(${i})">${String.fromCharCode(65 + i)}. ${opt}</div>`;
+        });
+        document.getElementById('options').innerHTML = optsHtml;
+
+        document.getElementById('btn-next').textContent = idx === 99 ? "Selesai Tes" : "Selanjutnya";
+        renderNavGrid();
+    }
+
+    function selectOption(optIdx) {
+        userAnswers[currentQIdx] = optIdx;
+        localStorage.setItem('prc_100_ans_p2', JSON.stringify(userAnswers));
+        loadQuestion(currentQIdx);
+        setTimeout(() => { nextQ(); }, 200);
+    }
+
+    function renderNavGrid() {
+        let gridHtml = '';
+        for(let i = 0; i < 100; i++) {
+            let cls = 'nav-item';
+            if(userAnswers[i] !== undefined) cls += ' filled';
+            if(i === currentQIdx) cls += ' active';
+            gridHtml += `<div class="${cls}" onclick="loadQuestion(${i})">${i + 1}</div>`;
+        }
+        document.getElementById('navGrid').innerHTML = gridHtml;
+    }
+
+    function nextQ() {
+        if(currentQIdx === 99) {
+            if(confirm("Apakah Anda yakin ingin mengakhiri dan menyelesaikan ujian Paket 2 ini?")) {
+                finishSubtes();
+            }
+            return;
+        }
+        loadQuestion(currentQIdx + 1);
+    }
+
+    function prevQ() {
+        if(currentQIdx > 0) loadQuestion(currentQIdx - 1);
+    }
+
+    function startTimer(seconds) {
+        if(timerInterval) clearInterval(timerInterval);
+        let t = seconds;
+        timerInterval = setInterval(() => {
+            let m = Math.floor(t / 60);
+            let s = t % 60;
+            document.getElementById('timer').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+            if(--t < 0) {
+                clearInterval(timerInterval);
+                alert("Waktu ujian 60 menit telah habis!");
+                finishSubtes();
+            }
+        }, 1000);
+    }
+
+    function finishSubtes() {
+        if(timerInterval) clearInterval(timerInterval);
+
+        let benar = 0;
+        bankSoal100.forEach((q, i) => {
+            if(userAnswers[i] === q.ans) benar++;
+        });
+
+        localStorage.setItem('prc_100_skor_p2', benar);
+        localStorage.setItem('prc_100_ans_p2', JSON.stringify(userAnswers));
+
+        alert(`Ujian Paket 2 Selesai!\nSkor Akhir Anda: ${benar} / 100`);
+        showRekap();
+    }
+
+    function showRekap() {
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const score = parseInt(localStorage.getItem('prc_100_skor_p2') || 0);
+        
+        document.getElementById('namaPesertaRekap').textContent = "NAMA PESERTA: " + nama.toUpperCase();
+        document.getElementById('totalBenar').textContent = `${score} / 100`;
+        document.getElementById('skorAkurasi').textContent = `${score}`;
+
+        let kat = '', ket = '';
+        if(score >= 80) {
+            kat = 'TINGGI / SANGAT BAIK (SANGAT DIREKOMENDASIKAN)';
+            ket = 'Peserta memiliki penguasaan kosakata, pemahaman arti kata, serta penalaran bahasa tingkat manajerial yang sangat unggul.';
+        } else if(score >= 60) {
+            kat = 'SEDANG / CUKUP (DIREKOMENDASIKAN DENGAN CATATAN)';
+            ket = 'Peserta memiliki kemampuan verbal sedang, namun perlu pendalaman materi pada kata-kata serapan akademis.';
+        } else {
+            kat = 'RENDAH / PERLU PELATIHAN KHUSUS';
+            ket = 'Peserta membutuhkan pengayaan intensif pada penguasaan makna kata serta antonim kata tingkat lanjut.';
+        }
+
+        document.getElementById('txtKategori').textContent = kat;
+        document.getElementById('txtKeterangan').textContent = ket;
+
+        renderPembahasanOnScreen();
+
+        document.getElementById('viewHome').style.display = 'none';
+        document.getElementById('viewQuiz').style.display = 'none';
+        document.getElementById('viewRekap').style.display = 'block';
+    }
+
+    function renderPembahasanOnScreen() {
+        const savedAns = JSON.parse(localStorage.getItem('prc_100_ans_p2') || '{}');
+        let pemHtml = '';
+
+        bankSoal100.forEach((q, qIdx) => {
+            const uAnsIdx = savedAns[qIdx];
+            const isCorrect = uAnsIdx === q.ans;
+            const uAnsStr = uAnsIdx !== undefined ? `${String.fromCharCode(65 + uAnsIdx)}. ${q.opts[uAnsIdx]}` : "Tidak Dijawab";
+            const cAnsStr = `${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans]}`;
+
+            pemHtml += `
+                <div class="pem-item">
+                    <div style="font-weight:bold; margin-bottom:5px;">Soal ${qIdx + 1}: ${q.q}</div>
+                    <div style="font-size:14px; margin: 3px 0;">
+                        Jawaban Anda: <span class="${isCorrect ? 'tag-correct' : 'tag-wrong'}">${uAnsStr}</span>
+                    </div>
+                    <div style="font-size:14px; margin: 3px 0; color:#16a34a; font-weight:bold;">
+                        Kunci Jawaban: ${cAnsStr}
+                    </div>
+                    <div class="pem-box">
+                        <b>Pembahasan:</b> ${q.pem}
+                    </div>
+                </div>
+            `;
+        });
+
+        document.getElementById('pemBody').innerHTML = pemHtml;
+    }
+
+    function toggleAccordion() {
+        const body = document.getElementById('pemBody');
+        body.style.display = body.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function downloadPembahasanSemua() {
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const score = localStorage.getItem('prc_100_skor_p2') || 0;
+        const savedAns = JSON.parse(localStorage.getItem('prc_100_ans_p2') || '{}');
+
+        let content = `==================================================\n`;
+        content += `PEMBAHASAN MODUL PAKET 2 (100 SOAL SINONIM & ANTONIM)\n`;
+        content += `PERSONA RESEARCH & CONSULTING\n`;
+        content += `Nama Peserta : ${nama}\n`;
+        content += `Skor Akhir   : ${score} / 100\n`;
+        content += `==================================================\n\n`;
+
+        bankSoal100.forEach((q, qIdx) => {
+            const uAnsIdx = savedAns[qIdx];
+            const uAnsStr = uAnsIdx !== undefined ? String.fromCharCode(65 + uAnsIdx) : "Tidak Dijawab";
+            const cAnsStr = String.fromCharCode(65 + q.ans);
+
+            content += `Soal ${qIdx + 1}: ${q.q}\n`;
+            q.opts.forEach((o, optIdx) => {
+                content += `  ${String.fromCharCode(65 + optIdx)}. ${o}\n`;
+            });
+            content += `Jawaban Anda : ${uAnsStr}\n`;
+            content += `Jawaban Benar: ${cAnsStr}\n`;
+            content += `Pembahasan   : ${q.pem}\n`;
+            content += `--------------------------------------------------\n\n`;
+        });
+
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `Pembahasan_Sinonim_Antonim_Paket2_PRC_${nama.replace(/\s+/g, '_')}.txt`;
+        link.click();
+    }
+
+    function resetData() {
+        if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN PAKET 2 dan mengulang dari awal?")) {
+            localStorage.removeItem('prc_100_skor_p2');
+            localStorage.removeItem('prc_100_ans_p2');
+            userAnswers = {};
+            alert("Data pengerjaan Paket 2 berhasil di-reset!");
+            showHome();
+        }
+    }
+</script>
+</body>
+</html>
