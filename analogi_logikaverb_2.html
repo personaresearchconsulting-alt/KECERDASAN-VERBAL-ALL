@@ -187,7 +187,7 @@
         { q: "LOGIKA : PENALARAN = ETIKA : ...", opts: ["Aturan", "Moral / Perilaku", "Hukum", "Sopan Santun", "Nilai"], ans: 1, pem: "Logika mempelajari kaidah penalaran, sedangkan etika mempelajari kaidah moral/perilaku." },
         { q: "PETA : ATLAS = LEMBARAN : ...", opts: ["Buku / Bunderan", "Kertas", "Tulisan", "Dokumen", "Rak"], ans: 0, pem: "Kumpulan peta dibundel menjadi atlas, sebagaimana kumpulan lembaran dibundel menjadi buku." },
         { q: "PENA : TINTA = PRINTER : ...", opts: ["Kertas", "Toner / Tinta Printer", "Kabel", "Gambar", "Komputer"], ans: 1, pem: "Pena diisi bahan tinta untuk mencetak, sedangkan printer diisi toner/tinta printer." },
-        { q: "SKEPTIS : CURIGA = YAKIN : ...", opts: ["Ragu", "Optimis / Percaya", "Bebas", "Tegas", "Pasti"], ans: 1, pem: "Skeptis mencerminkan rasa curiga/ragu, sedangkan yakin mencerminkan sikap optimis/percaya." },
+        { q: "SKEPTIS : CURIGA = YAKIN : ...", opts: ["Ragu", "Optimis / Percaya", "Bebas", "Tegas", "Pasti"], ans: 1, pem: "Skeptis mencerminkan rasa curiga/ragu, sebagaimana yakin mencerminkan sikap optimis/percaya." },
         { q: "EVALUASI : REKOMENDASI = DIAGNOSIS : ...", opts: ["Resep / Terapi", "Penyakit", "Pemeriksaan", "Injeksi", "Obat"], ans: 0, pem: "Evaluasi menghasilkan rekomendasi tindak lanjut, diagnosis dokter menghasilkan resep/terapi tindak lanjut." },
         { q: "DIVERGEN : MEMANCAR = KONVERGEN : ...", opts: ["Memusat", "Menyebar", "Berlawanan", "Sama", "Terpisah"], ans: 0, pem: "Divergen bermakna memancar/menyebar, sedangkan konvergen bermakna memusat." },
 
@@ -221,7 +221,7 @@
         { q: "Manakah kata yang TIDAK KELOMPOK dengan opsi berikut?", opts: ["Sintetis", "Artifisial", "Buatan", "Imitasi", "Alami"], ans: 4, pem: "Alami bersifat murni/asli, sedangkan opsi lainnya bermakna buatan/tiruan." },
         { q: "Pilihlah kata yang TIDAK SEJENIS dari pilihan berikut!", opts: ["Komprehensif", "Utuh", "Lengkap", "Menyeluruh", "Fragmentaris"], ans: 4, pem: "Fragmentaris bermakna terpecah-pecah/sebagian, sedangkan opsi lainnya bermakna lengkap dan menyeluruh." },
         { q: "Manakah kata yang TIDAK MASUK dalam kelompok berikut?", opts: ["Simpatik", "Empatis", "Peduli", "Apatis", "Penyayang"], ans: 3, pem: "Apatis bermakna tidak peduli, sedangkan opsi lainnya menunjukkan kepedulian sosial/emosional." },
-        { q: "Pilihlah kata yang BERBEDA sifat dari opsi lain!", opts: ["Membangun", "Konstruktif", "Solutif", "Destruktif", "Positif"], ans: 3, pem: "Destruktif bermakna merusak, sedangkan opsi lainnya mencerminkan sifat membangun." }
+        { q: "Pilihlah kata yang BERBEDA sifat dari opsi lain!", opts: ["Membangun", "Konstruktif", "Solutif", "Destruktif", "Positif"], ans: 3, pem: "Destruktif bermakna merusak, sedangkan opsi lainnya mencerminkan sifat membangun." },
 
         // PART 3: LOGIKA VERBAL & SILOGISME (66 - 100)
         { q: "Semua sistem pengawasan internal terintegrasi dengan basis data pusat. Sebagian sistem pengawasan internal menggunakan teknologi kecerdasan buatan. Kesimpulan...", opts: ["Semua sistem berbasis kecerdasan buatan terintegrasi data pusat.", "Sebagian sistem berbasis kecerdasan buatan terintegrasi dengan basis data pusat.", "Sistem pengawasan tidak memerlukan basis data pusat.", "Kecerdasan buatan merusak sistem pengawasan.", "Basis data pusat tidak aman."], ans: 1, pem: "Irisan kelompok: Sebagian sistem pengawasan yang memakai AI dipastikan terintegrasi dengan data pusat." },
@@ -256,7 +256,7 @@
         { q: "Hanya pegawai dengan rekomendasi atasan langsung yang dapat mendaftar beasiswa pendidikan lanjutan. Deni mendaftar beasiswa pendidikan lanjutan. Kesimpulan...", opts: ["Deni memiliki rekomendasi atasan langsung.", "Deni belum tentu memiliki rekomendasi atasan.", "Deni mendaftar tanpa izin.", "Deni pimpinan perusahaan.", "Deni ditolak dari beasiswa."], ans: 0, pem: "Syarat Perlu/Mutlak (Hanya A yang B). Jika Deni B (mendaftar beasiswa), dipastikan Deni A (memiliki rekomendasi atasan langsung)." },
         { q: "Semua prosedur operasional yang disahkan telah lolos uji keandalan teknis. Sebagian prosedur operasional di divisi IT telah lolos uji keandalan teknis. Kesimpulan...", opts: ["Sebagian prosedur operasional di divisi IT telah disahkan atau siap disahkan.", "Semua prosedur divisi IT belum disahkan.", "Divisi IT dibubarkan.", "Uji keandalan teknis tidak diperlukan.", "Semua prosedur IT wajib diganti."], ans: 0, pem: "Sebagian prosedur operasional di divisi IT yang lulus uji keandalan teknis telah memenuhi syarat pengesahan." },
         { q: "Jika otomatisasi sistem dilakukan, maka waktu pemrosesan transaksi berkurang. Ternyata otomatisasi sistem tahun ini TIDAK dilakukan. Kesimpulan...", opts: ["Waktu pemrosesan transaksi dipastikan tidak berkurang.", "Waktu pemrosesan transaksi belum tentu tidak berkurang (bisa dengan penambahan personel).", "Sistem transaksi rusak total.", "Transaksi keuangan dihentikan.", "Otomatisasi gagal dilakukan."], ans: 1, pem: "Denying the Antecedent: Menolak sebab (~p) tidak secara otomatis memastikan bahwa akibat (~q) pasti tidak terjadi." },
-        { q: "Semua peserta diklat perencanaan memiliki modul pelatihan resmi. Rina tidak memiliki modul pelatihan resmi. Kesimpulan...", opts: ["Rina peserta diklat yang meminjam modul.", "Rina bukan peserta diklat perencanaan.", "Rina instruktur diklat.", "Rina panitia acara diklat.", "Rina baru tiba di lokasi diklat."], ans: 1, pem: "Modus Tollens: p → q, ~q (Rina tidak punya modul) → ~p (Rina bukan peserta diklat perencanaan)." },
+        { q: "Semua peserta diklat perencanaan memiliki modul pelatihan resmi. Rina tidak memiliki modul pelatihan resmi. Kesimpulan...", opts: ["Rina peserta diklat yang meminjan modul.", "Rina bukan peserta diklat perencanaan.", "Rina instruktur diklat.", "Rina panitia acara diklat.", "Rina baru tiba di lokasi diklat."], ans: 1, pem: "Modus Tollens: p → q, ~q (Rina tidak punya modul) → ~p (Rina bukan peserta diklat perencanaan)." },
         { q: "Semua manajer riset menguasai pengolahan data SPSS. Sebagian penguasai pengolahan data SPSS adalah lulusan Statistika. Kesimpulan...", opts: ["Sebagian lulusan Statistika yang menjadi manajer riset menguasai pengolahan data SPSS.", "Semua lulusan Statistika adalah manajer riset.", "SPSS hanya digunakan oleh manajer riset.", "Manajer riset dilarang menggunakan software lain.", "Tidak ada lulusan Statistika yang paham SPSS."], ans: 0, pem: "Irisan tiga kelompok: Sebagian lulusan Statistika yang menjadi manajer riset dipastikan menguasai pengolahan data SPSS." },
         { q: "Jika audit mutu internal dilaksanakan, maka penyimpangan standar dapat dideteksi dini. Jika penyimpangan standar dideteksi dini, maka risiko komplain berkurang. Risiko komplain berkurang. Kesimpulan yang sah secara eksplisit...", opts: ["Audit mutu internal pasti telah dilaksanakan.", "Audit mutu internal belum tentu telah dilaksanakan (bisa dari peningkatan kualitas pelayanan).", "Penyimpangan standar terjadi secara masif.", "Audit mutu internal dilarang.", "Komplain pelanggan meningkat."], ans: 1, pem: "Kekeliruan Mengafirmasi Akibat: Berkurangnya risiko komplain belum tentu dipicu secara tunggal oleh audit mutu internal." }
     ];
@@ -264,6 +264,7 @@
     let currentQIdx = 0;
     let userAnswers = {};
     let timerInterval = null;
+    let hasSentResult = false; // Flag to ensure result is sent only once
 
     window.addEventListener('DOMContentLoaded', () => {
         const savedName = localStorage.getItem('prc_nama_peserta');
@@ -304,6 +305,7 @@
         }
 
         currentQIdx = 0;
+        hasSentResult = false; // Reset send flag on new start
         const savedAns = localStorage.getItem('prc_ana_log_ans_p2');
         userAnswers = savedAns ? JSON.parse(savedAns) : {};
 
@@ -392,8 +394,55 @@
         localStorage.setItem('prc_ana_log_skor_p2', benar);
         localStorage.setItem('prc_ana_log_ans_p2', JSON.stringify(userAnswers));
 
+        // Kirim hasil ke Google Apps Script PRC
+        sendResultToAppsScript(benar);
+
         alert(`Ujian Paket 2 Selesai!\nSkor Akhir Anda: ${benar} / 100`);
         showRekap();
+    }
+
+    function sendResultToAppsScript(benar) {
+        if (hasSentResult) return;
+        hasSentResult = true;
+
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const tanggal = new Date().toISOString();
+        let kategori = '';
+        if (benar >= 80) {
+            kategori = 'TINGGI / SANGAT BAIK (SANGAT DIREKOMENDASIKAN)';
+        } else if (benar >= 60) {
+            kategori = 'SEDANG / CUKUP (DIREKOMENDASIKAN DENGAN CATATAN)';
+        } else {
+            kategori = 'RENDAH / PERLU PELATIHAN KHUSUS';
+        }
+
+        const dataToSend = {
+            nama: nama,
+            kode_siswa: "-",
+            PIN: "-",
+            jenis_aktivitas: "Simulasi CAT",
+            kelompok: "Paket 2",
+            subtes: "Analogi, Pengelompokan & Logika Verbal",
+            materi: "Penalaran Verbal",
+            nama_tes: "100 Soal Analogi, Pengelompokan Kata & Logika Verbal Paket 2",
+            tanggal: tanggal,
+            nilai: benar,
+            total: 100,
+            keterangan: kategori
+        };
+
+        const url = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
+
+        fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataToSend)
+        }).catch(error => {
+            console.error("Gagal mengirim data ke Apps Script:", error);
+        });
     }
 
     function showRekap() {
@@ -498,6 +547,7 @@
         if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN PAKET 2 dan mengulang dari awal?")) {
             localStorage.removeItem('prc_ana_log_skor_p2');
             localStorage.removeItem('prc_ana_log_ans_p2');
+            hasSentResult = false;
             userAnswers = {};
             alert("Data pengerjaan Paket 2 berhasil di-reset!");
             showHome();
@@ -506,3 +556,4 @@
 </script>
 </body>
 </html>
+```[cite: 1]
