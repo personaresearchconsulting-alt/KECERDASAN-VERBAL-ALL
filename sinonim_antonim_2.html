@@ -391,8 +391,53 @@
         localStorage.setItem('prc_100_skor_p2', benar);
         localStorage.setItem('prc_100_ans_p2', JSON.stringify(userAnswers));
 
+        // PENGIRIMAN HASIL KE GOOGLE APPS SCRIPT PRC (SATU KALI & TIDAK MENGGANGGU JIKA GAGAL)
+        sendDataToAppsScript(benar);
+
         alert(`Ujian Paket 2 Selesai!\nSkor Akhir Anda: ${benar} / 100`);
         showRekap();
+    }
+
+    // FUNGSI INTEGRASI APPS SCRIPT PRC
+    function sendDataToAppsScript(benar) {
+        const sentKey = 'prc_100_sent_p2';
+        if (localStorage.getItem(sentKey) === 'true') return; // Kirim hanya satu kali
+
+        const nama = localStorage.getItem('prc_nama_peserta'] || "Peserta";
+        const tanggal = new Date().toISOString().split('T')[0];
+        
+        let kat = '';
+        if (benar >= 80) kat = 'TINGGI / SANGAT BAIK';
+        else if (benar >= 60) kat = 'SEDANG / CUKUP';
+        else kat = 'RENDAH / PERLU PELATIHAN KHUSUS';
+
+        const payload = {
+            nama: nama,
+            kode_siswa: "-",
+            pin: "-",
+            jenis_aktivitas: "Simulasi CAT",
+            kelompok: "Verbal",
+            subtes: "Paket 2",
+            materi: "Sinonim & Antonim",
+            nama_tes: "Simulasi CAT Verbal 100 Soal Paket 2",
+            tanggal: tanggal,
+            nilai: benar,
+            total: 100,
+            keterangan: kat
+        };
+
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
+
+        fetch(scriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            localStorage.setItem(sentKey, 'true');
+        }).catch(err => {
+            console.error("Gagal mengirim ke Apps Script:", err);
+        });
     }
 
     function showRekap() {
@@ -497,6 +542,7 @@
         if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN PAKET 2 dan mengulang dari awal?")) {
             localStorage.removeItem('prc_100_skor_p2');
             localStorage.removeItem('prc_100_ans_p2');
+            localStorage.removeItem('prc_100_sent_p2');
             userAnswers = {};
             alert("Data pengerjaan Paket 2 berhasil di-reset!");
             showHome();
