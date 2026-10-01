@@ -394,8 +394,57 @@
         localStorage.setItem('prc_100_skor', benar);
         localStorage.setItem('prc_100_ans', JSON.stringify(userAnswers));
 
+        // Integrasi Pengiriman ke Google Apps Script (Hanya 1 kali, aman terhadap kegagalan)
+        sendToGoogleAppsScript(benar);
+
         alert(`Ujian Selesai!\nSkor Akhir Anda: ${benar} / 100`);
         showRekap();
+    }
+
+    function sendToGoogleAppsScript(benar) {
+        if (localStorage.getItem('prc_100_sent') === 'true') return;
+
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        const tanggal = new Date().toISOString().split('T')[0];
+        
+        let kat = '';
+        if(benar >= 80) {
+            kat = 'TINGGI / SANGAT BAIK';
+        } else if(benar >= 60) {
+            kat = 'SEDANG / CUKUP';
+        } else {
+            kat = 'RENDAH / PERLU PELATIHAN';
+        }
+
+        const dataToSend = {
+            nama: nama,
+            kode_siswa: "-",
+            pin: "-",
+            jenis_aktivitas: "Simulasi CAT",
+            kelompok: "Verbal",
+            subtes: "Paket 1",
+            materi: "Sinonim & Antonim",
+            nama_tes: "Tes Sinonim & Antonim 100 Soal",
+            tanggal: tanggal,
+            nilai: benar,
+            total: 100,
+            keterangan: kat
+        };
+
+        const targetUrl = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
+
+        fetch(targetUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataToSend)
+        }).then(() => {
+            localStorage.setItem('prc_100_sent', 'true');
+        }).catch(err => {
+            console.error("Gagal mengirim ke Apps Script:", err);
+        });
     }
 
     function showRekap() {
@@ -500,6 +549,7 @@
         if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN dan mengulang dari awal?")) {
             localStorage.removeItem('prc_100_skor');
             localStorage.removeItem('prc_100_ans');
+            localStorage.removeItem('prc_100_sent');
             userAnswers = {};
             alert("Data pengerjaan berhasil di-reset!");
             showHome();
