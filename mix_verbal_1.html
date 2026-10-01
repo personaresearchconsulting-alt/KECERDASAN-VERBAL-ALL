@@ -445,9 +445,9 @@
                 { q: "Semua peserta rapat mengenakan tanda pengenal. Sebagian peserta rapat adalah tamu undangan. Kesimpulan...", opts: ["Sebagian tamu undangan mengenakan tanda pengenal.", "Semua tamu undangan tidak mengenakan tanda pengenal.", "Semua yang mengenakan tanda pengenal adalah tamu undangan.", "Tamu undangan dilarang hadir rapat.", "Peserta rapat tidak ada yang tamu undangan."], ans: 0, pem: "Sebagian tamu undangan yang menjadi peserta rapat dipastikan mengenakan tanda pengenal." },
                 { q: "Jika kinerja unit memuaskan, maka predikat keberhasilan diberikan. Jika predikat keberhasilan diberikan, maka anggaran unit ditingkatkan. Anggaran unit X tidak ditingkatkan. Kesimpulan...", opts: ["Kinerja unit X memuaskan.", "Kinerja unit X tidak memuaskan.", "Unit X dibubarkan oleh manajemen.", "Predikat keberhasilan tetap diberikan ke unit X.", "Anggaran unit X dipotong separuh."], ans: 1, pem: "Modus Tollens Rantai: Anggaran tidak ditingkatkan → Kinerja unit X tidak memuaskan." },
                 { q: "Semua ponsel pintar memiliki fitur kamera. Sebagian ponsel pintar mendukung jaringan 5G. Kesimpulan...", opts: ["Sebagian ponsel pintar yang mendukung jaringan 5G memiliki fitur kamera.", "Semua ponsel ber-kamera mendukung jaringan 5G.", "Ponsel tanpa kamera mendukung 5G.", "Tidak ada ponsel 5G yang memiliki kamera.", "Semua fitur kamera hanya ada di ponsel 5G."], ans: 0, pem: "Irisan kelompok: Sebagian ponsel 5G dipastikan memiliki fitur kamera." },
-                { q: "Tidak ada siswa malas yang lulus ujian seleksi. Semua siswa kelas A lulus ujian seleksi. Kesimpulan...", opts: ["Semua siswa kelas A adalah siswa malas.", "Tidak ada siswa kelas A yang malas.", "Sebagian siswa kelas A adalah siswa malas.", "Siswa yang tidak lulus adalah siswa kelas A.", "Siswa malas ada yang lulus seleksi."], ans: 1, pem: "Karena semua siswa kelas A lulus seleksi, maka tidak ada siswa kelas A yang malas." },
+                { q: "Tidak ada siswa malas yang lulus ujian seleksi. Semua siswa kelas A lulus ujian seleksi. Kesimpulan...", opts: ["Semua siswa kelas A adalah siswa malas.", "Tidak ada siswa kelas A yang malas.", "Sebagian siswa kelas A adalah siswa malas.", "Siswa yang tidak lulus adalah siswa kelas A.", "Siswa malas ada yang lulus seleksi."], ans: 1, pem: "Konfirmasi: Semua siswa kelas A lulus, berarti tidak ada yang malas." },
                 { q: "Jika listrik padam, maka mesin genset otomatis menyala. Jika mesin genset menyala, maka indikator lampu hijau berkedip. Indikator lampu hijau tidak berkedip. Kesimpulan...", opts: ["Listrik padam.", "Listrik tidak padam.", "Mesin genset menyala.", "Lampu indikator rusak.", "Terjadi korsleting listrik."], ans: 1, pem: "Modus Tollens Rantai: Lampu tidak berkedip → Listrik tidak padam." },
-                { q: "Semua produk bergaransi resmi diproduksi di pabrik utama. Sebagian produk di toko ini bergaransi resmi. Kesimpulan...", opts: ["Sebagian produk di toko ini diproduksi di pabrik utama.", "Semua produk di toko ini diproduksi di pabrik utama.", "Produk tanpa garansi diproduksi di pabrik utama.", "Toko ini hanya menjual produk garansi resmi.", "Tidak ada produk pabrik utama di toko ini."], ans: 0, pem: "Sebagian produk toko ini yang bergaransi diproduksi di pabrik utama." },
+                { q: "Semua produk bergaransi resmi diproduksi di pabrik utama. Sebagian produk di toko ini bergaransi resmi. Kesimpulan...", opts: ["Sebagian produk di toko ini diproduksi di pabrik utama.", "Semua produk di toko ini diproduksi di pabrik utama.", "Produk tanpa garansi diproduksi di pabrik utama.", "Toko ini hanya menjual produk garansi resmi.", "Not found."], ans: 0, pem: "Sebagian produk toko ini yang bergaransi diproduksi di pabrik utama." },
                 { q: "Semua penjahit profesional memiliki mesin jahit canggih. Roni tidak memiliki mesin jahit canggih. Kesimpulan...", opts: ["Roni adalah penjahit profesional yang hemat.", "Roni bukan penjahit profesional.", "Roni pemilik toko mesin jahit.", "Roni penjahit profesional senior.", "Roni magang jadi penjahit."], ans: 1, pem: "Modus Tollens: Roni tidak punya mesin jahit canggih → Roni bukan penjahit profesional." },
                 { q: "Jika pelatihan efisiensi dilakukan, maka biaya produksi dapat ditekan. Jika biaya produksi ditekan, maka keuntungan perusahaan meningkat. Keuntungan perusahaan meningkat. Kesimpulan yang valid...", opts: ["Pelatihan efisiensi pasti telah dilakukan.", "Pelatihan efisiensi belum tentu telah dilakukan (bisa karena faktor kenaikan harga jual).", "Biaya produksi pasti membengkak.", "Perusahaan tidak melakukan efisiensi.", "Pelatihan efisiensi dilarang dilakukan."], ans: 1, pem: "Mengafirmasi Konsekuen: Keuntungan meningkat belum tentu disebabkan oleh pelatihan efisiensi." }
             ]
@@ -588,8 +588,52 @@
         localStorage.setItem(`prc_verbal_subtes_${currentSubtesIdx}`, score100);
         localStorage.setItem(`prc_verbal_ans_${currentSubtesIdx}`, JSON.stringify(userAnswers));
 
+        // PANGGIL FUNGSI KIRIM KE APPS SCRIPT SATU KALI SAAT SUBTES SELESAI
+        sendResultToAppsScript(currentSubtesIdx, score100, benar);
+
         alert(`Subtes Selesai!\nSkor Anda: ${score100} / 100 (Benar: ${benar} dari 25 Soal)`);
         showHome();
+    }
+
+    // FUNGSI INTEGRASI APPS SCRIPT PRC
+    function sendResultToAppsScript(subtesIdx, skor, benar) {
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
+        const namaPeserta = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        
+        // Mencegah duplikasi pengiriman untuk subtes yang sama pada sesi ini
+        const sentKey = `prc_sent_subtes_${subtesIdx}`;
+        if (sessionStorage.getItem(sentKey)) {
+            return;
+        }
+
+        const payload = {
+            nama: namaPeserta,
+            kode_siswa: "PRC-" + namaPeserta.replace(/\s+/g, "").toUpperCase().substring(0, 6),
+            pin: "-",
+            jenis_aktivitas: "Simulasi CAT",
+            kelompok: "Verbal",
+            subtes: `Subtes ${subtesIdx + 1}`,
+            materi: "Kecerdasan Verbal",
+            nama_tes: masterSubtes[subtesIdx].nama,
+            tanggal: new Date().toISOString().split('T')[0],
+            nilai: skor,
+            total: `${benar} / 25`,
+            keterangan: skor >= 80 ? "Tinggi" : (skor >= 60 ? "Sedang" : "Rendah")
+        };
+
+        fetch(scriptUrl, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        }).then(() => {
+            sessionStorage.setItem(sentKey, "true");
+        }).catch(err => {
+            // Jika pengiriman gagal, tes tetap berjalan normal sesuai aturan
+            console.error("Gagal mengirim ke Apps Script:", err);
+        });
     }
 
     function showRekap() {
