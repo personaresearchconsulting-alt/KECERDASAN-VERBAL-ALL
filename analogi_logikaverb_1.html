@@ -265,6 +265,7 @@
     let currentQIdx = 0;
     let userAnswers = {};
     let timerInterval = null;
+    let isResultSent = false;
 
     window.addEventListener('DOMContentLoaded', () => {
         const savedName = localStorage.getItem('prc_nama_peserta');
@@ -307,6 +308,7 @@
         currentQIdx = 0;
         const savedAns = localStorage.getItem('prc_ana_log_ans');
         userAnswers = savedAns ? JSON.parse(savedAns) : {};
+        isResultSent = localStorage.getItem('prc_ana_log_sent') === 'true';
 
         document.getElementById('viewHome').style.display = 'none';
         document.getElementById('viewQuiz').style.display = 'block';
@@ -382,6 +384,51 @@
         }, 1000);
     }
 
+    function kirimHasilKeAppsScript(nama, skor) {
+        if (isResultSent || localStorage.getItem('prc_ana_log_sent') === 'true') return;
+        
+        const tanggalStr = new Date().toISOString().slice(0, 10);
+        let kat = '';
+        if(skor >= 80) {
+            kat = 'TINGGI / SANGAT BAIK (SANGAT DIREKOMENDASIKAN)';
+        } else if(skor >= 60) {
+            kat = 'SEDANG / CUKUP (DIREKOMENDASIKAN DENGAN CATATAN)';
+        } else {
+            kat = 'RENDAH / PERLU PELATIHAN KHUSUS';
+        }
+
+        const dataPayload = {
+            nama: nama,
+            kode_siswa: "-",
+            pin: "-",
+            jenis_aktivitas: "Simulasi CAT",
+            kelompok: "Umum",
+            subtes: "Analogi, Pengelompokan & Logika Verbal",
+            materi: "Penalaran Verbal",
+            nama_tes: "100 Soal Analogi & Logika Verbal",
+            tanggal: tanggalStr,
+            nilai: skor,
+            total: 100,
+            keterangan: kat
+        };
+
+        const url = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
+
+        fetch(url, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dataPayload)
+        }).then(() => {
+            isResultSent = true;
+            localStorage.setItem('prc_ana_log_sent', 'true');
+        }).catch(err => {
+            console.error("Gagal mengirim hasil ke Apps Script:", err);
+        });
+    }
+
     function finishSubtes() {
         if(timerInterval) clearInterval(timerInterval);
 
@@ -392,6 +439,9 @@
 
         localStorage.setItem('prc_ana_log_skor', benar);
         localStorage.setItem('prc_ana_log_ans', JSON.stringify(userAnswers));
+
+        const nama = localStorage.getItem('prc_nama_peserta') || "Peserta";
+        kirimHasilKeAppsScript(nama, benar);
 
         alert(`Ujian Selesai!\nSkor Akhir Anda: ${benar} / 100`);
         showRekap();
@@ -499,7 +549,9 @@
         if(confirm("Apakah Anda yakin ingin MENGHAPUS SEMUA DATA UJIAN dan mengulang dari awal?")) {
             localStorage.removeItem('prc_ana_log_skor');
             localStorage.removeItem('prc_ana_log_ans');
+            localStorage.removeItem('prc_ana_log_sent');
             userAnswers = {};
+            isResultSent = false;
             alert("Data pengerjaan berhasil di-reset!");
             showHome();
         }
