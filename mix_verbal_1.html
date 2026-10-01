@@ -10,27 +10,33 @@
         header { background: var(--navy); color: white; padding: 20px; text-align: center; border-bottom: 5px solid var(--gold); }
         .container { max-width: 950px; margin: 30px auto; padding: 0 20px; }
         
+        /* Card Layout */
         .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
         .user-card input { width: 80%; max-width: 400px; padding: 12px; font-size: 16px; border: 2px solid #cbd5e1; border-radius: 8px; text-align: center; margin-top: 10px; }
         
+        /* Grid Menu Subtes */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-top: 20px; }
         .subtes-card { background: white; padding: 20px; border-radius: 10px; border-left: 6px solid var(--navy); box-shadow: 0 4px 12px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; }
         
+        /* Opsi Jawaban */
         .opt { padding: 14px; margin: 8px 0; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: 0.2s; font-size: 15px; }
         .opt:hover { background: #f1f5f9; border-color: var(--navy); }
         .opt.selected { background: #e0f2fe; border-color: var(--navy); font-weight: bold; }
         
+        /* Navigasi Soal Grid */
         .nav-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 15px; }
         .nav-item { height: 35px; display: flex; align-items: center; justify-content: center; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; }
         .nav-item.filled { background: var(--navy); color: white; }
         .nav-item.active { border: 2px solid var(--gold); }
         
+        /* Tombol & Status */
         .btn { background: var(--navy); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; text-decoration: none; text-align: center; display: inline-block; }
         .btn-gold { background: var(--gold); color: var(--navy); }
         .status-badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-top: 5px; background: #e2e8f0; color: #475569; }
         .done { background: #dcfce7; color: #166534; }
         #timer { font-size: 20px; font-weight: bold; color: var(--gold); font-family: monospace; }
         
+        /* Tabel Rekap */
         table { width: 100%; border-collapse: collapse; margin: 20px 0; text-align: left; }
         th, td { padding: 12px 15px; border-bottom: 1px solid #cbd5e1; }
         th { background: var(--navy); color: white; }
@@ -39,16 +45,6 @@
         .badge-sedang { background: #d97706; }
         .badge-rendah { background: #dc2626; }
         .summary-box { background: #f1f5f9; border-left: 5px solid var(--gold); padding: 20px; border-radius: 8px; margin-top: 20px; }
-
-        /* Style Peninjauan Pembahasan */
-        .pem-accordion { border: 1px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; overflow: hidden; }
-        .pem-header { background: #f1f5f9; padding: 15px; font-weight: bold; color: var(--navy); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .pem-body { padding: 15px; display: none; background: white; border-top: 1px solid #cbd5e1; }
-        .pem-item { border-bottom: 1px dashed #cbd5e1; padding-bottom: 12px; margin-bottom: 12px; }
-        .pem-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-        .tag-correct { color: #16a34a; font-weight: bold; }
-        .tag-wrong { color: #dc2626; font-weight: bold; }
-        .pem-box { background: #f8fafc; border-left: 4px solid var(--navy); padding: 10px; margin-top: 8px; font-size: 14px; }
     </style>
 </head>
 <body oncontextmenu="return false">
@@ -146,7 +142,7 @@
         </div>
     </div>
 
-    <!-- VIEW 3: HASIL REKAP NILAI & PEMBAHASAN -->
+    <!-- VIEW 3: HASIL REKAP NILAI VERBAL -->
     <div id="viewRekap" style="display: none;">
         <div class="card">
             <h2 style="text-align: center; color: var(--navy); margin-bottom: 5px;">LAPORAN REKAP KEMAMPUAN VERBAL</h2>
@@ -184,14 +180,8 @@
                 <p><b>Area yang perlu mendapat perhatian khusus:</b><br><span id="txtPerhatian">-</span></p>
             </div>
 
-            <!-- SECTION PEMBAHASAN INTERAKTIF -->
-            <h3 style="color: var(--navy); border-bottom: 2px solid var(--gold); padding-bottom: 5px; margin-top: 35px;">TINJAUAN & PEMBAHASAN SOAL</h3>
-            <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Klik pada nama subtes di bawah ini untuk membuka detail kunci jawaban dan pembahasan langsung di layar.</p>
-            
-            <div id="pembahasanContainer"></div>
-
-            <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                <button class="btn" onclick="downloadPembahasanSemua()">📥 Download File Pembahasan (.txt)</button>
+            <div style="margin-top: 25px; text-align: center; display: flex; justify-content: center; gap: 10px;">
+                <button class="btn" onclick="downloadPembahasanSemua()">📥 Download Pembahasan Lengkap</button>
                 <button class="btn btn-gold" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
                 <button class="btn" style="background:#64748b;" onclick="showHome()">🏠 Kembali Ke Beranda</button>
             </div>
@@ -201,95 +191,96 @@
 </div>
 
 <script>
+    // DATA BANK SOAL UTUH (125 SOAL KHUSUS PERSONA)
     const masterSubtes = [
         {
             nama: "SUBTES 1: SINONIM & ANTONIM",
             soal: [
                 { q: "Sinonim dari kata ANOMALI adalah...", opts: ["Deviasi", "Keselarasan", "Konformitas", "Ekuivalensi", "Kestabilan"], ans: 0, pem: "Anomali berarti penyimpangan dari keadaan normal. Sinonimnya adalah Deviasi." },
-                { q: "Sinonim dari kata DEFISIT adalah...", opts: ["Surplus", "Akumulasi", "Kekurangan", "Laba", "Inflasi"], ans: 2, pem: "Defisit berarti kekurangan dalam keuangan. Sinonimnya adalah Kekurangan." },
+                { q: "Sinonim dari kata DEFISIT adalah...", opts: ["Surplus", "Akumulasi", "Kekurangan", "Laba", "Inflasi"], ans: 2, pem: "Defisit berarti kekurangan dalam keuangan atau jumlah. Sinonimnya adalah Kekurangan." },
                 { q: "Sinonim dari kata IMPLISIT adalah...", opts: ["Eksplisit", "Tersurat", "Tersirat", "Nyata", "Jelas"], ans: 2, pem: "Implisit berarti terkandung secara tidak terang-terangan (tersirat)." },
                 { q: "Sinonim dari kata RESTORASI adalah...", opts: ["Pemusnahan", "Pemugaran", "Pembongkaran", "Degradasi", "Anulir"], ans: 1, pem: "Restorasi adalah pemulihan ke kondisi semula atau Pemugaran." },
                 { q: "Sinonim dari kata KONGKRIT adalah...", opts: ["Abstrak", "Nyata", "Semu", "Imajinatif", "Konseptual"], ans: 1, pem: "Kongkrit/Konkret berarti berwujud dan nyata." },
                 { q: "Sinonim dari kata EKSODUS adalah...", opts: ["Pemukiman", "Pemusnahan", "Migrasi besar-besaran", "Pengisolasian", "Infiltrasi"], ans: 2, pem: "Eksodus berarti perbuatan meninggalkan tempat asal secara besar-besaran." },
                 { q: "Sinonim dari kata TANDUS adalah...", opts: ["Subur", "Gembur", "Gersang", "Hijau", "Basah"], ans: 2, pem: "Tandus berarti tidak subur atau Gersang." },
                 { q: "Sinonim dari kata INSINUASI adalah...", opts: ["Tuduhan terbuka", "Sindiran", "Pujian", "Verifikasi", "Konfirmasi"], ans: 1, pem: "Insinuasi adalah sindiran secara tidak langsung." },
-                { q: "Sinonim dari kata KANONIKAL adalah...", opts: ["Bebas", "Penyimpangan", "Standar/Resmi", "Tradisional", "Lokal"], ans: 2, pem: "Kanonikal berarti sesuai dengan aturan baku (Standar/Resmi)." },
+                { q: "Sinonim dari kata KANONIKAL adalah...", opts: ["Bebas", "Penyimpangan", "Standar/Resmi", "Tradisional", "Lokal"], ans: 2, pem: "Kanonikal berarti sesuai dengan hukum/aturan yang berlaku baku (Standar/Resmi)." },
                 { q: "Sinonim dari kata VIRTUAL adalah...", opts: ["Konkret", "Tanpa wujud fisik/Maya", "Nyata", "Lokal", "Permanen"], ans: 1, pem: "Virtual berarti hadir secara simulasi tanpa wujud fisik (Maya)." },
                 { q: "Sinonim dari kata SKEPTIS adalah...", opts: ["Ragu-ragu", "Yakin", "Optimis", "Percaya", "Pasrah"], ans: 0, pem: "Skeptis berarti kurang percaya atau ragu-ragu." },
                 { q: "Sinonim dari kata FLUKTUASI adalah...", opts: ["Kestabilan", "Peningkatan", "Goncangan/Turun-naik", "Kemunduran", "Keseimbangan"], ans: 2, pem: "Fluktuasi adalah kondisi yang naik-turun tidak tetap." },
                 { q: "Antonim dari kata PROMENADE adalah...", opts: ["Jalan santai", "Duduk berdiam", "Piknik", "Perjalanan", "Arung jeram"], ans: 1, pem: "Promenade adalah jalan-jalan santai. Antonimnya adalah Duduk berdiam." },
                 { q: "Antonim dari kata TINGGI adalah...", opts: ["Panjang", "Pendek", "Rendah", "Kecil", "Tipis"], ans: 2, pem: "Lawan kata Tinggi dalam dimensi vertikal adalah Rendah." },
-                { q: "Antonim dari kata PROMENAL adalah...", opts: ["Kerdil/Inferior", "Hebat", "Cemerlang", "Dominan", "Utama"], ans: 0, pem: "Promenal (superior) lawan katanya adalah Kerdil/Inferior." },
-                { q: "Antonim dari kata EPILOG adalah...", opts: ["Monolog", "Prolog", "Dialog", "Katalog", "Koda"], ans: 1, pem: "Epilog adalah bagian penutup. Antonimnya adalah Prolog." },
+                { q: "Antonim dari kata PROMENAL adalah...", opts: ["Kerdil/Inferior", "Hebat", "Cemerlang", "Dominan", "Utama"], ans: 0, pem: "Promenal (superior/unggul) lawan katanya adalah Kerdil/Inferior." },
+                { q: "Antonim dari kata EPILOG adalah...", opts: ["Monolog", "Prolog", "Dialog", "Katalog", "Koda"], ans: 1, pem: "Epilog adalah bagian penutup. Antonimnya adalah Prolog (pengantar)." },
                 { q: "Antonim dari kata NOMADEN adalah...", opts: ["Misterius", "Menetap", "Berkelana", "Singgah", "Berpindah"], ans: 1, pem: "Nomaden berarti berpindah-pindah. Antonimnya adalah Menetap." },
                 { q: "Antonim dari kata ASIMILASI adalah...", opts: ["Pembauran", "Penyatuan", "Pemisahan/Disosiasi", "Peleburan", "Penyesuaian"], ans: 2, pem: "Asimilasi adalah pembauran. Antonimnya adalah Pemisahan/Disosiasi." },
                 { q: "Antonim dari kata GENTING adalah...", opts: ["Kritis", "Gawat", "Aman", "Berbahaya", "Tegang"], ans: 2, pem: "Genting berarti gawat/kritis. Lawan katanya adalah Aman." },
                 { q: "Antonim dari kata PERMANEN adalah...", opts: ["Lestari", "Kekal", "Sementara", "Abadi", "Tetap"], ans: 2, pem: "Permanen berarti tetap. Antonimnya adalah Sementara." },
                 { q: "Antonim dari kata MENTAL adalah...", opts: ["Jiwa", "Fisik/Jasmani", "Rohani", "Psikis", "Karakter"], ans: 1, pem: "Mental berkaitan dengan batin. Antonimnya adalah Fisik/Jasmani." },
-                { q: "Antonim dari kata VAPORISASI adalah...", opts: ["Penguapan", "Kondensasi", "Pencairan", "Pembekuan", "Penyulingan"], ans: 1, pem: "Vaporisasi adalah penguapan. Lawan katanya adalah Kondensasi." },
-                { q: "Antonim dari kata SINKRON adalah...", opts: ["Sejajar", "Serasi", "Sumbang", "Sesuai", "Selaras"], ans: 2, pem: "Sinkron berarti selaras. Antonimnya adalah Sumbang." },
-                { q: "Antonim dari kata HETEROGEN adalah...", opts: ["Beragam", "Majemuk", "Homogen", "Kompleks", "Bervariasi"], ans: 2, pem: "Heterogen berarti beraneka ragam. Antonimnya adalah Homogen." },
+                { q: "Antonim dari kata VAPORISASI adalah...", opts: ["Penguapan", "Kondensasi", "Pencairan", "Pembekuan", "Penyulingan"], ans: 1, pem: "Vaporisasi adalah penguapan. Lawan katanya adalah Kondensasi (pengembunan)." },
+                { q: "Antonim dari kata SINKRON adalah...", opts: ["Sejajar", "Serasi", "Sumbang", "Sesuai", "Selaras"], ans: 2, pem: "Sinkron berarti selaras/sesuai. Antonimnya adalah Sumbang/Tidak selaras." },
+                { q: "Antonim dari kata HETEROGEN adalah...", opts: ["Beragam", "Majemuk", "Homogen", "Kompleks", "Bervariasi"], ans: 2, pem: "Heterogen berarti beraneka ragam. Antonimnya adalah Homogen (sejenis)." },
                 { q: "Antonim dari kata OPTIMIS adalah...", opts: ["Pesimis", "Realistis", "Yakin", "Antusias", "Ambisius"], ans: 0, pem: "Optimis berpandangan baik. Antonimnya adalah Pesimis." }
             ]
         },
         {
             nama: "SUBTES 2: ANALOGI & HUBUNGAN KATA",
             soal: [
-                { q: "DESAINER : BUSANA = ARSITEK : ...", opts: ["Gambar", "Gedung", "Penggaris", "Semen", "Kontraktor"], ans: 1, pem: "Desainer merancang busana, Arsitek merancang gedung." },
-                { q: "REBOISASI : BANJIR = VAKSINASI : ...", opts: ["Jarum", "Penyakit", "Dokter", "Kekebalan", "Obat"], ans: 1, pem: "Reboisasi mencegah banjir, Vaksinasi mencegah penyakit." },
-                { q: "JURNALIS : BERITA = KOMPONIS : ...", opts: ["Musik", "Naskah", "Simfoni", "Penyanyi", "Panggung"], ans: 2, pem: "Jurnalis membuat berita, Komponis membuat simfoni." },
-                { q: "SANGKAR : BURUNG = BARKAS : ...", opts: ["Laut", "Kapal", "Dokumen", "Muatan", "Pelabuhan"], ans: 2, pem: "Sangkar menampung burung, Barkas (arsip) menampung dokumen." },
-                { q: "APOTEKER : OBAT = KURATOR : ...", opts: ["Buku", "Lukisan/Benda Seni", "Pasien", "Uang", "Hukum"], ans: 1, pem: "Apoteker mengelola obat, Kurator mengelola lukisan/benda seni." },
-                { q: "GELOMBANG : TSUNAMI = GEMPA : ...", opts: ["Angin", "Vulkanik", "Sebab", "Kerusakan", "Tektonik"], ans: 4, pem: "Tsunami adalah gelombang besar, Tektonik adalah jenis gempa lempeng." },
-                { q: "STETOSKOP : DOKTER = SKALPEL : ...", opts: ["Guru", "Koki", "Ahli Bedah", "Pelukis", "Penjahit"], ans: 2, pem: "Stetoskop untuk dokter, Skalpel untuk ahli bedah." },
-                { q: "PUISI : BAIT = BUKU : ...", opts: ["Bab", "Kertas", "Penulis", "Halaman", "Judul"], ans: 0, pem: "Puisi terbagi atas bait, buku terbagi atas bab." },
-                { q: "KEMARAU : KEKERINGAN = HUJAN DERAS : ...", opts: ["Banjir", "Awan", "Pelangi", "Dingin", "Air"], ans: 0, pem: "Kemarau memicu kekeringan, hujan deras memicu banjir." },
-                { q: "RUMAH : ATAP = KELAPA : ...", opts: ["Air", "Sabut", "Batang", "Tunas", "Daun"], ans: 1, pem: "Atap melindungi rumah, sabut melindungi buah kelapa." },
-                { q: "MUSEUM : BENDA BERSEJARAH = PERPUSTAKAAN : ...", opts: ["Rak", "Buku", "Pengunjung", "Penulis", "Kartu"], ans: 1, pem: "Museum menyimpan benda bersejarah, perpustakaan menyimpan buku." },
-                { q: "NARKOTIKA : ADIKSI = REBOISASI : ...", opts: ["Hutan", "Penghijauan", "Erosi", "Kelestarian", "Pohon"], ans: 3, pem: "Reboisasi berdampak pada kelestarian." },
-                { q: "LUKISAN : KANVAS = UKIRAN : ...", opts: ["Pahat", "Kayu", "Seniman", "Pameran", "Pola"], ans: 1, pem: "Lukisan dibuat pada kanvas, ukiran dibuat pada kayu." },
-                { q: "KAPAL : NAKHODA = PESAWAT : ...", opts: ["Masinis", "Sopir", "Pilot", "Kru", "Bandara"], ans: 2, pem: "Kapal dipimpin Nakhoda, Pesawat dipimpin Pilot." },
-                { q: "PENA : MENULIS = CANGKUL : ...", opts: ["Menanam", "Mencangkul", "Membajak", "Menggali", "Petani"], ans: 3, pem: "Pena untuk menulis, cangkul untuk menggali." },
-                { q: "KATA : KALIMAT = PARAGRAF : ...", opts: ["Huruf", "Wacana/Teks", "Bait", "Kata", "Buku"], ans: 1, pem: "Kata membentuk kalimat, paragraf membentuk wacana." },
-                { q: "KAMPUS : MAHASISWA = STADION : ...", opts: ["Pemain", "Penonton", "Lapangan", "Wasit", "Olahraga"], ans: 1, pem: "Kampus dipenuhi mahasiswa, stadion dipenuhi penonton." },
-                { q: "MATAHARI : TERIK = ANGIN : ...", opts: ["Kencang", "Dingin", "Hujan", "Topan", "Berhembus"], ans: 0, pem: "Matahari sangat panas disebut terik, angin sangat kuat disebut kencang." },
-                { q: "SUTRADARA : FILM = KOREOGRAFER : ...", opts: ["Panggung", "Tari", "Lagu", "Aktor", "Musik"], ans: 1, pem: "Sutradara mengarahkan film, Koreografer merancang tari." },
-                { q: "GULA : MANIS = GARAM : ...", opts: ["Dapur", "Laut", "Gurih", "Asin", "Putih"], ans: 3, pem: "Gula berasa manis, Garam berasa asin." },
-                { q: "JANTUNG : POMPA = PARU-PARU : ...", opts: ["Darah", "Napas/Respirasi", "Oksigen", "Dada", "Udara"], ans: 1, pem: "Jantung memompa darah, Paru-paru untuk respirasi." },
-                { q: "SAHAM : DIVIDEN = TABUNGAN : ...", opts: ["Bank", "Bunga", "Uang", "Deposito", "ATM"], ans: 1, pem: "Saham menghasilkan dividen, tabungan menghasilkan bunga." },
-                { q: "TELESKOP : BINTANG = MIKROSKOP : ...", opts: ["Lensa", "Bakteri", "Kaca", "Laboratorium", "Kecil"], ans: 1, pem: "Teleskop mengamati bintang, mikroskop mengamati bakteri." },
-                { q: "PANAS : MENDIDIH = DINGIN : ...", opts: ["Eskrim", "Salju", "Membeku", "Sejuk", "Air"], ans: 2, pem: "Panas ekstrem menyebabkan mendidih, dingin ekstrem menyebabkan membeku." },
-                { q: "MOBIL : RODA = BURUNG : ...", opts: ["Bulu", "Kepak", "Ekor", "Sayap", "Paruh"], ans: 3, pem: "Mobil bergerak dengan roda, burung terbang dengan sayap." }
+                { q: "DESAINER : BUSANA = ARSITEK : ...", opts: ["Gambar", "Gedung", "Penggaris", "Semen", "Kontraktor"], ans: 1, pem: "Hubungan profesi dan hasil karya. Desainer merancang busana, Arsitek merancang gedung." },
+                { q: "REBOISASI : BANJIR = VAKSINASI : ...", opts: ["Jarum", "Penyakit", "Dokter", "Kekebalan", "Obat"], ans: 1, pem: "Hubungan pencegahan bahaya. Reboisasi mencegah banjir, Vaksinasi mencegah penyakit." },
+                { q: "JURNALIS : BERITA = KOMPONIS : ...", opts: ["Musik", "Naskah", "Simfoni", "Penyanyi", "Panggung"], ans: 2, pem: "Hubungan profesi dan karya khusus. Jurnalis membuat berita, Komponis membuat simfoni." },
+                { q: "SANGKAR : BURUNG = BARKAS : ...", opts: ["Laut", "Kapal", "Dokumen", "Muatan", "Pelabuhan"], ans: 2, pem: "Hubungan wadah penampung. Sangkar menampung burung, Barkas (arsip) menampung dokumen." },
+                { q: "APOTEKER : OBAT = KURATOR : ...", opts: ["Buku", "Lukisan/Benda Seni", "Pasien", "Uang", "Hukum"], ans: 1, pem: "Hubungan profesi dan objek kelolaan. Apoteker mengelola obat, Kurator mengelola lukisan/benda seni." },
+                { q: "GELOMBANG : TSUNAMI = GEMPA : ...", opts: ["Angin", "Vulkanik", "Sebab", "Kerusakan", "Tektonik"], ans: 4, pem: "Hubungan fenomena khusus. Tsunami adalah gelombang besar, Tektonik adalah jenis gempa lempeng." },
+                { q: "STETOSKOP : DOKTER = SKALPEL : ...", opts: ["Guru", "Koki", "Ahli Bedah", "Pelukis", "Penjahit"], ans: 2, pem: "Hubungan alat profesi khusus. Stetoskop untuk dokter, Skalpel (pisau bedah) untuk ahli bedah." },
+                { q: "PUISI : BAIT = BUKU : ...", opts: ["Bab", "Kertas", "Penulis", "Halaman", "Judul"], ans: 0, pem: "Hubungan bagian struktur. Puisi terbagi atas bait, buku terbagi atas bab." },
+                { q: "KEMARAU : KEKERINGAN = HUJAN DERAS : ...", opts: ["Banjir", "Awan", "Pelangi", "Dingin", "Air"], ans: 0, pem: "Hubungan sebab-akibat. Kemarau berlebih memicu kekeringan, hujan deras berlebih memicu banjir." },
+                { q: "RUMAH : ATAP = KELAPA : ...", opts: ["Air", "Sabut", "Batang", "Tunas", "Daun"], ans: 1, pem: "Hubungan pelindung luar terluar. Atap melindungi rumah, sabut melindungi buah kelapa." },
+                { q: "MUSEUM : BENDA BERSEJARAH = PERPUSTAKAAN : ...", opts: ["Rak", "Buku", "Pengunjung", "Penulis", "Kartu"], ans: 1, pem: "Hubungan tempat koleksi khusus. Museum menyimpan benda bersejarah, perpustakaan menyimpan buku." },
+                { q: "NARKOTIKA : ADIKSI = REBOISASI : ...", opts: ["Hutan", "Penghijauan", "Erosi", "Kelestarian", "Pohon"], ans: 3, pem: "Hubungan tindakan dan dampak jangka panjang. Reboisasi berdampak pada kelestarian." },
+                { q: "LUKISAN : KANVAS = UKIRAN : ...", opts: ["Pahat", "Kayu", "Seniman", "Pameran", "Pola"], ans: 1, pem: "Hubungan media karya. Lukisan dibuat di atas kanvas, ukiran dibuat pada media kayu." },
+                { q: "KAPAL : NAKHODA = PESAWAT : ...", opts: ["Masinis", "Sopir", "Pilot", "Kru", "Bandara"], ans: 2, pem: "Hubungan moda transportasi dan pemimpinnya. Kapal dipimpin Nakhoda, Pesawat dipimpin Pilot." },
+                { q: "PENA : MENULIS = CANGKUL : ...", opts: ["Menanam", "Mencangkul", "Membajak", "Menggali", "Petani"], ans: 3, pem: "Hubungan fungsi alat. Pena untuk menulis, cangkul fungsi utamanya untuk menggali." },
+                { q: "KATA : KALIMAT = PARAGRAF : ...", opts: ["Huruf", "Wacana/Teks", "Bait", "Kata", "Buku"], ans: 1, pem: "Hubungan bagian ke keseluruhan. Kata membentuk kalimat, kumpulan paragraf membentuk wacana/teks." },
+                { q: "KAMPUS : MAHASISWA = STADION : ...", opts: ["Pemain", "Penonton", "Lapangan", "Wasit", "Olahraga"], ans: 1, pem: "Hubungan fasilitas dan pengisi utamanya. Kampus dipenuhi mahasiswa, stadion dipenuhi penonton." },
+                { q: "MATAHARI : TERIK = ANGIN : ...", opts: ["Kencang", "Dingin", "Hujan", "Topan", "Berhembus"], ans: 0, pem: "Hubungan intensitas tinggi. Matahari sangat panas disebut terik, angin sangat kuat disebut kencang." },
+                { q: "SUTRADARA : FILM = KOREOGRAFER : ...", opts: ["Panggung", "Tari", "Lagu", "Aktor", "Musik"], ans: 1, pem: "Hubungan perancang karya seni. Sutradara mengarahkan film, Koreografer merancang tari." },
+                { q: "GULA : MANIS = GARAM : ...", opts: ["Dapur", "Laut", "Gurih", "Asin", "Putih"], ans: 3, pem: "Hubungan zat dan rasa khasnya. Gula berasa manis, Garam berasa asin." },
+                { q: "JANTUNG : POMPA = PARU-PARU : ...", opts: ["Darah", "Napas/Respirasi", "Oksigen", "Dada", "Udara"], ans: 1, pem: "Hubungan organ dan fungsi utama. Jantung memompa darah, Paru-paru untuk respirasi/bernapas." },
+                { q: "SAHAM : DIVIDEN = TABUNGAN : ...", opts: ["Bank", "Bunga", "Uang", "Deposito", "ATM"], ans: 1, pem: "Hubungan instrumen dan imbal hasil. Saham menghasilkan dividen, tabungan menghasilkan bunga." },
+                { q: "TELESKOP : BINTANG = MIKROSKOP : ...", opts: ["Lensa", "Bakteri", "Kaca", "Laboratorium", "Kecil"], ans: 1, pem: "Hubungan alat optik dan objek amatan. Teleskop mengamati bintang, mikroskop mengamati bakteri." },
+                { q: "PANAS : MENDIDIH = DINGIN : ...", opts: ["Eskrim", "Salju", "Membeku", "Sejuk", "Air"], ans: 2, pem: "Hubungan intensitas ekstrem. Panas ekstrem menyebabkan mendidih, dingin ekstrem menyebabkan membeku." },
+                { q: "MOBIL : RODA = BURUNG : ...", opts: ["Bulu", "Kepak", "Ekor", "Sayap", "Paruh"], ans: 3, pem: "Hubungan penggerak utama. Mobil bergerak dengan roda, burung terbang dengan sayap." }
             ]
         },
         {
             nama: "SUBTES 3: KLASIFIKASI & MAKNA KATA",
             soal: [
-                { q: "Pilihlah kata yang TIDAK termasuk dalam kelompoknya:", opts: ["Naskah", "Editor", "Percetakan", "Kamera", "Penerbit"], ans: 3, pem: "Naskah, Editor, Percetakan, dan Penerbit tergolong industri perbukuan, sedangkan Kamera industri fotografi." },
+                { q: "Pilihlah kata yang TIDAK termasuk dalam kelompoknya:", opts: ["Naskah", "Editor", "Percetakan", "Kamera", "Penerbit"], ans: 3, pem: "Naskah, Editor, Percetakan, dan Penerbit tergolong industri perbukuan, sedangkan Kamera tergolong industri fotografi/penyiaran." },
                 { q: "Pilihlah kata yang memiliki klasifikasi berbeda dibanding opsi lainnya:", opts: ["Temulawak", "Kunyit", "Jahe", "Kencur", "Semangka"], ans: 4, pem: "Temulawak, Kunyit, Jahe, dan Kencur adalah tanaman rimpang obat, sedangkan Semangka adalah buah." },
-                { q: "Pilihlah kata yang kelompoknya berbeda dari kata lainnya:", opts: ["Gitar", "Violin", "Harpa", "Suling", "Ukulele"], ans: 3, pem: "Gitar, Violin, Harpa, dan Ukulele adalah alat musik berdawai, sedangkan Suling alat musik tiup." },
-                { q: "Pilihlah objek yang berada dalam kelompok yang berbeda:", opts: ["Merpati", "Elang", "Kelelawar", "Kakatua", "Kasuari"], ans: 2, pem: "Merpati, Elang, Kakatua, dan Kasuari adalah aves, sedangkan Kelelawar adalah mamalia." },
-                { q: "Manakah kata yang TIDAK termasuk kelompok profesi bidang hukum?", opts: ["Jaksa", "Hakim", "Notaris", "Kurator", "Arsitek"], ans: 4, pem: "Jaksa, Hakim, Notaris, dan Kurator bergerak di bidang hukum, sedangkan Arsitek bidang bangunan." },
+                { q: "Pilihlah kata yang kelompoknya berbeda dari kata lainnya:", opts: ["Gitar", "Violin", "Harpa", "Suling", "Ukulele"], ans: 3, pem: "Gitar, Violin, Harpa, dan Ukulele adalah alat musik berdawai, sedangkan Suling adalah alat musik tiup." },
+                { q: "Pilihlah objek yang berada dalam kelompok yang berbeda:", opts: ["Merpati", "Elang", "Kelelawar", "Kakatua", "Kasuari"], ans: 2, pem: "Merpati, Elang, Kakatua, dan Kasuari adalah burung/aves, sedangkan Kelelawar adalah mamalia." },
+                { q: "Manakah kata yang TIDAK termasuk kelompok profesi bidang hukum?", opts: ["Jaksa", "Hakim", "Notaris", "Kurator", "Arsitek"], ans: 4, pem: "Jaksa, Hakim, Notaris, dan Kurator bergerak di bidang hukum/peradilan, sedangkan Arsitek di bidang bangunan." },
                 { q: "Pilihlah kata yang tidak sejajar kelompoknya:", opts: ["Lumpur", "Sungai", "Danau", "Waduk", "Muara"], ans: 0, pem: "Sungai, Danau, Waduk, dan Muara adalah bentang perairan, sedangkan Lumpur adalah wujud material." },
                 { q: "Pilihlah konsep yang tidak termasuk kelompoknya:", opts: ["Segitiga", "Kubus", "Trapesium", "Jajaran Genjang", "Persegi Panjang"], ans: 1, pem: "Segitiga, Trapesium, Jajaran Genjang, dan Persegi Panjang adalah bangun datar (2D), sedangkan Kubus adalah bangun ruang (3D)." },
-                { q: "Pilihlah opsi kata yang tergolong klasifikasi penyakit menular:", opts: ["Diabetes", "TBC", "Hipertensi", "Osteoporosis", "Stroke"], ans: 1, pem: "TBC ditularkan oleh bakteri Mycobacterium tuberculosis." },
+                { q: "Pilihlah opsi kata yang tergolong klasifikasi penyakit menular:", opts: ["Diabetes", "TBC", "Hipertensi", "Osteoporosis", "Stroke"], ans: 1, pem: "TBC ditularkan oleh bakteri Mycobacterium tuberculosis, sedangkan opsi lain adalah penyakit tidak menular." },
                 { q: "Pilihlah kata yang tidak berada dalam kelompok profesi medis:", opts: ["Apoteker", "Radiolog", "Epidemiolog", "Aktuaris", "Perawat"], ans: 3, pem: "Aktuaris adalah ahli analisis risiko keuangan/asuransi, bukan profesi medis." },
                 { q: "Pilihlah opsi kata yang bukan termasuk unsur pembentuk cuaca/iklim:", opts: ["Suhu", "Kelembapan", "Curah Hujan", "Topografi", "Tekanan Udara"], ans: 3, pem: "Suhu, Kelembapan, Curah Hujan, dan Tekanan Udara adalah unsur cuaca, sedangkan Topografi adalah bentuk permukaan bumi." },
                 { q: "Istilah DISKRESI dalam konteks administrasi memiliki arti...", opts: ["Keputusan berdasarkan aturan tertulis murni", "Kebebasan mengambil keputusan sendiri berdasarkan pertimbangan wewenang", "Penyalahgunaan jabatan secara sengaja", "Pembatalan aturan oleh lembaga hukum", "Penundaan keputusan pimpinan"], ans: 1, pem: "Diskresi adalah kebebasan mengambil keputusan sendiri oleh pejabat publik dalam situasi tertentu." },
-                { q: "Istilah FITOTOKSIK bermakna...", opts: ["Sesuatu yang beracun bagi tumbuhan", "Penyakit yang ditularkan hewan ke manusia", "Zat yang merusak sel ginjal", "Bahan pengawet berbahaya", "Bakteri pembusuk makanan"], ans: 0, pem: "Fitotoksik berarti beracun bagi tumbuhan." },
-                { q: "Makna kata PROKRASTINASI secara tepat adalah...", opts: ["Kebiasaan menunda-nunda pengerjaan tugas", "Kemampuan membagi waktu secara efektif", "Penyelesaian tugas di awal waktu", "Perencanaan strategi kerja jangka panjang", "Tindakan mempercepat suatu proses"], ans: 0, pem: "Prokrastinasi adalah perilaku menunda-nunda pengerjaan tugas." },
-                { q: "Makna istilah AKREDITASI adalah...", opts: ["Proses ujian kelulusan", "Pengakuan resmi terhadap kualifikasi/kelayakan lembaga", "Penilaian kinerja pegawai tahunan", "Pemberian izin usaha baru", "Pencabutan lisensi operasional"], ans: 1, pem: "Akreditasi adalah pengakuan formal terhadap kelayakan lembaga." },
-                { q: "Istilah DEGRADASI bermakna...", opts: ["Peningkatan mutu secara berkala", "Kemunduran/Penurunan mutu atau posisi", "Pencapaian target puncak", "Pemerataan pendapatan", "Penyesuaian aturan baku"], ans: 1, pem: "Degradasi adalah penurunan mutu atau kemunduran dari kondisi semula." },
-                { q: "Apa yang dimaksud dengan kata EMPATI?", opts: ["Rasa kasihan dari jauh", "Kemampuan memahami dan merasakan perasaan orang lain", "Sikap tidak peduli pada masalah lingkungan", "Kebencian mendalam pada kelompok tertentu", "Dukungan berupa dana materi"], ans: 1, pem: "Empati adalah kemampuan mental untuk merasakan perasaan orang lain." },
-                { q: "Kata UMUM dari 'Melati, Mawar, Anggrek, Tulip' adalah...", opts: ["Tanaman", "Bunga", "Daun", "Taman", "Pohon"], ans: 1, pem: "Melati, Mawar, Anggrek, dan Tulip tergolong kata khusus dari kata umum Bunga." },
-                { q: "Kata UMUM yang menaungi kata khusus 'Sedan, SUV, MPV, Coupe' adalah...", opts: ["Kendaraan", "Mobil", "Mesin", "Transportasi", "Roda Empat"], ans: 1, pem: "Sedan, SUV, MPV, dan Coupe tergolong jenis Mobil." },
-                { q: "Kata khusus yang tergolong di bawah kata umum 'UNSUR KIMIA' adalah...", opts: ["Hidrogen", "Air", "Udara", "Karbon Dioksida", "Garam"], ans: 0, pem: "Hidrogen adalah unsur kimia tunggal (H), sedangkan Air dan Garam adalah senyawa." },
-                { q: "Istilah AMBIGUITAS memiliki arti...", opts: ["Pernyataan yang sangat tegas", "Kondisi kejelasan makna", "Kemungkinan adanya makna ganda/kabur", "Penafsiran yang terstruktur murni", "Teks berbentuk puisi"], ans: 2, pem: "Ambiguitas adalah keadaan yang bermakna ganda atau keraguan makna." },
-                { q: "Makna kata VERIFIKASI dalam proses pemeriksaan data adalah...", opts: ["Pengumpulan data mentah", "Pengeditan teks tulisan", "Pemeriksaan kebenaran atau keabsahan data", "Penghapusan berkas kedaluwarsa", "Pengiriman dokumen ke instansi lain"], ans: 2, pem: "Verifikasi adalah pemeriksaan kebenaran data." },
-                { q: "Istilah INOVASI mengandung makna...", opts: ["Pengulangan metode lama", "Pembaruan atau pemikiran baru yang bernilai tambah", "Peniruan karya secara langsung", "Kemunduran dalam sistem kerja", "Penyesuaian jadwal dinas"], ans: 1, pem: "Inovasi adalah pembaruan yang memberikan nilai tambah." },
-                { q: "Manakah kata yang bermakna 'sikap mengutamakan kepentingan umum di atas kepentingan pribadi'?", opts: ["Egoisme", "Altruisme", "Hedonisme", "Pragmatisme", "Individualisme"], ans: 1, pem: "Altruisme adalah sikap mengutamakan kepentingan orang lain/umum." },
-                { q: "Istilah KOALISI bermakna...", opts: ["Persaingan antar instansi", "Gabungan aliansi sementara antar kelompok/partai", "Pembubaran organisasi", "Pemisahan wilayah tugas", "Pemilihan umum bersama"], ans: 1, pem: "Koalisi adalah gabungan beberapa kelompok untuk tujuan bersama." },
-                { q: "Makna istilah RESILIENSI dalam pengembangan karakter adalah...", opts: ["Kemampuan untuk bangkit kembali dari kesulitan/tekanan", "Sikap kaku tidak mau berubah", "Ketergantungan pada bantuan orang lain", "Keinginan untuk selalu menang", "Sifat mudah menyerah pada keadaan"], ans: 0, pem: "Resiliensi adalah kemampuan bangkit kembali dari situasi sulit." }
+                { q: "Istilah FITOTOKSIK bermakna...", opts: ["Sesuatu yang beracun bagi tumbuhan", "Penyakit yang ditularkan hewan ke manusia", "Zat yang merusak sel ginjal", "Bahan pengawet berbahaya", "Bakteri pembusuk makanan"], ans: 0, pem: "Fitotoksik berarti beracun atau dapat merusak jaringan tumbuhan." },
+                { q: "Makna kata PROKRASTINASI secara tepat adalah...", opts: ["Kebiasaan menunda-nunda pengerjaan tugas", "Kemampuan membagi waktu secara efektif", "Penyelesaian tugas di awal waktu", "Perencanaan strategi kerja jangka panjang", "Tindakan mempercepat suatu proses"], ans: 0, pem: "Prokrastinasi adalah perilaku menunda-nunda tindakan atau pengerjaan tugas." },
+                { q: "Makna istilah AKREDITASI adalah...", opts: ["Proses ujian kelulusan", "Pengakuan resmi terhadap kualifikasi/kelayakan lembaga", "Penilaian kinerja pegawai tahunan", "Pemberian izin usaha baru", "Pencabutan lisensi operasional"], ans: 1, pem: "Akreditasi adalah pengakuan formal terhadap lembaga yang memenuhi standar kelayakan." },
+                { q: "Istilah DEGRADASI bermakna...", opts: ["Peningkatan mutu secara berkala", "Kemunduran/Penurunan mutu atau posisi", "Pencapaian target puncak", "Pemerataan pendapatan", "Penyesuaian aturan baku"], ans: 1, pem: "Degradasi adalah penurunan mutu, derajat, atau kemunduran dari kondisi semula." },
+                { q: "Apa yang dimaksud dengan kata EMPATI?", opts: ["Rasa kasihan dari jauh", "Kemampuan memahami dan merasakan perasaan orang lain", "Sikap tidak peduli pada masalah lingkungan", "Kebencian mendalam pada kelompok tertentu", "Dukungan berupa dana materi"], ans: 1, pem: "Empati adalah kemampuan mental untuk mengenali dan merasakan kondisi/perasaan orang lain." },
+                { q: "Kata UMUM dari 'Melati, Mawar, Anggrek, Tulip' adalah...", opts: ["Tanaman", "Bunga", "Daun", "Taman", "Pohon"], ans: 1, pem: "Melati, Mawar, Anggrek, dan Tulip tergolong kata khusus (hiponim) dari kata umum Bunga." },
+                { q: "Kata UMUM yang menaungi kata khusus 'Sedan, SUV, MPV, Coupe' adalah...", opts: ["Kendaraan", "Mobil", "Mesin", "Transportasi", "Roda Empat"], ans: 1, pem: "Sedan, SUV, MPV, dan Coupe secara spesifik tergolong jenis Mobil." },
+                { q: "Kata khusus yang tergolong di bawah kata umum 'UNSUR KIMIA' adalah...", opts: ["Hidrogen", "Air", "Udara", "Karbon Dioksida", "Garam"], ans: 0, pem: "Hidrogen adalah unsur kimia tunggal (H), sedangkan Air, CO2, dan Garam adalah senyawa." },
+                { q: "Istilah AMBIGUITAS memiliki arti...", opts: ["Pernyataan yang sangat tegas", "Kondisi kejelasan makna", "Kemungkinan adanya makna ganda/kabur", "Penafsiran yang terstruktur murni", "Teks berbentuk puisi"], ans: 2, pem: "Ambiguitas adalah sifat atau keadaan yang bermakna ganda atau keraguan makna." },
+                { q: "Makna kata VERIFIKASI dalam proses pemeriksaan data adalah...", opts: ["Pengumpulan data mentah", "Pengeditan teks tulisan", "Pemeriksaan kebenaran atau keabsahan data", "Penghapusan berkas kedaluwarsa", "Pengiriman dokumen ke instansi lain"], ans: 2, pem: "Verifikasi adalah pemeriksaan tentang kebenaran atau keabsahan laporan/data." },
+                { q: "Istilah INOVASI mengandung makna...", opts: ["Pengulangan metode lama", "Pembaruan atau pemikiran baru yang bernilai tambah", "Peniruan karya secara langsung", "Kemunduran dalam sistem kerja", "Penyesuaian jadwal dinas"], ans: 1, pem: "Inovasi adalah pembaruan baru yang berbeda dari yang sudah ada untuk memberi nilai tambah." },
+                { q: "Manakah kata yang bermakna 'sikap mengutamakan kepentingan umum di atas kepentingan pribadi'?", opts: ["Egoisme", "Altruisme", "Hedonisme", "Pragmatisme", "Individualisme"], ans: 1, pem: "Altruisme adalah sikap mengutamakan kepentingan orang lain/umum di atas pribadi." },
+                { q: "Istilah KOALISI bermakna...", opts: ["Persaingan antar instansi", "Gabungan aliansi sementara antar kelompok/partai", "Pembubaran organisasi", "Pemisahan wilayah tugas", "Pemilihan umum bersama"], ans: 1, pem: "Koalisi adalah persekutuan/gabungan beberapa kelompok untuk mencapai tujuan bersama." },
+                { q: "Makna istilah RESILIENSI dalam pengembangan karakter adalah...", opts: ["Kemampuan untuk bangkit kembali dari kesulitan/tekanan", "Sikap kaku tidak mau berubah", "Ketergantungan pada bantuan orang lain", "Keinginan untuk selalu menang", "Sifat mudah menyerah pada keadaan"], ans: 0, pem: "Resiliensi adalah daya tahan atau kemampuan seseorang untuk bangkit dari situasi sulit." }
             ]
         },
         {
@@ -303,17 +294,17 @@
                 { 
                     q: "Berdasarkan Teks pada Soal No. 1, manakah pernyataan yang TIDAK DAPAT DISIMPULKAN dari teks?", 
                     opts: ["Sistem digital canggih tanpa perbaikan mindset hanya memindahkan kerumitan birokrasi.", "Komputerisasi berkas saja belum menjamin pelayanan publik menjadi efisien secara riil.", "Sistem aplikasi canggih otomatis memecahkan masalah korupsi di birokrasi.", "Aparatur sipil negara dituntut memiliki budaya kerja yang akuntabel dan responsif.", "Transformasi digital melingkupi perubahan sistem dan sumber daya manusia."], 
-                    ans: 2, pem: "Teks tidak membahas bahwa aplikasi canggih otomatis memecahkan masalah korupsi." 
+                    ans: 2, pem: "Teks tidak membahas atau menjamin bahwa aplikasi canggih otomatis memecahkan masalah korupsi." 
                 },
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Penerapan teknologi kecerdasan buatan (AI) pada proses riset organisasi berpotensi mempercepat pengolahan data mentah hingga 80%. Namun demikian, validasi oleh peneliti manusia tetap menjadi benteng utama dalam memastikan tingkat objektivitas serta mencegah bias konfirmasi yang terkadang dihasilkan oleh algoritma.'\n\nInformasi tersurat dari teks tersebut adalah...", 
                     opts: ["AI akan menggantikan seluruh peran peneliti manusia dalam jangka panjang.", "Penerapan AI mempercepat pengolahan data mentah hingga 80%.", "Algoritma AI tidak pernah menghasilkan bias konfirmasi data.", "Riset organisasi tidak memerlukan pengolahan data mentah lagi.", "Peneliti manusia kerap memperlambat proses analisis data."], 
-                    ans: 1, pem: "Tertulis secara eksplisit: 'mempercepat pengolahan data mentah hingga 80%'." 
+                    ans: 1, pem: "Tertulis secara eksplisit dalam teks: 'mempercepat pengolahan data mentah hingga 80%'." 
                 },
                 { 
                     q: "Berdasarkan Teks pada Soal No. 3, kata 'BIAS KONFIRMASI' dalam paragraf tersebut memiliki arti...", 
                     opts: ["Kecenderungan menarik kesimpulan yang hanya mendukung hipotesis/gagasan awal", "Proses verifikasi data secara berulang oleh ahli berpengalaman", "Kecepatan pemrosesan algoritma komputer tingkat tinggi", "Kerusakan jaringan server saat mengolah sampel riset", "Keakuratan mutlak dari hasil pengolahan data elektronik"], 
-                    ans: 0, pem: "Bias konfirmasi adalah kecenderungan menafsirkan informasi yang hanya menguatkan gagasan awal." 
+                    ans: 0, pem: "Bias konfirmasi adalah kecenderungan mencari atau menafsirkan informasi yang hanya menguatkan gagasan awal." 
                 },
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Program latihan kepemimpinan yang efektif harus mampu menyeimbangkan pemahaman teori strategis dengan simulasi dinamika konflik lapangan. Tanpa simulasi situasi krisis yang nyata, seorang calon pemimpin akan canggung saat dihadapkan pada tekanan pengambilan keputusan cepat di bawah kondisi informasi yang tidak lengkap.'\n\nKesimpulan logis dari bacaan di atas adalah...", 
@@ -333,12 +324,12 @@
                 { 
                     q: "Berdasarkan teks pada Soal No. 7, dampak ketergantungan berlebih pada satu jenis makanan pokok adalah...", 
                     opts: ["Meningkatnya pendapatan petani secara merata", "Kerentanan stabilitas sosial saat terjadi kegagalan panen", "Penurunan harga komoditas pangan di pasar global", "Hilangnya cuaca ekstrem di berbagai daerah", "Peningkatan diversifikasi pangan secara otomatis"], 
-                    ans: 1, pem: "Teks menyatakan ketergantungan berlebih membuat stabilitas sosial rentan bergejolak saat panen gagal." 
+                    ans: 1, pem: "Teks menyatakan bahwa ketergantungan berlebih membuat stabilitas sosial rentan bergejolak saat panen gagal." 
                 },
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Evaluasi berkala terhadap indikator kinerja individu pegawai bertujuan untuk memetakan kebutuhan pelatihan pengembangan, bukan sekadar instrumen pemberian sanksi. Ketika evaluasi difokuskan pada perbaikan berkesinambungan, tingkat keterikatan dan motivasi kerja pegawai terbukti meningkat signifikan.'\n\nPernyataan yang SESUAI dengan bacaan tersebut adalah...", 
                     opts: ["Evaluasi kinerja murni difokuskan untuk sarana pemecatan pegawai.", "Tingkat motivasi pegawai meningkat jika evaluasi berfokus pada perbaikan berkesinambungan.", "Pelatihan pengembangan pegawai tidak memerlukan evaluasi kinerja awal.", "Indikator kinerja individu tidak perlu diperiksa secara berkala.", "Pemberian sanksi merupakan jalan paling cepat meningkatkan kinerja."], 
-                    ans: 1, pem: "Sesuai pernyataan teks: evaluasi yang berfokus pada perbaikan berkesinambungan meningkatkan motivasi." 
+                    ans: 1, pem: "Sesuai pernyataan teks: evaluasi yang berfokus pada perbaikan berkesinambungan meningkatkan motivasi pegawai." 
                 },
                 { 
                     q: "Makna kata 'INSTRUMEN' dalam teks Soal No. 9 adalah...", 
@@ -348,7 +339,7 @@
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Riset terbaru menunjukkan bahwa paparan radiasi layar biru (blue light) gawai secara terus-menerus sebelum tidur dapat menekan produksi hormon melatonin alami tubuh. Kondisi ini mengganggu ritme sirkadian dan menurunkan kualitas tidur secara dramatis dalam jangka panjang.'\n\nInformasi tersirat dari teks di atas adalah...", 
                     opts: ["Melatonin dapat diproduksi maksimal dengan melihat layar gawai.", "Penggunaan gawai sebelum tidur berpotensi memicu gangguan kesehatan tidur.", "Layar biru gawai merupakan penghasil utama hormon melatonin.", "Kualitas tidur tidak berpengaruh pada ritme sirkadian manusia.", "Setiap gawai memancarkan radiasi yang berbahaya bagi mata secara langsung."], 
-                    ans: 1, pem: "Tersirat bahwa melihat layar gawai sebelum tidur berdampak buruk bagi kesehatan tidur." 
+                    ans: 1, pem: "Tersirat bahwa kebiasaan melihat layar gawai sebelum tidur berdampak buruk bagi kesehatan tidur." 
                 },
                 { 
                     q: "Istilah 'RITME SIRKADIAN' pada bacaan Soal No. 11 mengacu pada...", 
@@ -358,7 +349,7 @@
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Kebijakan efisiensi energi di gedung-gedung perkantoran tidak hanya berdampak pada penurunan beban biaya operasional tahunan, tetapi juga mendukung pencapaian target pengurangan emisi karbon organisasi. Integrasi sensor pencahayaan otomatis menjadi salah satu langkah taktis yang bernilai investasi tinggi.'\n\nIde pokok paragraf di atas adalah...", 
                     opts: ["Langkah taktis integrasi sensor pencahayaan di perkantoran.", "Manfaat ganda kebijakan efisiensi energi bagi operasional dan emisi karbon organisasi.", "Cara menghitung beban biaya operasional tahunan perkantoran.", "Penyebab utama timbulnya emisi karbon berlebih di perkantoran.", "Pembelian sensor hemat energi berkualifikasi investasi tinggi."], 
-                    ans: 1, pem: "Ide pokok adalah manfaat ganda efisiensi energi: menekan biaya dan mengurangi emisi karbon." 
+                    ans: 1, pem: "Ide pokok adalah manfaat ganda efisiensi energi: menekan biaya operasional dan mengurangi emisi karbon." 
                 },
                 { 
                     q: "Berdasarkan teks Soal No. 13, tindakan taktis yang disarankan untuk efisiensi energi adalah...", 
@@ -368,12 +359,12 @@
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Krisis komunikasi organisasi paling sering dipicu oleh keterlambatan penyampaian informasi yang akurat kepada publik. Ketika informasi resmi tersendat, narasi liar di media sosial akan mengisi ruang kosong tersebut dan membentuk opini publik yang berpotensi merugikan reputasi instansi.'\n\nSebab utama terbentuknya narasi liar di media sosial menurut teks adalah...", 
                     opts: ["Kurangnya kesadaran masyarakat membaca berita", "Keterlambatan penyampaian informasi resmi yang akurat oleh instansi", "Adanya larangan penggunaan media sosial bagi kehumasan", "Kelebihan kuota informasi dari lembaga pengawas internal", "Kegagalan sistem keamanan jaringan internet nasional"], 
-                    ans: 1, pem: "Teks menyebutkan narasi liar terbentuk saat informasi resmi tersendat disampaikan." 
+                    ans: 1, pem: "Teks menyebutkan narasi liar terbentuk saat informasi resmi tersendat/terlambat disampaikan." 
                 },
                 { 
                     q: "Kesimpulan yang relevan untuk bacaan Soal No. 15 adalah...", 
                     opts: ["Kecepatan dan keakuratan informasi resmi adalah kunci mencegah opini publik negatif.", "Media sosial harus ditutup saat terjadi krisis komunikasi organisasi.", "Reputasi instansi tidak akan pernah terpengaruh oleh narasi liar.", "Humas organisasi cukup memberikan respons setelah narasi liar mereda.", "Informasi akurat hanya boleh diberikan kepada media massa konvensional."], 
-                    ans: 0, pem: "Kesimpulan logis: merespons cepat dan akurat mencegah narasi liar merusak reputasi." 
+                    ans: 0, pem: "Kesimpulan logis: merespons secara cepat dan akurat mencegah narasi liar merusak reputasi instansi." 
                 },
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Peningkatan literasi keuangan masyarakat menjadi kunci utama dalam melindungi warga dari jeratan investasi bodong berskema ponzi. Pemahaman mendalam mengenai rasionalitas imbal hasil akan membuat seseorang kritis ketika ditawari keuntungan besar dalam waktu singkat tanpa risiko.'\n\nMakna kalimat 'KEUNTUNGAN BESAR DALAM WAKTU SINGKAT TANPA RISIKO' pada teks di atas mengindikasikan...", 
@@ -388,7 +379,7 @@
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Penerapan budaya kerja 5S (Seiri, Seiton, Seiso, Seiketsu, Shitsuke) di area pergudangan terbukti mampu memangkas waktu pencarian barang hingga 45%. Lingkungan kerja yang teratur dan bersih meningkatkan keselamatan kerja serta meminimalkan risiko kerusakan barang cadangan.'\n\nPernyataan yang TIDAK SESUAI dengan bacaan adalah...", 
                     opts: ["Budaya kerja 5S dapat diterapkan di area pergudangan.", "Penerapan 5S memangkas waktu pencarian barang hingga 45%.", "Penerapan 5S justru menambah biaya kerusakan barang cadangan.", "Lingkungan kerja yang teratur meningkatkan keselamatan kerja.", "Budaya 5S melingkupi prinsip kerapian dan kebersihan."], 
-                    ans: 2, pem: "Pernyataan C bertentangan karena teks menyebutkan 5S meminimalkan risiko kerusakan barang." 
+                    ans: 2, pem: "Pernyataan C bertentangan karena teks menyebutkan 5S justru meminimalkan risiko kerusakan barang." 
                 },
                 { 
                     q: "Kata 'MEMANGKAS' dalam teks Soal No. 19 memiliki arti konteks...", 
@@ -398,7 +389,7 @@
                 { 
                     q: "BACALAH TEKS BERIKUT:\n\n'Pengembangan infrastruktur hijau di kawasan perkotaan tidak sekadar menambah estetika kota, melainkan juga berfungsi sebagai penyerap polutan udara dan penampung luapan air hujan. Perencanaan tata ruang yang mengabaikan area hijau akan menghadapi krisis ekologis yang mahal di masa depan.'\n\nInformasi tersurat mengenai fungsi infrastruktur hijau adalah...", 
                     opts: ["Menjadi lokasi utama pendirian kawasan industri tekstil", "Sebagai penyerap polutan udara dan penampung luapan air hujan", "Menggantikan seluruh fungsi jalan raya komersial", "Mempercepat proses pembangunan gedung pencakar langit", "Menghilangkan kebutuhan saluran drainase buatan"], 
-                    ans: 1, pem: "Teks eksplisit menyatakan fungsinya sebagai penyerap polutan udara dan penampung air hujan." 
+                    ans: 1, pem: "Teks eksplisit menyatakan fungsinya sebagai penyerap polutan udara dan penampung luapan air hujan." 
                 },
                 { 
                     q: "Konsekuensi dari pengabaian area hijau menurut teks Soal No. 21 adalah...", 
@@ -413,7 +404,7 @@
                 { 
                     q: "Makna kata 'CHECKS AND BALANCES' dalam paragraf Soal No. 23 adalah...", 
                     opts: ["Sistem saling mengawasi dan menyeimbangkan kekuasaan/wewenang", "Pemeriksaan saldo rekening bank organisasi secara berkala", "Perhitungan jumlah absensi kehadiran pegawai bulanan", "Pembagian bonus kerja sesuai pencapaian target individu", "Penyesuaian anggaran belanja dengan neraca keuangan"], 
-                    ans: 0, pem: "Checks and balances adalah prinsip pengawasan di mana antar elemen saling mengontrol." 
+                    ans: 0, pem: "Checks and balances adalah prinsip pengawasan di mana antar elemen saling mengontrol dan menyeimbangkan." 
                 },
                 { 
                     q: "Kesimpulan umum yang tepat dari bacaan Soal No. 23 adalah...", 
@@ -445,15 +436,16 @@
                 { q: "Semua peserta rapat mengenakan tanda pengenal. Sebagian peserta rapat adalah tamu undangan. Kesimpulan...", opts: ["Sebagian tamu undangan mengenakan tanda pengenal.", "Semua tamu undangan tidak mengenakan tanda pengenal.", "Semua yang mengenakan tanda pengenal adalah tamu undangan.", "Tamu undangan dilarang hadir rapat.", "Peserta rapat tidak ada yang tamu undangan."], ans: 0, pem: "Sebagian tamu undangan yang menjadi peserta rapat dipastikan mengenakan tanda pengenal." },
                 { q: "Jika kinerja unit memuaskan, maka predikat keberhasilan diberikan. Jika predikat keberhasilan diberikan, maka anggaran unit ditingkatkan. Anggaran unit X tidak ditingkatkan. Kesimpulan...", opts: ["Kinerja unit X memuaskan.", "Kinerja unit X tidak memuaskan.", "Unit X dibubarkan oleh manajemen.", "Predikat keberhasilan tetap diberikan ke unit X.", "Anggaran unit X dipotong separuh."], ans: 1, pem: "Modus Tollens Rantai: Anggaran tidak ditingkatkan → Kinerja unit X tidak memuaskan." },
                 { q: "Semua ponsel pintar memiliki fitur kamera. Sebagian ponsel pintar mendukung jaringan 5G. Kesimpulan...", opts: ["Sebagian ponsel pintar yang mendukung jaringan 5G memiliki fitur kamera.", "Semua ponsel ber-kamera mendukung jaringan 5G.", "Ponsel tanpa kamera mendukung 5G.", "Tidak ada ponsel 5G yang memiliki kamera.", "Semua fitur kamera hanya ada di ponsel 5G."], ans: 0, pem: "Irisan kelompok: Sebagian ponsel 5G dipastikan memiliki fitur kamera." },
-                { q: "Tidak ada siswa malas yang lulus ujian seleksi. Semua siswa kelas A lulus ujian seleksi. Kesimpulan...", opts: ["Semua siswa kelas A adalah siswa malas.", "Tidak ada siswa kelas A yang malas.", "Sebagian siswa kelas A adalah siswa malas.", "Siswa yang tidak lulus adalah siswa kelas A.", "Siswa malas ada yang lulus seleksi."], ans: 1, pem: "Konfirmasi: Semua siswa kelas A lulus, berarti tidak ada yang malas." },
+                { q: "Tidak ada siswa malas yang lulus ujian seleksi. Semua siswa kelas A lulus ujian seleksi. Kesimpulan...", opts: ["Semua siswa kelas A adalah siswa malas.", "Tidak ada siswa kelas A yang malas.", "Sebagian siswa kelas A adalah siswa malas.", "Siswa yang tidak lulus adalah siswa kelas A.", "Siswa malas ada yang lulus seleksi."], ans: 1, pem: "Karena semua siswa kelas A lulus seleksi, maka tidak ada siswa kelas A yang malas." },
                 { q: "Jika listrik padam, maka mesin genset otomatis menyala. Jika mesin genset menyala, maka indikator lampu hijau berkedip. Indikator lampu hijau tidak berkedip. Kesimpulan...", opts: ["Listrik padam.", "Listrik tidak padam.", "Mesin genset menyala.", "Lampu indikator rusak.", "Terjadi korsleting listrik."], ans: 1, pem: "Modus Tollens Rantai: Lampu tidak berkedip → Listrik tidak padam." },
-                { q: "Semua produk bergaransi resmi diproduksi di pabrik utama. Sebagian produk di toko ini bergaransi resmi. Kesimpulan...", opts: ["Sebagian produk di toko ini diproduksi di pabrik utama.", "Semua produk di toko ini diproduksi di pabrik utama.", "Produk tanpa garansi diproduksi di pabrik utama.", "Toko ini hanya menjual produk garansi resmi.", "Not found."], ans: 0, pem: "Sebagian produk toko ini yang bergaransi diproduksi di pabrik utama." },
+                { q: "Semua produk bergaransi resmi diproduksi di pabrik utama. Sebagian produk di toko ini bergaransi resmi. Kesimpulan...", opts: ["Sebagian produk di toko ini diproduksi di pabrik utama.", "Semua produk di toko ini diproduksi di pabrik utama.", "Produk tanpa garansi diproduksi di pabrik utama.", "Toko ini hanya menjual produk garansi resmi.", "Tidak ada produk pabrik utama di toko ini."], ans: 0, pem: "Sebagian produk toko ini yang bergaransi diproduksi di pabrik utama." },
                 { q: "Semua penjahit profesional memiliki mesin jahit canggih. Roni tidak memiliki mesin jahit canggih. Kesimpulan...", opts: ["Roni adalah penjahit profesional yang hemat.", "Roni bukan penjahit profesional.", "Roni pemilik toko mesin jahit.", "Roni penjahit profesional senior.", "Roni magang jadi penjahit."], ans: 1, pem: "Modus Tollens: Roni tidak punya mesin jahit canggih → Roni bukan penjahit profesional." },
                 { q: "Jika pelatihan efisiensi dilakukan, maka biaya produksi dapat ditekan. Jika biaya produksi ditekan, maka keuntungan perusahaan meningkat. Keuntungan perusahaan meningkat. Kesimpulan yang valid...", opts: ["Pelatihan efisiensi pasti telah dilakukan.", "Pelatihan efisiensi belum tentu telah dilakukan (bisa karena faktor kenaikan harga jual).", "Biaya produksi pasti membengkak.", "Perusahaan tidak melakukan efisiensi.", "Pelatihan efisiensi dilarang dilakukan."], ans: 1, pem: "Mengafirmasi Konsekuen: Keuntungan meningkat belum tentu disebabkan oleh pelatihan efisiensi." }
             ]
         }
     ];
 
+    // ENGINE SISTEM CAT VERBAL
     let currentSubtesIdx = 0;
     let currentQIdx = 0;
     let userAnswers = {};
@@ -532,6 +524,7 @@
     function selectOption(optIdx) {
         userAnswers[currentQIdx] = optIdx;
         loadQuestion(currentQIdx);
+        // Autonext otomatis berpindah ke soal berikutnya
         setTimeout(() => { nextQ(); }, 250);
     }
 
@@ -588,51 +581,51 @@
         localStorage.setItem(`prc_verbal_subtes_${currentSubtesIdx}`, score100);
         localStorage.setItem(`prc_verbal_ans_${currentSubtesIdx}`, JSON.stringify(userAnswers));
 
-        // PANGGIL FUNGSI KIRIM KE APPS SCRIPT SATU KALI SAAT SUBTES SELESAI
-        sendResultToAppsScript(currentSubtesIdx, score100, benar);
+        // INTEGRASI PENGIRIMAN HASIL KE GOOGLE APPS SCRIPT PRC (Hanya 1 kali setelah subtes/tes selesai)
+        kirimHasilKeAppsScript(currentSubtesIdx, score100, benar);
 
         alert(`Subtes Selesai!\nSkor Anda: ${score100} / 100 (Benar: ${benar} dari 25 Soal)`);
         showHome();
     }
 
-    // FUNGSI INTEGRASI APPS SCRIPT PRC
-    function sendResultToAppsScript(subtesIdx, skor, benar) {
-        const scriptUrl = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
-        const namaPeserta = localStorage.getItem('prc_nama_peserta') || "Peserta";
+    // FUNGSI PENGIRIMAN HASIL KE GOOGLE APPS SCRIPT PRC
+    function kirimHasilKeAppsScript(subtesIdx, skor, totalBenar) {
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxzzajqlZMq2qOSgxoLAvdpTeMgAOSDCJmkqZvIy0uMxfgPfCxlXNNKotDquzHmkqUa/exec";
+        const namaPeserta = localStorage.getItem('prc_nama_peserta') || "Peserta Tanpa Nama";
         
-        // Mencegah duplikasi pengiriman untuk subtes yang sama pada sesi ini
+        // Mencegah duplikasi pengiriman untuk subtes/sesi yang sama
         const sentKey = `prc_sent_subtes_${subtesIdx}`;
         if (sessionStorage.getItem(sentKey)) {
             return;
         }
 
-        const payload = {
+        const dataKirim = {
             nama: namaPeserta,
-            kode_siswa: "PRC-" + namaPeserta.replace(/\s+/g, "").toUpperCase().substring(0, 6),
-            pin: "-",
+            kode_siswa: "PRC-" + Math.floor(1000 + Math.random() * 9000),
+            pin: "1234",
             jenis_aktivitas: "Simulasi CAT",
             kelompok: "Verbal",
-            subtes: `Subtes ${subtesIdx + 1}`,
-            materi: "Kecerdasan Verbal",
-            nama_tes: masterSubtes[subtesIdx].nama,
+            subtes: "Subtes " + (subtesIdx + 1),
+            materi: masterSubtes[subtesIdx].nama,
+            nama_tes: "CAT Kecerdasan Verbal",
             tanggal: new Date().toISOString().split('T')[0],
             nilai: skor,
-            total: `${benar} / 25`,
-            keterangan: skor >= 80 ? "Tinggi" : (skor >= 60 ? "Sedang" : "Rendah")
+            total: totalBenar + " / 25",
+            keterangan: skor >= 75 ? "Lulus / Baik" : "Perlu Remedial"
         };
 
-        fetch(scriptUrl, {
-            method: "POST",
-            mode: "no-cors",
+        // Mengirim menggunakan CORS no-cors / fetch aman agar kegagalan jaringan tidak mengganggu berjalannya tes
+        fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(dataKirim)
         }).then(() => {
             sessionStorage.setItem(sentKey, "true");
-        }).catch(err => {
-            // Jika pengiriman gagal, tes tetap berjalan normal sesuai aturan
-            console.error("Gagal mengirim ke Apps Script:", err);
+        }).catch(error => {
+            console.error("Gagal mengirim data ke Google Apps Script:", error);
         });
     }
 
@@ -678,63 +671,9 @@
         document.getElementById('txtLatih').textContent = latih.length ? latih.join(', ') : 'Tidak ada subtes dalam kategori Sedang.';
         document.getElementById('txtPerhatian').textContent = perhatian.length ? perhatian.join(', ') : 'Tidak ada subtes kritis dalam kategori Rendah.';
 
-        renderPembahasanOnScreen();
-
         document.getElementById('viewHome').style.display = 'none';
         document.getElementById('viewQuiz').style.display = 'none';
         document.getElementById('viewRekap').style.display = 'block';
-    }
-
-    function renderPembahasanOnScreen() {
-        let pemHtml = '';
-        
-        masterSubtes.forEach((sub, subIdx) => {
-            const savedAns = JSON.parse(localStorage.getItem(`prc_verbal_ans_${subIdx}`) || '{}');
-            const isDone = localStorage.getItem(`prc_verbal_subtes_${subIdx}`) !== null;
-            
-            pemHtml += `
-                <div class="pem-accordion">
-                    <div class="pem-header" onclick="toggleAccordion(${subIdx})">
-                        <span>${sub.nama} ${isDone ? '' : '(Belum Dikerjakan)'}</span>
-                        <span>▼</span>
-                    </div>
-                    <div class="pem-body" id="pemBody_${subIdx}">
-            `;
-
-            sub.soal.forEach((q, qIdx) => {
-                const uAnsIdx = savedAns[qIdx];
-                const isCorrect = uAnsIdx === q.ans;
-                const uAnsStr = uAnsIdx !== undefined ? `${String.fromCharCode(65 + uAnsIdx)}. ${q.opts[uAnsIdx]}` : "Tidak Dijawab";
-                const cAnsStr = `${String.fromCharCode(65 + q.ans)}. ${q.opts[q.ans]}`;
-
-                pemHtml += `
-                    <div class="pem-item">
-                        <div style="font-weight:bold; margin-bottom:5px;">Soal ${qIdx + 1}: ${q.q}</div>
-                        <div style="font-size:14px; margin: 3px 0;">
-                            Jawaban Anda: <span class="${isCorrect ? 'tag-correct' : 'tag-wrong'}">${uAnsStr}</span>
-                        </div>
-                        <div style="font-size:14px; margin: 3px 0; color:#16a34a; font-weight:bold;">
-                            Kunci Jawaban: ${cAnsStr}
-                        </div>
-                        <div class="pem-box">
-                            <b>Pembahasan:</b> ${q.pem}
-                        </div>
-                    </div>
-                `;
-            });
-
-            pemHtml += `
-                    </div>
-                </div>
-            `;
-        });
-
-        document.getElementById('pembahasanContainer').innerHTML = pemHtml;
-    }
-
-    function toggleAccordion(subIdx) {
-        const body = document.getElementById(`pemBody_${subIdx}`);
-        body.style.display = body.style.display === 'block' ? 'none' : 'block';
     }
 
     function downloadPembahasanSemua() {
